@@ -1,0 +1,76 @@
+/* Set the background gradient */
+body, html {
+  height: 100%;
+  background-image: linear-gradient(45deg, #373b44, #4286f4);
+}
+
+/* Set the font family and color */
+body {
+  font-family: Arial, sans-serif;
+  color: black;
+}
+
+/* Style the main headings */
+h1, h2 {
+  color: black;
+}
+
+/* Style the container */
+.container {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 20px;
+}
+
+/* Style the categories container */
+#categories-container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Style the category titles */
+.category h3 {
+  color: #373b44;
+}
+
+/* Style the questions container */
+.questions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  display: none; /* Initially hidden */
+}
+
+/* Style the question titles */
+.question h4 {
+  color: #6dd5ed; /* Light blue */
+  cursor: pointer;
+}
+
+/* Style the answer container */
+.answer {
+  display: none; /* Initially hidden */
+}
+
+/* Style the answer text */
+.answer p {
+  color: #373b44;
+  margin-bottom: 10px;
+}
+
+/* Style the answer link */
+.answer a {
+  color: #6dd5ed; /* Light blue */
+  text-decoration: none;
+}
+
+/* Style the answer link on hover */
+.answer a:hover {
+  text-decoration: underline;
+}

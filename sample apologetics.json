@@ -1,0 +1,35 @@
+{
+  "categories": [
+    {
+      "title": "Category 1",
+      "questions": [
+        {
+          "question": "Question 1",
+          "answer": "This is the answer for question 1.",
+          "link": "https://example.com/question1"
+        },
+        {
+          "question": "Question 2",
+          "answer": "This is the answer for question 2.",
+          "link": "https://example.com/question2"
+        }
+      ]
+    },
+    {
+      "title": "Category 2",
+      "questions": [
+        {
+          "question": "Question 3",
+          "answer": "This is the answer for question 3.",
+          "link": "https://example.com/question3"
+        },
+        {
+          "question": "Question 4",
+          "answer": "This is the answer for question 4.",
+          "link": "https://example.com/question4"
+        }
+      ]
+    }
+  ]
+}
+

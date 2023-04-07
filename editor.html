@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script src="/node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
+
+
+<head>
+  <meta charset="UTF-8">
+  <title>Questions Editor</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Questions Editor</h1>
+    <hr>
+    <form>
+      <div class="form-group">
+        <label for="question">Question</label>
+        <input type="text" class="form-control" id="question" name="question">
+      </div>
+      <div class="form-group">
+        <label for="skill">Skill</label>
+        <select class="form-control" id="skill" name="skill">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="choices">Choices</label>
+        <textarea class="form-control" id="choices" name="choices"></textarea>
+        <small class="form-text text-muted">Enter the choices separated by a comma (e.g. Choice 1, Choice 2, Choice 3, Choice 4)</small>
+      </div>
+      <div class="form-group">
+        <label for="correct">Correct Choice</label>
+        <input type="number" class="form-control" id="correct" name="correct">
+      </div>
+      <div class="form-group">
+        <label for="explanations">Explanations</label>
+        <textarea class="form-control" id="explanations" name="explanations"></textarea>
+        <small class="form-text text-muted">Enter the explanations for each choice separated by a comma (e.g. Explanation for Choice 1, Explanation for Choice 2, Explanation for Choice 3, Explanation for Choice 4)</small>
+      </div>
+      <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
+      <button type="button" class="btn btn-danger" id="delete-btn">Delete</button>
+    </form>
+    <hr>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th>Skill</th>
+          <th>Choices</th>
+          <th>Correct Choice</th>
+          <th>Explanations</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+      </tbody>
+    </table>
+  </div>
+
+  <!-- jQuery and Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <!-- Main JavaScript -->
+  <script>
+    // Load questions from the JSON file and populate the table
+    function loadQuestions() {
+  $.get('questions.json', function(data) {
+      $('#table-body').empty();
+      $.each(data, function(index, question) {
+        var choices = question.choices.join(', ');
+        var explanations = question.explanations.join(', ');
+        $('#table-body').append('<tr data-index="' + index + '"><td>' + question.question + '</td><td>' + question.skill + '</td><td>' + choices + '</td><td>' + question.correct + '</td><td>' + explanations + '</td></tr>');
+      });
+    }, 'json')
+    .fail(function(jqxhr, textStatus, error) {
+      var message = "Error loading questions: " + textStatus + ", " + error;
+      $('#table-body').empty();
+      $('#table-body').append('<tr><td colspan="5">' + message + '</td></tr>');
+    });
+}
+
+
+
+// Load questions when the page loads
+$(document).ready(function() {
+  loadQuestions();
+});
+
+// Handle form submission
+$('form').submit(function(event) {
+  event.preventDefault();
+
+  // Get the form data
+  var question = $('#question').val();
+  var skill = $('#skill').val();
+  var choices = $('#choices').val().split(', ');
+  var correct = $('#correct').val();
+  var explanations = $('#explanations').val().split(', ');
+
+  // Clear the form
+  $('form')[0].reset();
+
+  // Add the new question to the JSON file
+  $.getJSON('questions.json', function(data) {
+    var newQuestion = {
+      'question': question,
+      'skill': skill,
+      'choices': choices,
+      'correct': correct,
+      'explanations': explanations
+    };
+    data.push(newQuestion);
+    $.ajax({
+      type: 'POST',
+      url: 'update-questions.php',
+      data: {'questions': JSON.stringify(data)},
+      success: function() {
+        loadQuestions();
+      }
+    });
+  });
+});
+
+// Handle row click
+$('#table-body').on('click', 'tr', function() {
+  // Highlight the selected row
+  $(this).addClass('table-primary').siblings().removeClass('table-primary');
+
+  // Fill in the form with the selected question's data
+  var index = $(this).data('index');
+  var question = $('#question').val($('#table-body tr:eq(' + index + ') td:eq(0)').text());
+  var skill = $('#skill').val($('#table-body tr:eq(' + index + ') td:eq(1)').text());
+  var choices = $('#choices').val($('#table-body tr:eq(' + index + ') td:eq(2)').text().replace(/,\s*$/, ""));
+  var correct = $('#correct').val($('#table-body tr:eq(' + index + ') td:eq(3)').text());
+  var explanations = $('#explanations').val($('#table-body tr:eq(' + index + ') td:eq(4)').text().replace(/,\s*$/, ""));
+
+  // Show the delete button
+  $('#delete-btn').show();
+});
+
+// Handle delete button click
+$('#delete-btn').click(function() {
+  // Get the index of the selected row
+  var index = $('.table-primary').data('index');
+
+  // Remove the selected question from the JSON file
+  $.getJSON('questions.json', function(data) {
+    data.splice(index, 1);
+    $.ajax({
+      type: 'POST',
+      url: 'update-questions.php',
+      data: {'questions': JSON.stringify(data)},
+      success: function() {
+        loadQuestions();
+      }
+    });
+  });
+
+  // Clear the form and hide the delete button
+  $('form')[0].reset();
+  $('#delete-btn').hide();
+});
+
+</script>
+</body>
+</html>

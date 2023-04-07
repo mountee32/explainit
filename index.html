@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explain it</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    body {
+   
+      background-image: linear-gradient(149deg, rgba(85, 85, 85, 0.05) 0%, rgba(85, 85, 85, 0.05) 25%,rgba(11, 11, 11, 0.05) 25%, rgba(11, 11, 11, 0.05) 50%,rgba(182, 182, 182, 0.05) 50%, rgba(182, 182, 182, 0.05) 75%,rgba(28, 28, 28, 0.05) 75%, rgba(28, 28, 28, 0.05) 100%),linear-gradient(232deg, rgba(145, 145, 145, 0.05) 0%, rgba(145, 145, 145, 0.05) 25%,rgba(165, 165, 165, 0.05) 25%, rgba(165, 165, 165, 0.05) 50%,rgba(84, 84, 84, 0.05) 50%, rgba(84, 84, 84, 0.05) 75%,rgba(131, 131, 131, 0.05) 75%, rgba(131, 131, 131, 0.05) 100%),linear-gradient(321deg, rgba(254, 254, 254, 0.05) 0%, rgba(254, 254, 254, 0.05) 25%,rgba(249, 249, 249, 0.05) 25%, rgba(249, 249, 249, 0.05) 50%,rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.05) 75%,rgba(104, 104, 104, 0.05) 75%, rgba(104, 104, 104, 0.05) 100%),linear-gradient(90deg, rgb(21, 8, 116),rgb(111, 197, 250)); min-height: 100vh;
+    }
+
+    .container {
+      padding: 40px 20px;
+    }
+
+    h1, h2 {
+      color: white;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-gap: 20px;
+      justify-items: center;
+      align-items: center;
+    }
+
+    .tile {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+      width: 350px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+        text-decoration: none;
+    }
+
+    .tile:hover {
+      transform: scale(1.05);
+        text-decoration: none;
+    }
+
+    .tile-icon {
+      font-size: 48px;
+      color: #6dd5ed;
+      margin-right: 10px;
+    }
+
+    .tile-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .tile-subtitle {
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Explain it</h1>
+    <h2>Tools for sharing our faith</h2>
+    <div class="tiles">
+      <a href="quick-answers.html" class="tile">
+        <span class="tile-icon">&#x1F4AC;</span>
+        <div>
+          <h3 class="tile-title">Quick Answers</h3>
+          <p class="tile-subtitle">Know how to answer typical questions we’re asked when sharing the gospel</p>
+        </div>
+      </a>
+      <a href="quiz.html" class="tile">
+        <span class="tile-icon">&#x1F3AF;</span>
+        <div>
+          <h3 class="tile-title">Quiz</h3>
+          <p class="tile-subtitle">Improve your knowledge and confidence with free quiz games suitable for children through to experienced adults</p>
+        </div>
+      </a>
+      <a href="starters.html" class="tile">
+        <span class="tile-icon">&#x1F4DD;</span>
+        
+<div>
+          <h3 class="tile-title">Conversation Starters</h3>
+          <p class="tile-subtitle">Tips on how to start a conversation to share the Gospel</p>
+        </div>
+      </a>
+      <a href="articles.html" class="tile">
+        <span class="tile-icon">&#x1F4D6;</span>
+        <div>
+          <h3 class="tile-title">Longer Answers</h3>
+          <p class="tile-subtitle">Curated selection of longer articles</p>
+        </div>
+      </a>
+      <a href="experiences.html" class="tile">
+        <span class="tile-icon">&#x1F4E3;</span>
+        <div>
+          <h3 class="tile-title">Experiences</h3>
+          <p class="tile-subtitle">Read experiences of those who share their faith with us, it encourages us all to do the same</p>
+        </div>
+      </a>
+      <a href="about.html" class="tile">
+        <span class="tile-icon">&#x1F465;</span>
+        <div>
+          <h3 class="tile-title">About Us</h3>
+          <p class="tile-subtitle">Who we are, our mission, and how you could share in supporting that mission</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

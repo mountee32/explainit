@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Answers</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="path/to/bootstrap-icons.css">
+    <!-- Back button -->
+
+<a href="index.html" class="btn btn-primary position-absolute top-0 start-0 m-3">
+    <span class="tile-icon" style="font-size: 1.5em; font-weight: bold;">&#x2190;</span>
+</a>
+
+
+
+    <style>
+        /* Set the background gradient */
+        body,html{
+            
+       background-image: linear-gradient(149deg, rgba(85, 85, 85, 0.05) 0%, rgba(85, 85, 85, 0.05) 25%,rgba(11, 11, 11, 0.05) 25%, rgba(11, 11, 11, 0.05) 50%,rgba(182, 182, 182, 0.05) 50%, rgba(182, 182, 182, 0.05) 75%,rgba(28, 28, 28, 0.05) 75%, rgba(28, 28, 28, 0.05) 100%),linear-gradient(232deg, rgba(145, 145, 145, 0.05) 0%, rgba(145, 145, 145, 0.05) 25%,rgba(165, 165, 165, 0.05) 25%, rgba(165, 165, 165, 0.05) 50%,rgba(84, 84, 84, 0.05) 50%, rgba(84, 84, 84, 0.05) 75%,rgba(131, 131, 131, 0.05) 75%, rgba(131, 131, 131, 0.05) 100%),linear-gradient(321deg, rgba(254, 254, 254, 0.05) 0%, rgba(254, 254, 254, 0.05) 25%,rgba(249, 249, 249, 0.05) 25%, rgba(249, 249, 249, 0.05) 50%,rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.05) 75%,rgba(104, 104, 104, 0.05) 75%, rgba(104, 104, 104, 0.05) 100%),linear-gradient(90deg, rgb(21, 8, 116),rgb(111, 197, 250)); min-height: 100vh;
+
+            font-family: Arial, sans-serif;
+        }
+
+        /* Style the main headings */
+        h1, h2 {
+            color: rgb(255, 255, 255);
+        }
+
+        /* Style the categories container */
+        #categories-container {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* Style the category titles */
+        .category h3 {
+            color: rgb(21, 48, 121);
+        }
+
+        /* Style the questions container */
+        .questions-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            display: none; /* Initially hidden */
+        }
+
+        /* Style the question titles */
+        .question h4 {
+            color: #6da9ed; /* Light blue */
+            cursor: pointer;
+            font-size: 1.4rem;
+            margin-left: 20px;
+        }
+
+        /* Style the answer container */
+        .answer {
+            display: none; /* Initially hidden */
+            font-size: 1.4rem;
+            margin-left: 40px;
+        }
+
+        /* Style the answer text */
+        .answer p {
+            color: rgb(8, 16, 20);
+            margin-bottom: 10px;
+        }
+
+        /* Style the answer link */
+        .answer a {
+            color: #6dd5ed; /* Light blue */
+            text-decoration: none;
+        }
+
+        /* Style the answer link on hover */
+        .answer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Title banner -->
+    <header class="text-center py-4">
+        <h1><span>&#x1F4AC;</span> Quick Answers</h1>
+        <h2>Know how to answer typical questions we're asked when sharing the gospel</h2>
+    </header>
+
+
+
+
+
+    <div class="container my-5">
+        <div class="card p-3">
+          <!-- Header banner -->
+          <header class="text-center py-4">
+            <!-- Title and subtitle -->
+          </header>
+        
+          <!-- Categories container -->
+          <div id="categories-container"></div>
+        </div>
+      </div>
+      
+
+
+
+
+
+    <!-- Categories container -->
+    <div id="categories-container"></div>
+
+    <script>
+        // Event listener for when the DOM content is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            // console.log('DOMContentLoaded event fired!');
+            // Fetch the JSON data from the file
+
+
+            fetch('apologetics.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Get the categories container element
+                    const categoriesContainer = document.getElementById('categories-container');
+
+                    // Iterate over the categories in the JSON data
+                    data.categories.forEach(category => {
+                        // Create a new div for the category
+                        const categoryElement = document.createElement('div');
+                        categoryElement.classList.add('category');
+
+                        // Create an h3 element for the category title
+                        const categoryTitle = document.createElement('h3');
+                        categoryTitle.textContent = category.title;
+                        categoryElement.appendChild(categoryTitle);
+
+                        // Create a div for the questions container
+                        const questionsContainer = document.createElement('div');
+                        questionsContainer.classList.add('questions-container');
+
+                        // Iterate over the questions in the category
+                        category.questions.forEach(questionData => {
+                            // Create a new div for the question
+                            const questionElement = document.createElement('div');
+                            questionElement.classList.add('question');
+
+                            // Create an h4 element for the question title
+                            const questionTitle = document.createElement('h4');
+questionTitle.textContent = questionData.question;
+questionElement.appendChild(questionTitle);
+
+// Create a div for the answer container
+const answerContainer = document.createElement('div');
+answerContainer.classList.add('answer');
+
+// Create a p element for the answer text
+const answerText = document.createElement('p');
+answerText.textContent = questionData.answer;
+answerContainer.appendChild(answerText);
+
+// Create an a element for the answer link
+const answerLink = document.createElement('a');
+answerLink.href = questionData.link;
+answerLink.textContent = 'Read more';
+answerContainer.appendChild(answerLink);
+
+// Append the answer container to the question element
+questionElement.appendChild(answerContainer);
+
+// Add an event listener for when the question title is clicked
+questionTitle.addEventListener('click', function () {
+// Toggle the display of the answer container
+answerContainer.style.display = answerContainer.style.display === 'block' ? 'none' : 'block';// Close other open answers in the same category
+questionsContainer.querySelectorAll('.answer').forEach(otherAnswer => {
+    if (otherAnswer !== answerContainer) {
+        otherAnswer.style.display = 'none';
+    }
+});
+});
+
+// Append the question element to the questions container
+questionsContainer.appendChild(questionElement);
+});
+
+// Append the questions container to the category element
+categoryElement.appendChild(questionsContainer);
+
+// Add an event listener for when the category title is clicked
+categoryTitle.addEventListener('click', function () {
+// Toggle the display of the questions container
+questionsContainer.style.display = questionsContainer.style.display === 'flex' ? 'none' : 'flex';
+
+// Close other open categories
+categoriesContainer.querySelectorAll('.questions-container').forEach(otherQuestionsContainer => {
+    if (otherQuestionsContainer !== questionsContainer) {
+        otherQuestionsContainer.style.display = 'none';
+    }
+});
+});
+
+// Append the category element to the categories container
+categoriesContainer.appendChild(categoryElement);
+});
+});
+});
+</script>
+
+</body>
+</html>

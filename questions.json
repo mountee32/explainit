@@ -1,0 +1,340 @@
+[{
+    "question": "What is apologetics?",
+    "skill": "easy",
+    "choices": [
+        "The defense of the Christian faith",
+        "The study of ancient Christian texts",
+        "The art of preaching",
+        "The study of angels and demons"
+    ],
+    "correct": 0,
+    "explanations": [
+        "Apologetics is the defense of the Christian faith, providing reasons and evidence for the truth of Christianity.",
+        "Incorrect. The study of ancient Christian texts is a part of biblical scholarship, not apologetics.",
+        "Incorrect. The art of preaching is called homiletics, not apologetics.",
+        "Incorrect. The study of angels and demons is called angelology and demonology, respectively, not apologetics."
+    ]
+},
+{
+    "question": "Who is known as the father of modern Christian apologetics?",
+    "skill": "medium",
+    "choices": [
+        "C.S. Lewis",
+        "G.K. Chesterton",
+        "Francis Schaeffer",
+        "Josh McDowell"
+    ],
+    "correct": 2,
+    "explanations": [
+        "Incorrect. C.S. Lewis was an influential Christian apologist but not considered the father of modern Christian apologetics.",
+        "Incorrect. G.K. Chesterton was a prominent Christian apologist, but not considered the father of modern Christian apologetics.",
+        "Correct. Francis Schaeffer is often referred to as the father of modern Christian apologetics.",
+        "Incorrect. Josh McDowell is a well-known Christian apologist, but not considered the father of modern Christian apologetics."
+    ]
+},
+{
+    "question": "What is the Cosmological Argument for the existence of God?",
+    "skill": "hard",
+    "choices": [
+        "An argument based on the complexity of living organisms",
+        "An argument based on the existence of objective moral values",
+        "An argument based on the origin of the universe",
+        "An argument based on the fine-tuning of the universe"
+    ],
+    "correct": 2,
+    "explanations": [
+        "Incorrect. The argument based on the complexity of living organisms is known as the Teleological Argument.",
+        "Incorrect. The argument based on the existence of objective moral values is known as the Moral Argument.",
+        "Correct. The Cosmological Argument is based on the origin of the universe, arguing that everything that begins to exist has a cause, and the universe began to exist, therefore, the universe has a cause (God).",
+        "Incorrect. The argument based on the fine-tuning of the universe is also known as the Teleological Argument, but it focuses on the fine-tuning of the universe for life."
+    ]
+}, {
+    "question": "What does the term 'Trinity' refer to?",
+    "skill": "easy",
+    "choices": [
+        "Three gods in one",
+        "Three separate gods",
+        "One God in three persons",
+        "Three different aspects of God"
+    ],
+    "correct": 2,
+    "explanations": [
+        "Incorrect. The Trinity does not refer to three gods in one, but rather one God in three persons.",
+        "Incorrect. The Trinity refers to one God, not three separate gods.",
+        "Correct. The Trinity refers to the belief in one God existing in three persons: the Father, the Son, and the Holy Spirit.",
+        "Incorrect. The Trinity is not about three different aspects of God, but one God in three persons."
+    ]
+},
+{
+    "question": "Who wrote 'Mere Christianity'?",
+    "skill": "easy",
+    "choices": [
+        "C.S. Lewis",
+        "J.R.R. Tolkien",
+        "G.K. Chesterton",
+        "Francis Schaeffer"
+    ],
+    "correct": 0,
+    "explanations": [
+        "Correct. C.S. Lewis wrote the influential Christian apologetics book 'Mere Christianity'.",
+        "Incorrect. J.R.R. Tolkien, a close friend of C.S. Lewis, was a renowned author but did not write 'Mere Christianity'.",
+        "Incorrect. G.K. Chesterton was a prominent Christian apologist, but he did not write 'Mere Christianity'.",
+        "Incorrect. Francis Schaeffer, known as the father of modern Christian apologetics, did not write 'Mere Christianity'."
+    ]
+},
+{
+    "question": "Which apologetics argument posits that belief in God is properly basic?",
+    "skill": "medium",
+    "choices": [
+        "Ontological Argument",
+        "Cosmological Argument",
+        "Reformed Epistemology",
+        "Moral Argument"
+    ],
+    "correct": 2,
+    "explanations": [
+        "Incorrect. The Ontological Argument argues for the existence of God based on the concept of a maximally great being.",
+        "Incorrect. The Cosmological Argument argues for the existence of God based on the origin of the universe.",
+        "Correct. Reformed Epistemology posits that belief in God is properly basic, meaning it doesn't require evidence or argument to be rational.",
+        "Incorrect. The Moral Argument argues for the existence of God based on the existence of objective moral values."
+    ]
+},
+{
+    "question": "What is the problem of evil?",
+    "skill": "medium",
+    "choices": [
+        "The question of why God allows evil in the world",
+        "The challenge of proving God's existence",
+        "The problem of interpreting Scripture",
+        "The difficulty of reconciling science and religion"
+    ],
+    "correct": 0,
+    "explanations": [
+        "Correct. The problem of evil is the question of why an all-powerful, all-knowing, and all-good God would allow evil and suffering in the world.",
+        "Incorrect. The problem of evil is not specifically about the challenge of proving God's existence.",
+        "Incorrect. The problem of evil does not focus on the interpretation of Scripture.",
+        "Incorrect. The problem of evil does not deal with the reconciliation of science and religion."
+    ]
+},
+{
+    "question": "What is the difference between classical apologetics and presuppositional apologetics?",
+    "skill": "hard",
+    "choices": [
+        "Classical apologetics uses evidence, while presuppositional apologetics uses only logic",
+        "Classical apologetics starts with the existence of God, while presuppositional apologetics starts with human reason",
+        "Classical apologetics emphasizes natural theology, while presuppositional apologetics emphasizes the authority of Scripture",
+        "Classical apologetics focuses on the historical evidence for Christianity, while presuppositional apologetics focuses on philosophical arguments"
+    ],
+    "correct": 2,
+    "explanations": [
+        "Incorrect. Both classical and presuppositional apologetics use evidence and logic, though they may emphasize different aspects.",
+        "Incorrect. Classical apologetics does not necessarily start with the existence of God, and presuppositional apologetics does not start with human reason alone.",
+        "Correct. Classical apologetics emphasizes natural theology, using reason and evidence to establish the existence of God, while presuppositional apologetics emphasizes the authority of Scripture, arguing that all reasoning must begin with the truth of the Bible.",
+        "Incorrect. Both classical and presuppositional apologetics may engage with historical evidence and philosophical arguments, though their approach and emphasis may differ."
+    ]
+},
+{
+    "question": "What is the main criticism of the Ontological Argument?",
+    "skill": "hard",
+    "choices": [
+        "It relies on outdated scientific theories",
+        "It begs the question by assuming the existence of God",
+        "It confuses the concept of God with the actual existence of God",
+        "It does not provide enough evidence for the existence of God"
+    ],
+    "correct": 2,
+    "explanations": [
+        "Incorrect. The main criticism of the Ontological Argument is not related to scientific theories.",
+        "Incorrect. The Ontological Argument does not assume the existence of God but attempts to deduce it from the concept of a maximally great being.",
+        "Correct. The main criticism of the Ontological Argument is that it confuses the concept of God with the actual existence of God. Critics argue that just because one can conceive of a maximally great being, it does not necessarily mean that such a being exists in reality.",
+        "Incorrect. The main criticism of the Ontological Argument is not related to the amount of evidence it provides, but rather to its logical structure."
+    ]
+},
+[{
+        "question": "What is the primary source of information about the life of Jesus?",
+        "skill": "easy",
+        "choices": [
+            "The New Testament",
+            "The Old Testament",
+            "The Qur'an",
+            "The Vedas"
+        ],
+        "correct": 0,
+        "explanations": [
+            "Correct. The New Testament is the primary source of information about the life of Jesus.",
+            "Incorrect. The Old Testament is primarily about the history of Israel before Jesus' time.",
+            "Incorrect. The Qur'an is the holy book of Islam and not the primary source of information about Jesus.",
+            "Incorrect. The Vedas are sacred Hindu texts and not a source of information about Jesus."
+        ]
+    },
+    {
+        "question": "Which apostle is traditionally considered the author of the Gospel of John?",
+        "skill": "easy",
+        "choices": [
+            "John the Baptist",
+            "John the Apostle",
+            "John the Evangelist",
+            "John the Presbyter"
+        ],
+        "correct": 1,
+        "explanations": [
+            "Incorrect. John the Baptist is not an apostle and did not write the Gospel of John.",
+            "Correct. John the Apostle is traditionally considered the author of the Gospel of John.",
+            "Incorrect. John the Evangelist is often used interchangeably with John the Apostle, but the latter is the correct answer.",
+            "Incorrect. John the Presbyter is a different figure from John the Apostle and is not considered the author of the Gospel of John."
+        ]
+    },
+    {
+        "question": "Who wrote the majority of the New Testament letters?",
+        "skill": "easy",
+        "choices": [
+            "John",
+            "James",
+            "Peter",
+            "Paul"
+        ],
+        "correct": 3,
+        "explanations": [
+            "Incorrect. John wrote a few New Testament letters, but not the majority.",
+            "Incorrect. James wrote one New Testament letter.",
+            "Incorrect. Peter wrote two New Testament letters.",
+            "Correct. Paul wrote the majority of the New Testament letters, with 13 out of 27 attributed to him."
+        ]
+    },
+    {
+        "question": "Which council affirmed the deity of Jesus Christ and formulated the Nicene Creed?",
+        "skill": "medium",
+        "choices": [
+            "The Council of Jerusalem",
+            "The Council of Nicaea",
+            "The Council of Chalcedon",
+            "The Council of Ephesus"
+        ],
+        "correct": 1,
+        "explanations": [
+            "Incorrect. The Council of Jerusalem dealt with issues related to Gentile converts to Christianity, not the deity of Jesus Christ.",
+            "Correct. The Council of Nicaea affirmed the deity of Jesus Christ and formulated the Nicene Creed.",
+            "Incorrect. The Council of Chalcedon dealt with the nature of Christ, not specifically his deity.",
+            "Incorrect. The Council of Ephesus dealt with the issue of Mary being called the Mother of God, not the deity of Jesus Christ."
+        ]
+    },
+    {
+        "question": "What is the earliest known list of the New Testament canon?",
+        "skill": "medium",
+        "choices": [
+            "The Muratorian Fragment",
+            "The Didache",
+            "The Shepherd of Hermas",
+            "The First Epistle of Clement"
+        ],
+        "correct": 0,
+        "explanations": [
+            "Correct. The Muratorian Fragment, dated around A.D. 170, is the earliest known list of the New Testament canon.",
+            "Incorrect. The Didache is an early Christian writing, but it is not a list of the New Testament canon.",
+            "Incorrect. The Shepherd of Hermas is an early Christian text, but it is not a list of the New Testament canon.",
+            "Incorrect. The First Epistle of Clement is an early Christian letter, but it is not a list of the New Testament canon."
+        ]
+    },
+    {
+        "question": "Which early Christian apologist is known for his 'First Apology' and 'Second Apology' addressed to the Roman emperors?",
+        "skill": "medium",
+        "choices": [
+            "Tertullian",
+            "Justin Martyr",
+            "Irenaeus",
+            "Clement of Alexandria"
+        ],
+        "correct": 1,
+        "explanations": [
+            "Incorrect. Tertullian was an early Christian apologist, but he did not write the 'First Apology' and 'Second Apology'.",
+            "Correct. Justin Martyr is known for his 'First Apology' and 'Second Apology' addressed to the Roman emperors.",
+            "Incorrect. Irenaeus was an early Christian apologist, but he did not write the 'First Apology' and 'Second Apology'.",
+            "Incorrect. Clement of Alexandria was an early Christian apologist, but he did not write the 'First Apology' and 'Second Apology'."
+        ]
+    },
+    {
+        "question": "What is the cosmological argument for the existence of God?",
+        "skill": "medium",
+        "choices": [
+            "An argument based on the apparent design and order in the universe",
+            "An argument based on the existence of moral values and duties",
+            "An argument based on the existence of contingent beings and the need for a necessary being",
+            "An argument based on religious experience"
+        ],
+        "correct": 2,
+        "explanations": [
+            "Incorrect. The argument based on the apparent design and order in the universe is the teleological argument.",
+            "Incorrect. The argument based on the existence of moral values and duties is the moral argument.",
+            "Correct. The cosmological argument is based on the existence of contingent beings and the need for a necessary being.",
+            "Incorrect. The argument based on religious experience is the religious experience argument."
+        ]
+    },
+    {
+        "question": "Which philosopher is best known for his 'ontological argument' for the existence of God?",
+        "skill": "hard",
+        "choices": [
+            "Thomas Aquinas",
+            "Anselm of Canterbury",
+            "Immanuel Kant",
+            "René Descartes"
+        ],
+        "correct": 1,
+        "explanations": [
+            "Incorrect. Thomas Aquinas is known for his 'Five Ways', but not the ontological argument.",
+            "Correct. Anselm of Canterbury is best known for his ontological argument for the existence of God.",
+            "Incorrect. Immanuel Kant criticized the ontological argument, but he did not develop it.",
+            "Incorrect. René Descartes also developed an ontological argument, but Anselm of Canterbury is best known for it."
+        ]
+    },
+    {
+        "question": "Who formulated the 'Kalam cosmological argument'?",
+        "skill": "hard",
+        "choices": [
+            "Al-Ghazali",
+            "William Lane Craig",
+            "Averroes",
+            "Maimonides"
+        ],
+        "correct": 0,
+        "explanations": ["Correct. Al-Ghazali, a medieval Muslim philosopher, formulated the Kalam cosmological argument.",
+            "Incorrect. William Lane Craig is a modern Christian philosopher who has popularized and defended the Kalam cosmological argument, but he did not formulate it.",
+            "Incorrect. Averroes was a medieval Muslim philosopher, but he did not formulate the Kalam cosmological argument.",
+            "Incorrect. Maimonides was a medieval Jewish philosopher, but he did not formulate the Kalam cosmological argument."
+        ]
+    },
+    {
+        "question": "Which Christian apologist wrote the book 'Mere Christianity'?",
+        "skill": "hard",
+        "choices": [
+            "C.S. Lewis",
+            "G.K. Chesterton",
+            "Francis Schaeffer",
+            "Norman Geisler"
+        ],
+        "correct": 0,
+        "explanations": [
+            "Correct. C.S. Lewis wrote the book 'Mere Christianity'.",
+            "Incorrect. G.K. Chesterton was a Christian apologist, but he did not write 'Mere Christianity'.",
+            "Incorrect. Francis Schaeffer was a Christian apologist, but he did not write 'Mere Christianity'.",
+            "Incorrect. Norman Geisler was a Christian apologist, but he did not write 'Mere Christianity'."
+        ]
+    },
+    {
+        "question": "In Christian apologetics, what is 'presuppositionalism'?",
+        "skill": "hard",
+        "choices": [
+            "An apologetic method that argues for Christianity based on the impossibility of the contrary",
+            "An apologetic method that presents evidence for the truth of Christianity",
+            "An apologetic method that focuses on comparing the beliefs of different religions",
+            "An apologetic method that emphasizes personal experience of God"
+        ],
+        "correct": 0,
+        "explanations": [
+            "Correct. Presuppositionalism is an apologetic method that argues for Christianity based on the impossibility of the contrary.",
+            "Incorrect. An apologetic method that presents evidence for the truth of Christianity is known as evidentialism.",
+            "Incorrect. An apologetic method that focuses on comparing the beliefs of different religions is known as comparative religion.",
+            "Incorrect. An apologetic method that emphasizes personal experience of God is known as experiential apologetics."
+        ]
+    }
+]
+]
