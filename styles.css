@@ -262,7 +262,7 @@ header-title {
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
 }
 .container {
   padding: 0;
@@ -311,3 +311,8 @@ header-title {
     font-size: 32px;
   }
 </style>
+.card-container {
+  padding: 50px;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
