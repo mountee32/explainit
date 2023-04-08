@@ -8,59 +8,54 @@ fetch('starters.json')
     starters.sort((a, b) => a.person.localeCompare(b.person));
 
     // Loop through each category in the starters
-    starters.forEach(category => {
-      const categoryElement = document.createElement('div'); // Create a new category element
-      categoryElement.classList.add('category'); // Add the 'category' class to the new element
+    starters.forEach((category, index) => {
+      const categoryId = `collapse${index}`;
 
-      const categoryTitleElement = document.createElement('h3'); // Create a new category title element
-      categoryTitleElement.textContent = category.person; // Set the category title text
-      categoryElement.appendChild(categoryTitleElement); // Append the title element to the category element
+      const accordionItem = document.createElement('div');
+      accordionItem.classList.add('accordion-item');
 
-      const questionsContainerElement = document.createElement('div'); // Create a new questions container element
-      questionsContainerElement.classList.add('questions-container'); // Add the 'questions-container' class to the new element
+      const accordionHeader = document.createElement('h2');
+      accordionHeader.classList.add('accordion-header');
+
+      const accordionButton = document.createElement('button');
+      accordionButton.classList.add('accordion-button');
+      accordionButton.setAttribute('type', 'button');
+      accordionButton.setAttribute('data-bs-toggle', 'collapse');
+      accordionButton.setAttribute('data-bs-target', `#${categoryId}`);
+      accordionButton.setAttribute('aria-expanded', 'false');
+      accordionButton.setAttribute('aria-controls', categoryId);
+      accordionButton.textContent = category.person;
+
+      accordionHeader.appendChild(accordionButton);
+      accordionItem.appendChild(accordionHeader);
+
+      const accordionCollapse = document.createElement('div');
+      accordionCollapse.classList.add('accordion-collapse');
+      accordionCollapse.classList.add('collapse');
+      accordionCollapse.id = categoryId;
+      accordionCollapse.setAttribute('data-bs-parent', '#accordionExample');
+
+      const accordionBody = document.createElement('div');
+      accordionBody.classList.add('accordion-body');
 
       // Loop through each question in the category
       category.questions.forEach(question => {
-        const questionElement = document.createElement('div'); // Create a new question element
-        questionElement.classList.add('question'); // Add the 'question' class to the new element
+        const questionElement = document.createElement('div');
 
-        const questionTitleElement = document.createElement('h4'); // Create a new question title element
-        questionTitleElement.textContent = `${question.title} - `; // Set the question title text
-        questionElement.appendChild(questionTitleElement); // Append the title element to the question element
+        const questionTitleElement = document.createElement('h4');
+        questionTitleElement.textContent = `${question.title} - `;
+        questionElement.appendChild(questionTitleElement);
 
-        const answerTextElement = document.createElement('span'); // Create a new answer text element
-        answerTextElement.textContent = question.answer; // Set the answer text
-        answerTextElement.style.display = 'inline'; // Display the answer text inline
-        questionElement.appendChild(answerTextElement); // Append the answer text element to the question element
+        const answerTextElement = document.createElement('span');
+        answerTextElement.textContent = question.answer;
+        questionElement.appendChild(answerTextElement);
 
-        // Removed click event listener
-
-        questionsContainerElement.appendChild(questionElement); // Append the question element to the questions container element
+        accordionBody.appendChild(questionElement);
       });
 
-      categoryElement.appendChild(questionsContainerElement); // Append the questions container element to the category element
+      accordionCollapse.appendChild(accordionBody);
+      accordionItem.appendChild(accordionCollapse);
 
-      categoriesContainer.appendChild(categoryElement); // Append the category element to the categories container
-
-      // Add event listener to category title
-      categoryTitleElement.addEventListener("click", () => {
-        const questionsContainer = categoryTitleElement.parentElement.querySelector(
-          ".questions-container"
-        );
-        const isOpen = questionsContainer.style.display === "flex";
-        questionsContainer.style.display = isOpen ? "none" : "flex";
-
-        // Close other open categories
-        const otherQuestionsContainers = Array.from(
-          categoryTitleElement.parentElement.parentElement.getElementsByClassName(
-            "questions-container"
-          )
-        );
-        otherQuestionsContainers.forEach((otherQuestionsContainer) => {
-          if (otherQuestionsContainer !== questionsContainer) {
-            otherQuestionsContainer.style.display = "none";
-          }
-        });
-      });
+      categoriesContainer.appendChild(accordionItem);
     });
   });

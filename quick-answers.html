@@ -8,20 +8,10 @@
     <!-- Include Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="path/to/bootstrap-icons.css">
-    <!-- Back button -->
-
-
-
-
-
-
-
 </head>
 <body>
-     <!-- New header -->
-     <div id="header">
+    <div id="header">
         <div class="header-content">
-            <!-- Wrap the house icon in an anchor tag -->
             <a href="index.html">
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-house" viewBox="0 0 16 16">
                     <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
@@ -30,128 +20,131 @@
             <h1>Quick Answers</h1>
         </div>
     </div>
-     
-    
-    </header>
-
-
-
-
 
     <div class="container my-5">
         <div class="card p-3">
-          <!-- Header banner -->
           <header class="text-center py-4">
-            <!-- Title and subtitle -->
           </header>
-          <h2>Know how to answer typical questions we're asked when sharing the gospel.  Click on a topic to see the questions and then click the questions needed</h2>
-          <!-- Categories container -->
-          <div id="categories-container"></div>
+          <h4>Know how to answer typical questions we're asked when sharing the gospel. </h4>
+          <h4>Click on a topic to see the questions and then click the questions needed</h4>
+          <div id="categories-container" class="accordion"></div>
         </div>
-      </div>
-      
-
-
-
-
-
-    <!-- Categories container -->
-    <div id="categories-container"></div>
+    </div>
 
     <script>
-        // Event listener for when the DOM content is loaded
         document.addEventListener('DOMContentLoaded', function () {
-            // console.log('DOMContentLoaded event fired!');
-            // Fetch the JSON data from the file
-
-
             fetch('apologetics.json')
                 .then(response => response.json())
                 .then(data => {
-                    // Get the categories container element
                     const categoriesContainer = document.getElementById('categories-container');
 
-                    // Iterate over the categories in the JSON data
-                    data.categories.forEach(category => {
-                        // Create a new div for the category
-                        const categoryElement = document.createElement('div');
-                        categoryElement.classList.add('category');
+                    data.categories.forEach((category, index) => {
+                        const categoryItem = document.createElement('div');
+                        categoryItem.classList.add('accordion-item');
 
-                        // Create an h3 element for the category title
-                        const categoryTitle = document.createElement('h3');
-                        categoryTitle.textContent = category.title;
-                        categoryElement.appendChild(categoryTitle);
+                        const categoryHeader = document.createElement('h2');
+                        categoryHeader.classList.add('accordion-header');
+                        categoryHeader.setAttribute('id', `category-heading-${index}`);
 
-                        // Create a div for the questions container
-                        const questionsContainer = document.createElement('div');
-                        questionsContainer.classList.add('questions-container');
+                        const categoryButton = document.createElement('button');
+                        categoryButton.classList.add('accordion-button', 'collapsed');
+                        categoryButton.setAttribute('type', 'button');
+                        categoryButton.setAttribute('data-bs-toggle', 'collapse');
+                        categoryButton.setAttribute('data-bs-target', `#category-collapse-${index}`);
+                        category
+                        categoryButton.setAttribute('aria-expanded', 'false');
+                        categoryButton.setAttribute('aria-controls', `category-collapse-${index}`);
+                        categoryButton.textContent = category.title;
 
-                        // Iterate over the questions in the category
-                        category.questions.forEach(questionData => {
-                            // Create a new div for the question
-                            const questionElement = document.createElement('div');
-                            questionElement.classList.add('question');
+                        // Append categoryButton to categoryHeader
+                        categoryHeader.appendChild(categoryButton);
 
-                            // Create an h4 element for the question title
-                            const questionTitle = document.createElement('h4');
-questionTitle.textContent = questionData.question;
-questionElement.appendChild(questionTitle);
+                        // Create a div for the category-collapse
+                        const categoryCollapse = document.createElement('div');
+                        categoryCollapse.classList.add('accordion-collapse', 'collapse');
+                        categoryCollapse.setAttribute('id', `category-collapse-${index}`);
+                        categoryCollapse.setAttribute('data-bs-parent', '#categories-container');
 
-// Create a div for the answer container
-const answerContainer = document.createElement('div');
-answerContainer.classList.add('answer');
+                        // Create a div for the category-body
+                        const categoryBody = document.createElement('div');
+                        categoryBody.classList.add('accordion-body');
 
-// Create a p element for the answer text
-const answerText = document.createElement('p');
-answerText.textContent = questionData.answer;
-answerContainer.appendChild(answerText);
+                        // Create a div for the questions accordion
+                        const questionsAccordion = document.createElement('div');
+                        questionsAccordion.classList.add('accordion');
+                        questionsAccordion.setAttribute('id', `questions-accordion-${index}`);
 
-// Create an a element for the answer link
-const answerLink = document.createElement('a');
-answerLink.href = questionData.link;
-answerLink.textContent = 'Read more';
-answerContainer.appendChild(answerLink);
+                        category.questions.forEach((questionData, questionIndex) => {
+                            const questionItem = document.createElement('div');
+                            questionItem.classList.add('accordion-item');
 
-// Append the answer container to the question element
-questionElement.appendChild(answerContainer);
+                            const questionHeader = document.createElement('h2');
+                            questionHeader.classList.add('accordion-header');
+                            questionHeader.setAttribute('id', `question-heading-${index}-${questionIndex}`);
 
-// Add an event listener for when the question title is clicked
-questionTitle.addEventListener('click', function () {
-// Toggle the display of the answer container
-answerContainer.style.display = answerContainer.style.display === 'block' ? 'none' : 'block';// Close other open answers in the same category
-questionsContainer.querySelectorAll('.answer').forEach(otherAnswer => {
-    if (otherAnswer !== answerContainer) {
-        otherAnswer.style.display = 'none';
-    }
-});
-});
+                            const questionButton = document.createElement('button');
+                            questionButton.classList.add('accordion-button', 'collapsed');
+                            questionButton.setAttribute('type', 'button');
+                            questionButton.setAttribute('data-bs-toggle', 'collapse');
+                            questionButton.setAttribute('data-bs-target', `#question-collapse-${index}-${questionIndex}`);
+                            questionButton.setAttribute('aria-expanded', 'false');
+                            questionButton.setAttribute('aria-controls', `question-collapse-${index}-${questionIndex}`);
+                            questionButton.textContent = questionData.question;
 
-// Append the question element to the questions container
-questionsContainer.appendChild(questionElement);
-});
+                            // Append questionButton to questionHeader
+                            questionHeader.appendChild(questionButton);
 
-// Append the questions container to the category element
-categoryElement.appendChild(questionsContainer);
+                            // Create a div for the question-collapse
+                            const questionCollapse = document.createElement('div');
+                            questionCollapse.classList.add('accordion-collapse', 'collapse');
+                            questionCollapse.setAttribute('id', `question-collapse-${index}-${questionIndex}`);
+                            questionCollapse.setAttribute('data-bs-parent', `#questions-accordion-${index}`);
 
-// Add an event listener for when the category title is clicked
-categoryTitle.addEventListener('click', function () {
-// Toggle the display of the questions container
-questionsContainer.style.display = questionsContainer.style.display === 'flex' ? 'none' : 'flex';
+                            // Create a div for the question-body
+                            const questionBody = document.createElement('div');
+                            questionBody.classList.add('accordion-body');
 
-// Close other open categories
-categoriesContainer.querySelectorAll('.questions-container').forEach(otherQuestionsContainer => {
-    if (otherQuestionsContainer !== questionsContainer) {
-        otherQuestionsContainer.style.display = 'none';
-    }
-});
-});
+                            // Create a p element for the answer text
+                            const answerText = document.createElement('p');
+                            answerText.textContent = questionData.answer;
+                            questionBody.appendChild(answerText);
 
-// Append the category element to the categories container
-categoriesContainer.appendChild(categoryElement);
-});
-});
-});
-</script>
+                            // Create an a element for the answer link
+                            const answerLink = document.createElement('a');
+                            answerLink.href = questionData.link;
+                            answerLink.textContent = 'Read more';
+                            questionBody.appendChild(answerLink);
 
+                            // Append questionBody to questionCollapse
+                            questionCollapse.appendChild(questionBody);
+
+                            // Append questionHeader and questionCollapse to questionItem
+                            questionItem.appendChild(questionHeader);
+                            questionItem.appendChild(questionCollapse);
+
+                            // Append questionItem to questionsAccordion
+                            questionsAccordion.appendChild(questionItem);
+                        });
+
+                        // Append questionsAccordion to categoryBody
+                        categoryBody.appendChild(questionsAccordion);
+
+                        // Append categoryBody to categoryCollapse
+                        categoryCollapse.appendChild(categoryBody);
+
+                        // Append categoryHeader and categoryCollapse to categoryItem
+                        categoryItem.appendChild(categoryHeader);
+                        categoryItem.appendChild(categoryCollapse);
+
+                        // Append categoryItem to categories container
+                        categoriesContainer.appendChild(categoryItem);
+                    });
+                });
+        });
+    </script>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -73,15 +73,16 @@ document.addEventListener("DOMContentLoaded", () => {
     
   function displayQuestion(question) {
     quizContainer.innerHTML = `
-      <h2>${question.question}</h2>
-      <div class="choices">
-        ${question.choices.map((choice, index) => `
-          <button class="btn btn-outline-primary" data-choice="${index}">${choice}</button>
-        `).join("")}
-      </div>
-      <div class="explanation mt-3" style="display: none;"></div>
-      <button class="btn btn-success mt-3" id="next-question" style="display: none;">Next Question</button>
-    `;
+    <h2>Question ${currentQuestionIndex + 1} of ${filteredQuestions.length}</h2>
+    <quiz-question>${question.question}</quiz-question>
+    <div class="choices">
+      ${question.choices.map((choice, index) => `
+        <button class="btn btn-outline-primary" data-choice="${index}">${choice}</button>
+      `).join("")}
+    </div>
+    <div class="explanation mt-3" style="display: none;"></div>
+    <button class="btn btn-success mt-3" id="next-question" style="display: none;">Next Question</button>
+  `;
   
     const choiceButtons = quizContainer.querySelectorAll("[data-choice]");
   
@@ -102,8 +103,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function displayExplanation(question, answerIndex, correctIndex) {
     const explanation = quizContainer.querySelector(".explanation");
-    explanation.innerHTML = question.explanations[answerIndex];
-    explanation.style.display = "block";
+    const choiceButtons = quizContainer.querySelectorAll("[data-choice]");
+  
+    // Highlight the correct and wrong answers
+    choiceButtons.forEach((button, index) => {
+      const isCorrect = index === correctIndex;
+      const isChosen = index === answerIndex;
+  
+      if (isCorrect) {
+        button.classList.add("btn-success");
+        button.classList.remove("btn-outline-primary");
+      } else {
+        button.classList.add("btn-danger");
+        button.classList.remove("btn-outline-primary");
+      }
+  
+      if (isChosen) {
+        button.disabled = true;
+      } else {
+        button.disabled = true;
+      }
+    });
   
     let icon;
     if (answerIndex === correctIndex) {
@@ -113,7 +133,8 @@ document.addEventListener("DOMContentLoaded", () => {
       icon = '<i class="fas fa-times-circle animated-icon wrong"></i>';
     }
   
-    explanation.innerHTML = `${icon} ${explanation.innerHTML}`;
+    explanation.innerHTML = `${icon} ${question.explanations[answerIndex]}`;
+    explanation.style.display = "block";
   
     const nextButton = document.getElementById("next-question");
     nextButton.style.display = "block";
@@ -127,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
+  
   function displayResults() {
     quizContainer.innerHTML = `
       <h2>Quiz Summary</h2>

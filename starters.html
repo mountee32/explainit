@@ -7,44 +7,41 @@
   <!-- Include Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Include custom CSS -->
+  <!-- Include Bootstrap JavaScript and Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
   <link href="styles.css" rel="stylesheet">
-  <!-- Add the CSS rule to hide the questions and answers by default -->
-  
-  
 </head>
 <body>
-     <!-- New header -->
-     <div id="header">
-      <div class="header-content">
-          <!-- Wrap the house icon in an anchor tag -->
-          <a href="index.html">
-              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-house" viewBox="0 0 16 16">
-                  <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
-              </svg>
-          </a>
-
-          <h1><span>&#x1F4AC;</span> Conversation Starters</h1>
-      </div>
+  <!-- New header -->
+  <div id="header">
+    <div class="header-content">
+      <!-- Wrap the house icon in an anchor tag -->
+      <a href="index.html">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-house" viewBox="0 0 16 16">
+          <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
+        </svg>
+      </a>  <h1><span>&#x1F4AC;</span> Conversation Starters</h1>
+    </div>
   </div>
-   
   
-  </header>
-
-
-
   <!-- Title banner -->
-  <header class="text-center py-4">
-    <h1>Quick conversation starters to present the Christian gospel to different types of people</h1>
-   
-  </header>
-
-  <!-- Starters container -->
-  <div class="container">
-    <div id="categories-container"></div>
+  <div class="container my-5">
+    <div class="card p-3">
+      <div class="text-center py-4">
+        <h1>Quick conversation starters to present the Christian gospel to different types of people</h1>
+      </div>
+      <!-- Starters container -->
+      <div class="container">
+        <div id="categories-container">
+          <div class="accordion" id="accordionExample">
+            <!-- Dynamic content will be added here -->
+          </div>
+        </div>
+        <!-- Include custom JS -->
+        <script src="starters.js"></script>
+      </div>
+    </div>
   </div>
-
-  
-  <!-- Include custom JS -->
-  <script src="starters.js"></script>
 </body>
 </html>

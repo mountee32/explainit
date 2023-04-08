@@ -1,340 +1,783 @@
-[{
-    "question": "What is apologetics?",
+[
+    [
+    {
+    "ID": "10872",
+    "DateReviewed": "",
+    "question": "Which apostle is traditionally considered the author of the Gospel of John?",
     "skill": "easy",
     "choices": [
-        "The defense of the Christian faith",
-        "The study of ancient Christian texts",
-        "The art of preaching",
-        "The study of angels and demons"
+    "John the Baptist",
+    "John the Apostle",
+    "John the Evangelist",
+    "John the Presbyter"
+    ],
+    "correct": 1,
+    "explanations": [
+    "Incorrect. John the Baptist is not an apostle and did not write the Gospel of John.",
+    "Correct. John the Apostle is traditionally considered the author of the Gospel of John.",
+    "Incorrect. John the Evangelist is often used interchangeably with John the Apostle, but the latter is the correct answer.",
+    "Incorrect. John the Presbyter is a different figure from John the Apostle and is not considered the author of the Gospel of John."
+    ]
+    },
+    {
+    "ID": "18346",
+    "DateReviewed": "",
+    "question": "Who wrote the majority of the New Testament letters?",
+    "skill": "easy",
+    "choices": [
+    "John",
+    "James",
+    "Peter",
+    "Paul"
+    ],
+    "correct": 3,
+    "explanations": [
+    "Incorrect. John wrote a few New Testament letters, but not the majority.",
+    "Incorrect. James wrote one New Testament letter.",
+    "Incorrect. Peter wrote two New Testament letters.",
+    "Correct. Paul wrote the majority of the New Testament letters, with 13 out of 27 attributed to him."
+    ]
+    },
+    {
+    "ID": "10428",
+    "DateReviewed": "",
+    "question": "Which council affirmed the deity of Jesus Christ and formulated the Nicene Creed?",
+    "skill": "medium",
+    "choices": [
+    "The Council of Jerusalem",
+    "The Council of Nicaea",
+    "The Council of Chalcedon",
+    "The Council of Ephesus"
+    ],
+    "correct": 1,
+    "explanations": [
+    "Incorrect. The Council of Jerusalem dealt with issues related to Gentile converts to Christianity, not the deity of Jesus Christ.",
+    "Correct. The Council of Nicaea affirmed the deity of Jesus Christ and formulated the Nicene Creed.",
+    "Incorrect. The Council of Chalcedon dealt with the nature of Christ, not specifically his deity.",
+    "Incorrect. The Council of Ephesus dealt with the issue of Mary being called the Mother of God, not the deity of Jesus Christ."
+    ]
+    },
+    {
+    "ID": "53921",
+    "DateReviewed": "",
+    "question": "What is the earliest known list of the New Testament canon?",
+    "skill": "medium",
+    "choices": [
+    "The Muratorian Fragment",
+    "The Didache",
+    "The Shepherd of Hermas",
+    "The First Epistle of Clement"
     ],
     "correct": 0,
     "explanations": [
-        "Apologetics is the defense of the Christian faith, providing reasons and evidence for the truth of Christianity.",
-        "Incorrect. The study of ancient Christian texts is a part of biblical scholarship, not apologetics.",
-        "Incorrect. The art of preaching is called homiletics, not apologetics.",
-        "Incorrect. The study of angels and demons is called angelology and demonology, respectively, not apologetics."
+    "Correct. The Muratorian Fragment, dated around A.D. 170, is the earliest known list of the New Testament canon.",
+    "Incorrect. The Didache is an early Christian writing, but it is not a list of the New Testament canon.",
+    "Incorrect. The Shepherd of Hermas is an early Christian text, but it is not a list of the New Testament canon.",
+    "Incorrect. The First Epistle of Clement is an early Christian letter, but it is not a list of the New Testament canon."
     ]
-},
-{
-    "question": "Who is known as the father of modern Christian apologetics?",
+    },
+    {
+    "ID": "91475",
+    "DateReviewed": "",
+    "question": "Which early Christian apologist is known for his 'First Apology' and 'Second Apology' addressed to the Roman emperors?",
     "skill": "medium",
     "choices": [
-        "C.S. Lewis",
-        "G.K. Chesterton",
-        "Francis Schaeffer",
-        "Josh McDowell"
+    "Tertullian",
+    "Justin Martyr",
+    "Irenaeus",
+    "Clement of Alexandria"
+    ],
+    "correct": 1,
+    "explanations": [
+    "Incorrect. Tertullian was an early Christian apologist, but he did not write the 'First Apology' and 'Second Apology'.",
+    "Correct. Justin Martyr is known for his 'First Apology' and 'Second Apology' addressed to the Roman emperors.",
+    "Incorrect. Irenaeus was an early Christian apologist, but he did not write the 'First Apology' and 'Second Apology'.",
+    "Incorrect. Clement of Alexandria was an early Christian apologist, but he did not write the 'First Apology' and 'Second Apology'."
+    ]
+    },
+    {
+    "ID": "37894",
+    "DateReviewed": "",
+    "question": "What is the cosmological argument for the existence of God?",
+    "skill": "medium",
+    "choices": [
+    "An argument based on the apparent design and order in the universe",
+    "An argument based on the existence of moral values and duties",
+    "An argument based on the existence of contingent beings and the need for a necessary being",
+    "An argument based on religious experience"
     ],
     "correct": 2,
     "explanations": [
-        "Incorrect. C.S. Lewis was an influential Christian apologist but not considered the father of modern Christian apologetics.",
-        "Incorrect. G.K. Chesterton was a prominent Christian apologist, but not considered the father of modern Christian apologetics.",
-        "Correct. Francis Schaeffer is often referred to as the father of modern Christian apologetics.",
-        "Incorrect. Josh McDowell is a well-known Christian apologist, but not considered the father of modern Christian apologetics."
+    "Incorrect. The argument based on the apparent design and order in the universe is the teleological argument.",
+    "Incorrect. The argument based on the existence of moral values and duties is the moral argument.",
+    "Correct. The cosmological argument is based on the existence of contingent beings and the need for a necessary being.",
+    "Incorrect. The argument based on religious experience is the religious experience argument."
     ]
-},
-{
-    "question": "What is the Cosmological Argument for the existence of God?",
+    },
+    {
+    "ID": "63019",
+    "DateReviewed": "",
+    "question": "Which philosopher is best known for his 'ontological argument' for the existence of God?",
     "skill": "hard",
     "choices": [
-        "An argument based on the complexity of living organisms",
-        "An argument based on the existence of objective moral values",
-        "An argument based on the origin of the universe",
-        "An argument based on the fine-tuning of the universe"
+    "Thomas Aquinas",
+    "Anselm of Canterbury",
+    "Immanuel Kant",
+    "René Descartes"
     ],
-    "correct": 2,
+    "correct": 1,
     "explanations": [
-        "Incorrect. The argument based on the complexity of living organisms is known as the Teleological Argument.",
-        "Incorrect. The argument based on the existence of objective moral values is known as the Moral Argument.",
-        "Correct. The Cosmological Argument is based on the origin of the universe, arguing that everything that begins to exist has a cause, and the universe began to exist, therefore, the universe has a cause (God).",
-        "Incorrect. The argument based on the fine-tuning of the universe is also known as the Teleological Argument, but it focuses on the fine-tuning of the universe for life."
+    "Incorrect. Thomas Aquinas is known for his 'Five Ways', but not the ontological argument.",
+    "Correct. Anselm of Canterbury is best known for his ontological argument for the existence of God.",
+    "Incorrect. Immanuel Kant criticized the ontological argument, but he did not develop it.",
+    "Incorrect. René Descartes also developed an ontological argument, but Anselm of Canterbury is best known for it."
     ]
-}, {
-    "question": "What does the term 'Trinity' refer to?",
-    "skill": "easy",
+    },
+    {
+    "ID": "71254",
+    "DateReviewed": "",
+    "question": "Who formulated the 'Kalam cosmological argument'?",
+    "skill": "hard",
     "choices": [
-        "Three gods in one",
-        "Three separate gods",
-        "One God in three persons",
-        "Three different aspects of God"
-    ],
-    "correct": 2,
-    "explanations": [
-        "Incorrect. The Trinity does not refer to three gods in one, but rather one God in three persons.",
-        "Incorrect. The Trinity refers to one God, not three separate gods.",
-        "Correct. The Trinity refers to the belief in one God existing in three persons: the Father, the Son, and the Holy Spirit.",
-        "Incorrect. The Trinity is not about three different aspects of God, but one God in three persons."
-    ]
-},
-{
-    "question": "Who wrote 'Mere Christianity'?",
-    "skill": "easy",
-    "choices": [
-        "C.S. Lewis",
-        "J.R.R. Tolkien",
-        "G.K. Chesterton",
-        "Francis Schaeffer"
+    "Al-Ghazali",
+    "William Lane Craig",
+    "Averroes",
+    "Maimonides"
     ],
     "correct": 0,
     "explanations": [
-        "Correct. C.S. Lewis wrote the influential Christian apologetics book 'Mere Christianity'.",
-        "Incorrect. J.R.R. Tolkien, a close friend of C.S. Lewis, was a renowned author but did not write 'Mere Christianity'.",
-        "Incorrect. G.K. Chesterton was a prominent Christian apologist, but he did not write 'Mere Christianity'.",
-        "Incorrect. Francis Schaeffer, known as the father of modern Christian apologetics, did not write 'Mere Christianity'."
+    "Correct. Al-Ghazali, a medieval Muslim philosopher, formulated the Kalam cosmological argument.",
+    "Incorrect. William Lane Craig is a modern Christian philosopher who has popularized and defended the Kalam cosmological argument, but he did not formulate it.",
+    "Incorrect. Averroes was a medieval Muslim philosopher, but he did not formulate the Kalam cosmological argument.",
+    "Incorrect. Maimonides was a medieval Jewish philosopher, but he did not formulate the Kalam cosmological argument."
     ]
-},
-{
-    "question": "Which apologetics argument posits that belief in God is properly basic?",
-    "skill": "medium",
+    },
+    {
+    "ID": "95423",
+    "DateReviewed": "",
+    "question": "Which Christian apologist wrote the book 'Mere Christianity'?",
+    "skill": "hard",
     "choices": [
-        "Ontological Argument",
-        "Cosmological Argument",
-        "Reformed Epistemology",
-        "Moral Argument"
-    ],
-    "correct": 2,
-    "explanations": [
-        "Incorrect. The Ontological Argument argues for the existence of God based on the concept of a maximally great being.",
-        "Incorrect. The Cosmological Argument argues for the existence of God based on the origin of the universe.",
-        "Correct. Reformed Epistemology posits that belief in God is properly basic, meaning it doesn't require evidence or argument to be rational.",
-        "Incorrect. The Moral Argument argues for the existence of God based on the existence of objective moral values."
-    ]
-},
-{
-    "question": "What is the problem of evil?",
-    "skill": "medium",
-    "choices": [
-        "The question of why God allows evil in the world",
-        "The challenge of proving God's existence",
-        "The problem of interpreting Scripture",
-        "The difficulty of reconciling science and religion"
+    "C.S. Lewis",
+    "G.K. Chesterton",
+    "Francis Schaeffer",
+    "Norman Geisler"
     ],
     "correct": 0,
     "explanations": [
-        "Correct. The problem of evil is the question of why an all-powerful, all-knowing, and all-good God would allow evil and suffering in the world.",
-        "Incorrect. The problem of evil is not specifically about the challenge of proving God's existence.",
-        "Incorrect. The problem of evil does not focus on the interpretation of Scripture.",
-        "Incorrect. The problem of evil does not deal with the reconciliation of science and religion."
+    "Correct. C.S. Lewis wrote the book 'Mere Christianity'.",
+    "Incorrect. G.K. Chesterton was a Christian apologist, but he did not write 'Mere Christianity'.",
+    "Incorrect. Francis Schaeffer was a Christian apologist, but he did not write 'Mere Christianity'.",
+    "Incorrect. Norman Geisler was a Christian apologist, but he did not write 'Mere Christianity'."
     ]
-},
-{
-    "question": "What is the difference between classical apologetics and presuppositional apologetics?",
+    },
+    {
+    "ID": "28694",
+    "DateReviewed": "",
+    "question": "In Christian apologetics, what is 'presuppositionalism'?",
     "skill": "hard",
     "choices": [
-        "Classical apologetics uses evidence, while presuppositional apologetics uses only logic",
-        "Classical apologetics starts with the existence of God, while presuppositional apologetics starts with human reason",
-        "Classical apologetics emphasizes natural theology, while presuppositional apologetics emphasizes the authority of Scripture",
-        "Classical apologetics focuses on the historical evidence for Christianity, while presuppositional apologetics focuses on philosophical arguments"
+    "An apologetic method that argues for Christianity based on the impossibility of the contrary",
+    "An apologetic method that presents evidence for the truth of Christianity",
+    "An apologetic method that focuses on comparing the beliefs of different religions",
+    "An apologetic method that emphasizes personal experience of God"
     ],
-    "correct": 2,
+    "correct": 0,
     "explanations": [
-        "Incorrect. Both classical and presuppositional apologetics use evidence and logic, though they may emphasize different aspects.",
-        "Incorrect. Classical apologetics does not necessarily start with the existence of God, and presuppositional apologetics does not start with human reason alone.",
-        "Correct. Classical apologetics emphasizes natural theology, using reason and evidence to establish the existence of God, while presuppositional apologetics emphasizes the authority of Scripture, arguing that all reasoning must begin with the truth of the Bible.",
-        "Incorrect. Both classical and presuppositional apologetics may engage with historical evidence and philosophical arguments, though their approach and emphasis may differ."
+    "Correct. Presuppositionalism is an apologetic method that argues for Christianity based on the impossibility of the contrary.",
+    "Incorrect. An apologetic method that presents evidence for the truth of Christianity is known as evidentialism.",
+    "Incorrect. An apologetic method that focuses on comparing the beliefs of different religions is known as comparative religion.",
+    "Incorrect. An apologetic method that emphasizes personal experience of God is known as experiential apologetics."
     ]
-},
-{
-    "question": "What is the main criticism of the Ontological Argument?",
-    "skill": "hard",
-    "choices": [
-        "It relies on outdated scientific theories",
-        "It begs the question by assuming the existence of God",
-        "It confuses the concept of God with the actual existence of God",
-        "It does not provide enough evidence for the existence of God"
-    ],
-    "correct": 2,
-    "explanations": [
-        "Incorrect. The main criticism of the Ontological Argument is not related to scientific theories.",
-        "Incorrect. The Ontological Argument does not assume the existence of God but attempts to deduce it from the concept of a maximally great being.",
-        "Correct. The main criticism of the Ontological Argument is that it confuses the concept of God with the actual existence of God. Critics argue that just because one can conceive of a maximally great being, it does not necessarily mean that such a being exists in reality.",
-        "Incorrect. The main criticism of the Ontological Argument is not related to the amount of evidence it provides, but rather to its logical structure."
-    ]
-},
-[{
-        "question": "What is the primary source of information about the life of Jesus?",
-        "skill": "easy",
-        "choices": [
-            "The New Testament",
-            "The Old Testament",
-            "The Qur'an",
-            "The Vedas"
-        ],
-        "correct": 0,
-        "explanations": [
-            "Correct. The New Testament is the primary source of information about the life of Jesus.",
-            "Incorrect. The Old Testament is primarily about the history of Israel before Jesus' time.",
-            "Incorrect. The Qur'an is the holy book of Islam and not the primary source of information about Jesus.",
-            "Incorrect. The Vedas are sacred Hindu texts and not a source of information about Jesus."
-        ]
-    },
-    {
-        "question": "Which apostle is traditionally considered the author of the Gospel of John?",
-        "skill": "easy",
-        "choices": [
-            "John the Baptist",
-            "John the Apostle",
-            "John the Evangelist",
-            "John the Presbyter"
-        ],
-        "correct": 1,
-        "explanations": [
-            "Incorrect. John the Baptist is not an apostle and did not write the Gospel of John.",
-            "Correct. John the Apostle is traditionally considered the author of the Gospel of John.",
-            "Incorrect. John the Evangelist is often used interchangeably with John the Apostle, but the latter is the correct answer.",
-            "Incorrect. John the Presbyter is a different figure from John the Apostle and is not considered the author of the Gospel of John."
-        ]
-    },
-    {
-        "question": "Who wrote the majority of the New Testament letters?",
-        "skill": "easy",
-        "choices": [
-            "John",
-            "James",
-            "Peter",
-            "Paul"
-        ],
-        "correct": 3,
-        "explanations": [
-            "Incorrect. John wrote a few New Testament letters, but not the majority.",
-            "Incorrect. James wrote one New Testament letter.",
-            "Incorrect. Peter wrote two New Testament letters.",
-            "Correct. Paul wrote the majority of the New Testament letters, with 13 out of 27 attributed to him."
-        ]
-    },
-    {
-        "question": "Which council affirmed the deity of Jesus Christ and formulated the Nicene Creed?",
-        "skill": "medium",
-        "choices": [
-            "The Council of Jerusalem",
-            "The Council of Nicaea",
-            "The Council of Chalcedon",
-            "The Council of Ephesus"
-        ],
-        "correct": 1,
-        "explanations": [
-            "Incorrect. The Council of Jerusalem dealt with issues related to Gentile converts to Christianity, not the deity of Jesus Christ.",
-            "Correct. The Council of Nicaea affirmed the deity of Jesus Christ and formulated the Nicene Creed.",
-            "Incorrect. The Council of Chalcedon dealt with the nature of Christ, not specifically his deity.",
-            "Incorrect. The Council of Ephesus dealt with the issue of Mary being called the Mother of God, not the deity of Jesus Christ."
-        ]
-    },
-    {
-        "question": "What is the earliest known list of the New Testament canon?",
-        "skill": "medium",
-        "choices": [
-            "The Muratorian Fragment",
-            "The Didache",
-            "The Shepherd of Hermas",
-            "The First Epistle of Clement"
-        ],
-        "correct": 0,
-        "explanations": [
-            "Correct. The Muratorian Fragment, dated around A.D. 170, is the earliest known list of the New Testament canon.",
-            "Incorrect. The Didache is an early Christian writing, but it is not a list of the New Testament canon.",
-            "Incorrect. The Shepherd of Hermas is an early Christian text, but it is not a list of the New Testament canon.",
-            "Incorrect. The First Epistle of Clement is an early Christian letter, but it is not a list of the New Testament canon."
-        ]
-    },
-    {
-        "question": "Which early Christian apologist is known for his 'First Apology' and 'Second Apology' addressed to the Roman emperors?",
-        "skill": "medium",
-        "choices": [
-            "Tertullian",
-            "Justin Martyr",
-            "Irenaeus",
-            "Clement of Alexandria"
-        ],
-        "correct": 1,
-        "explanations": [
-            "Incorrect. Tertullian was an early Christian apologist, but he did not write the 'First Apology' and 'Second Apology'.",
-            "Correct. Justin Martyr is known for his 'First Apology' and 'Second Apology' addressed to the Roman emperors.",
-            "Incorrect. Irenaeus was an early Christian apologist, but he did not write the 'First Apology' and 'Second Apology'.",
-            "Incorrect. Clement of Alexandria was an early Christian apologist, but he did not write the 'First Apology' and 'Second Apology'."
-        ]
-    },
-    {
-        "question": "What is the cosmological argument for the existence of God?",
-        "skill": "medium",
-        "choices": [
-            "An argument based on the apparent design and order in the universe",
-            "An argument based on the existence of moral values and duties",
-            "An argument based on the existence of contingent beings and the need for a necessary being",
-            "An argument based on religious experience"
-        ],
-        "correct": 2,
-        "explanations": [
-            "Incorrect. The argument based on the apparent design and order in the universe is the teleological argument.",
-            "Incorrect. The argument based on the existence of moral values and duties is the moral argument.",
-            "Correct. The cosmological argument is based on the existence of contingent beings and the need for a necessary being.",
-            "Incorrect. The argument based on religious experience is the religious experience argument."
-        ]
-    },
-    {
-        "question": "Which philosopher is best known for his 'ontological argument' for the existence of God?",
-        "skill": "hard",
-        "choices": [
-            "Thomas Aquinas",
-            "Anselm of Canterbury",
-            "Immanuel Kant",
-            "René Descartes"
-        ],
-        "correct": 1,
-        "explanations": [
-            "Incorrect. Thomas Aquinas is known for his 'Five Ways', but not the ontological argument.",
-            "Correct. Anselm of Canterbury is best known for his ontological argument for the existence of God.",
-            "Incorrect. Immanuel Kant criticized the ontological argument, but he did not develop it.",
-            "Incorrect. René Descartes also developed an ontological argument, but Anselm of Canterbury is best known for it."
-        ]
-    },
-    {
-        "question": "Who formulated the 'Kalam cosmological argument'?",
-        "skill": "hard",
-        "choices": [
-            "Al-Ghazali",
-            "William Lane Craig",
-            "Averroes",
-            "Maimonides"
-        ],
-        "correct": 0,
-        "explanations": ["Correct. Al-Ghazali, a medieval Muslim philosopher, formulated the Kalam cosmological argument.",
-            "Incorrect. William Lane Craig is a modern Christian philosopher who has popularized and defended the Kalam cosmological argument, but he did not formulate it.",
-            "Incorrect. Averroes was a medieval Muslim philosopher, but he did not formulate the Kalam cosmological argument.",
-            "Incorrect. Maimonides was a medieval Jewish philosopher, but he did not formulate the Kalam cosmological argument."
-        ]
-    },
-    {
-        "question": "Which Christian apologist wrote the book 'Mere Christianity'?",
-        "skill": "hard",
-        "choices": [
-            "C.S. Lewis",
-            "G.K. Chesterton",
-            "Francis Schaeffer",
-            "Norman Geisler"
-        ],
-        "correct": 0,
-        "explanations": [
-            "Correct. C.S. Lewis wrote the book 'Mere Christianity'.",
-            "Incorrect. G.K. Chesterton was a Christian apologist, but he did not write 'Mere Christianity'.",
-            "Incorrect. Francis Schaeffer was a Christian apologist, but he did not write 'Mere Christianity'.",
-            "Incorrect. Norman Geisler was a Christian apologist, but he did not write 'Mere Christianity'."
-        ]
-    },
-    {
-        "question": "In Christian apologetics, what is 'presuppositionalism'?",
-        "skill": "hard",
-        "choices": [
-            "An apologetic method that argues for Christianity based on the impossibility of the contrary",
-            "An apologetic method that presents evidence for the truth of Christianity",
-            "An apologetic method that focuses on comparing the beliefs of different religions",
-            "An apologetic method that emphasizes personal experience of God"
-        ],
-        "correct": 0,
-        "explanations": [
-            "Correct. Presuppositionalism is an apologetic method that argues for Christianity based on the impossibility of the contrary.",
-            "Incorrect. An apologetic method that presents evidence for the truth of Christianity is known as evidentialism.",
-            "Incorrect. An apologetic method that focuses on comparing the beliefs of different religions is known as comparative religion.",
-            "Incorrect. An apologetic method that emphasizes personal experience of God is known as experiential apologetics."
-        ]
     }
-]
-]
+    ],
+    
+    {
+    "ID": "49520",
+    "DateReviewed": "",
+    "question": "What is the doctrine of the Trinity?",
+    "skill": "easy",
+    "choices": [
+    "The belief in three gods working together",
+    "The belief that God manifests in three different forms at different times",
+    "The belief that there is one God in three persons: Father, Son, and Holy Spirit",
+    "The belief that God, Jesus, and the Holy Spirit are three separate entities"
+    ],
+    "correct": 2,
+    "explanations": [
+    "Incorrect. The doctrine of the Trinity does not teach the belief in three gods working together; this would be polytheism.",
+    "Incorrect. The belief that God manifests in three different forms at different times is known as modalism, not the Trinity.",
+    "Correct. The doctrine of the Trinity is the belief that there is one God in three persons: Father, Son, and Holy Spirit.",
+    "Incorrect. The belief that God, Jesus, and the Holy Spirit are three separate entities is not the doctrine of the Trinity; this would be tritheism."
+    ]
+    },
+    {
+    "ID": "61052",
+    "DateReviewed": "",
+    "question": "Which heresy denied the full divinity of Jesus Christ?",
+    "skill": "medium",
+    "choices": [
+    "Docetism",
+    "Arianism",
+    "Nestorianism",
+    "Monophysitism"
+    ],
+    "correct": 1,
+    "explanations": [
+    "Incorrect. Docetism is a heresy that denied the full humanity of Jesus Christ, not his divinity.",
+    "Correct. Arianism is a heresy that denied the full divinity of Jesus Christ, claiming he was a created being.",
+    "Incorrect. Nestorianism is a heresy that separated the divine and human natures of Christ into two persons.",
+    "Incorrect. Monophysitism is a heresy that claimed Christ had only one nature, which was a mixture of divine and human."
+    ]
+    },
+    {
+    "ID": "73851",
+    "DateReviewed": "",
+    "question": "What is the term for the Christian belief that Jesus will return to earth at the end of time?",
+    "skill": "easy",
+    "choices": [
+    "Transubstantiation",
+    "The Second Coming",
+    "The Rapture",
+    "Purgatory"
+    ],
+    "correct": 1,
+    "explanations": [
+    "Incorrect. Transubstantiation is a Catholic doctrine about the change of the bread and wine into the body and blood of Christ during the Eucharist.",
+    "Correct. The Second Coming is the Christian belief that Jesus will return to earth at the end of time.",
+    "Incorrect. The Rapture is a specific belief within some Christian traditions about the gathering of believers to meet Christ in the air before his Second Coming.",
+    "Incorrect. Purgatory is a Catholic doctrine about a place or state of purification for souls before they enter heaven."
+    ]
+    },
+    {
+    "ID": "32985",
+    "DateReviewed": "",
+    "question": "What is the name of the Christian doctrine that asserts the sinfulness and guilt of all human beings as a result of Adam and Eve's disobedience?",
+    "skill": "medium",
+    "choices": [
+    "Total depravity",
+    "Predestination",
+    "Original sin",
+    "Divine providence"
+    ],
+    "correct": 2,
+    "explanations": [
+    "Incorrect. Total depravity is a doctrine within Calvinism that asserts the total corruption of human nature due to sin.",
+    "Incorrect. Predestination is a doctrine asserting that God has eternally chosen those whom he intends to save.",
+    "Correct. Original sin is the Christian doctrine that asserts the sinfulness and guilt of all human beings as a result of Adam and Eve's disobedience.",
+    "Incorrect. Divine providence is the doctrine that God is continually involved with and governs all events and actions in the universe."
+    ]
+    },
+    {
+    "ID": "97431",
+    "DateReviewed": "",
+    "question": "What event marks the beginning of the Protestant Reformation?",
+    "skill": "medium",
+    "choices": [
+    "The Council of Trent",
+    "The Edict of Worms",
+    "The posting of the 95 Theses by Martin Luther",
+    "The Diet of Speyer"
+    ],
+    "correct": 2,
+    "explanations": [
+    "Incorrect. The Council of Trent was a Catholic response to the Protestant Reformation.",
+    "Incorrect. The Edict of Worms declared Martin Luther an outlaw, but it did not mark the beginning of the Protestant Reformation.",
+    "Correct. The posting of the 95 Theses by Martin Luther on the door of All Saints' Church in Wittenberg on October 31, 1517, is generally considered the beginning of the Protestant Reformation.",
+    "Incorrect. The Diet of Speyer was a meeting of the Holy Roman Empire that dealt with the issue of religious toleration during the Reformation, but it did not mark the beginning of the Protestant Reformation."
+    ]
+    },
+    {
+    "ID": "41253",
+    "DateReviewed": "",
+    "question": "Which of these theologians is known for his 'Five Points of Calvinism'?",
+    "skill": "hard",
+    "choices": [
+    "John Calvin",
+    "Martin Luther",
+    "Huldrych Zwingli",
+    "Jacobus Arminius"
+    ],
+    "correct": 0,
+    "explanations": [
+    "Correct. John Calvin is the theologian associated with the 'Five Points of Calvinism', which outline the core doctrines of his theology.",
+    "Incorrect. Martin Luther was a key figure in the Protestant Reformation, but he was not associated with the Five Points of Calvinism.",
+    "Incorrect. Huldrych Zwingli was an early Swiss Reformer, but he was not associated with the Five Points of Calvinism.",
+    "Incorrect. Jacobus Arminius was a theologian who opposed some of Calvin's teachings, and his followers developed the Five Articles of Remonstrance in response to the Five Points of Calvinism."
+    ]
+    },
+    {
+    "ID": "63748",
+    "DateReviewed": "",
+    "question": "What is the theological concept of 'apostolic succession'?",
+    "skill": "medium",
+    "choices": [
+    "The direct transmission of spiritual authority from the apostles to bishops and priests",
+    "The process of choosing new apostles to replace those who died",
+    "The belief that the teachings of the apostles are the basis for Christian doctrine",
+    "The idea that the apostles founded various churches throughout the Roman Empire"
+    ],
+    "correct": 0,
+    "explanations": [
+    "Correct. Apostolic succession is the theological concept that spiritual authority is directly transmitted from the apostles to bishops and priests through the laying on of hands.",
+    "Incorrect. The process of choosing new apostles to replace those who died is not referred to as apostolic succession.",
+    "Incorrect. The belief that the teachings of the apostles are the basis for Christian doctrine is an aspect of the apostolic tradition, but not specifically apostolic succession.",
+    "Incorrect. The idea that the apostles founded various churches throughout the Roman Empire is related to the concept of apostolic foundation, not apostolic succession."
+    ]
+    },
+    {
+    "ID": "82359",
+    "DateReviewed": "",
+    "question": "Which of the following is NOT one of the four 'marks' of the Church as identified in the Nicene Creed?",
+    "skill": "medium",
+    "choices": [
+    "One",
+    "Holy",
+    "Apostolic",
+    "Hierarchical"
+    ],
+    "correct": 3,
+    "explanations": [
+    "Incorrect. 'One' is one of the four marks of the Church in the Nicene Creed, emphasizing its unity.",
+    "Incorrect. 'Holy' is one of the four marks of the Church in the Nicene Creed, emphasizing its sanctity.",
+    "Incorrect. 'Apostolic' is one of the four marks of the Church in the Nicene Creed, emphasizing its connection to the apostles.",
+    "Correct. 'Hierarchical' is not one of the four marks of the Church in the Nicene Creed. The four marks are: One, Holy, Catholic, and Apostolic."
+    ]
+    },
+    {
+    "ID": "29561",
+    "DateReviewed": "",
+    "question": "Which ecumenical council condemned the heresy of Nestorianism?",
+    "skill": "hard",
+    "choices": [
+    "The Council of Nicaea",
+    "The Council of Ephesus",
+    "The Council of Chalcedon",
+    "The Second Council of Constantinople"
+    ],
+    "correct": 1,
+    "explanations": [
+    "Incorrect. The Council of Nicaea dealt with the Arian heresy and the nature of Jesus Christ, not Nestorianism.",
+    "Correct. The Council of Ephesus, held in 431 AD, condemned the heresy of Nestorianism.",
+    "Incorrect. The Council of Chalcedon dealt with the nature of Christ and the heresy of Monophysitism, not Nestorianism.",
+    "Incorrect. The Second Council of Constantinople dealt with the heresy of Monophysitism and the Three Chapters, not Nestorianism."
+    ]
+    },
+    {
+    "ID": "45897",
+    "DateReviewed": "",
+    "question": "Which theologian is known for developing the 'just war theory'?",
+    "skill": "hard",
+    "choices": [
+    "Augustine of Hippo",
+    "Thomas Aquinas",
+    "Martin Luther",
+    "John Calvin"
+    ],
+    "correct": 0,
+    "explanations": [
+    "Correct. Augustine of Hippo is known for developing the just war theory, which provides criteria for determining when it is morally justifiable to engage in war.",
+    "Incorrect. Thomas Aquinas further developed the just war theory, building on the work of Augustine, but he is not the originator.",
+    "Incorrect. Martin Luther was a key figure in the Protestant Reformation, but he is not known for developing the just war theory.",
+    "Incorrect. John Calvin was a leading figure in the Reformation, but he is not known for developing the just war theory."
+    ]
+    },
+    {
+    "ID": "53821",
+    "DateReviewed": "",
+    "question": "Which Christian mystic wrote 'The Dark Night of the Soul'?",
+    "skill": "hard",
+    "choices": [
+    "John of the Cross",
+    "Teresa of Avila",
+    "Julian of Norwich",
+    "Meister Eckhart"
+    ],
+    "correct": 0,
+    "explanations": [
+    "Correct. John of the Cross, a Spanish mystic and Carmelite friar, wrote 'The Dark Night of the Soul', a spiritual treatise about the journey of the soul towards union with God.",
+    "Incorrect. Teresa of Avila was a Spanish mystic and Carmelite nun, but she did not write 'The Dark Night of the Soul'. She wrote 'The Interior Castle' and 'The Way of Perfection'.",
+    "Incorrect. Julian of Norwich was an English mystic who wrote 'Revelations of Divine Love', not 'The Dark Night of the Soul'.",
+    "Incorrect. Meister Eckhart was a German mystic and theologian, but he did not write 'The Dark Night of the Soul'."
+    ]
+    },
+    {
+    "ID": "67394",
+    "DateReviewed": "",
+    "question": "Which heresy taught that Jesus only appeared to be human, but was not truly incarnate?",
+    "skill": "hard",
+    "choices": [
+    "Arianism",
+    "Docetism",
+    "Modalism",
+    "Gnosticism"
+    ],
+    "correct": 1,
+    "explanations": [
+    "Incorrect. Arianism is a heresy that denied the full divinity of Jesus Christ, not his humanity.",
+    "Correct. Docetism is a heresy that taught that Jesus only appeared to be human, but was not truly incarnate.",
+    "Incorrect. Modalism is a heresy that denied the distinct persons of the Trinity, claiming that the Father, Son, and Holy Spirit are different modes or aspects of the same divine being.",
+    "Incorrect. Gnosticism is a diverse set of religious and philosophical beliefs that incorporated elements of Christianity, but it is not specifically a heresy denying the incarnation of Jesus Christ."
+    ]
+    },
+    {
+    "ID": "78524",
+    "DateReviewed": "",
+    "question": "Which of the following Christian theologians is considered a proponent of 'process theology'?",
+    "skill": "hard",
+    "choices": [
+    "Karl Barth",
+    "John Calvin",
+    "Alfred North Whitehead",
+    "Thomas Aquinas"
+    ],
+    "correct": 2,
+    "explanations": [
+    "Incorrect. Karl Barth was an influential 20th-century Swiss theologian, but he was not a proponent of process theology.",
+    "Incorrect. John Calvin was a leading figure in the Protestant Reformation and is not associated with process theology.",
+    "Correct. Alfred North Whitehead was an English mathematician and philosopher who developed process philosophy, which inspired the development of process theology.",
+    "Incorrect. Thomas Aquinas was a medieval theologian and philosopher who developed a synthesis of Aristotelian philosophy and Christian theology, but he is not associated with process theology."
+    ]
+    },
+    {
+    "ID": "81436",
+    "DateReviewed": "",
+    "question": "In Christian theology, what is 'pneumatology'?",
+    "skill": "hard",
+    "choices": [
+    "The study of the Holy Spirit",
+    "The study of the end times",
+    "The study of the Church",
+    "The study of salvation"
+    ],
+    "correct": 0,
+    "explanations": [
+    "Correct. Pneumatology is the study of the Holy Spirit in Christian theology.",
+    "Incorrect. The study of the end times is called eschatology.",
+    "Incorrect. The study of the Church is called ecclesiology.",
+    "Incorrect. The study of salvation is called soteriology."
+    ]
+    },
+    {
+    "ID": "93762",
+    "DateReviewed": "",
+    "question": "Which Christian theologian is associated with the doctrine of 'double predestination'?",
+    "skill": "hard",
+    "choices": [
+    "Martin Luther",
+    "John Calvin",
+    "Jacobus Arminius",
+    "Jonathan Edwards"
+    ],
+    "correct": 1,
+    "explanations": [
+    "Incorrect. Martin Luther was a key figure in the Protestant Reformation, but he is not associated with the doctrine of double predestination.",
+    "Correct. John Calvin, a leading figure in the Reformation, is associated with the doctrine of double predestination, which teaches that God predestines some people for salvation and others for damnation.",
+    "Incorrect. Jacobus Arminius was a theologian who opposed the Calvinist doctrine of predestination, advocating for a view of predestination based on God's foreknowledge.",
+    "Incorrect. Jonathan Edwards was an 18th-century American theologian and revivalist preacher, but he is not primarily associated with the doctrine of double predestination."
+    ]
+    },
+    {
+    "ID": "96523",
+    "DateReviewed": "",
+    "question": "What is the theological concept of 'theosis' or 'deification'?",
+    "skill": "hard",
+    "choices": [
+    "The process by which God became human in the person of Jesus Christ",
+    "The belief that humans can become divine beings",
+    "The belief that humans can participate in the divine nature and become more like God",
+    "The belief that all things will ultimately be reconciled with God"
+    ],
+    "correct": 2,
+    "explanations": [
+    "Incorrect. The process by which God became human in the person of Jesus Christ is known as the Incarnation, not theosis or deification.",
+    "Incorrect. The belief that humans can become divine beings is not a mainstream Christian belief, and it is not the same as theosis or deification.",
+    "Correct. Theosis or deification refers to the belief that humans can participate in the divine nature and become more like God, particularly in Eastern Orthodox theology.",
+    "Incorrect. The belief that all things will ultimately be reconciled with God is called universalism, not theosis or deification."
+    ]
+    },
+    {
+    "ID": "10764",
+    "DateReviewed": "",
+    "question": "Which early Christian theologian wrote 'The City of God'?",
+    "skill": "hard",
+    "choices": [
+    "Augustine of Hippo",
+    "Jerome",
+    "John Chrysostom",
+    "Tertullian"
+    ],
+    "correct": 0,
+    "explanations": [
+    "Correct. Augustine of Hippo, an influential early Christian theologian, wrote 'The City of God', a philosophical and theological work addressing the relationship between Christianity and secular society.",
+    "Incorrect. Jerome was an early Christian theologian and translator of the Bible, but he did not write 'The City of God'.",
+    "Incorrect. John Chrysostom was an early Christian theologian and preacher, but he did not write 'The City of God'.",
+    "Incorrect. Tertullian was an early Christian apologist and theologian, but he did not write 'The City of God'."
+    ]
+    },
+    {
+    "ID": "12853",
+    "DateReviewed": "",
+    "question": "What was the primary language of the early Christian church?",
+    "skill": "hard",
+    "choices": [
+    "Greek",
+    "Aramaic",
+    "Latin",
+    "Hebrew"
+    ],
+    "correct": 0,
+    "explanations": [
+    "Correct. Greek was the primary language of the early Christian church, as it was the lingua franca of the eastern Mediterranean region where Christianity emerged.",
+    "Incorrect. Aramaic was the language spoken by Jesus and his disciples, but Greek was the primary language of the early Christian church.",
+    "Incorrect. Latin became the primary language of the Western Christian church after the fall of the Western Roman Empire, but Greek was the primary language of the early Christian church.",
+    "Incorrect. Hebrew was the language of the Old Testament and Jewish religious tradition, but Greek was the primary language of the early Christian church."
+    ]
+    },
+    {
+    "ID": "23547",
+    "DateReviewed": "",
+    "question": "What is the Christian doctrine of 'original sin'?",
+    "skill": "hard",
+    "choices": [
+    "The belief that all humans are born with a sinful nature due to the sin of Adam and Eve",
+    "The belief that all humans are born in a state of grace and must choose to sin",
+    "The belief that all humans are destined to commit a specific sin",
+    "The belief that some humans are predestined for salvation while others are predestined for damnation"
+    ],
+    "correct": 0,
+    "explanations": [
+    "Correct. The Christian doctrine of original sin states that all humans are born with a sinful nature due to the sin of Adam and Eve in the Garden of Eden.",
+    "Incorrect. The belief that all humans are born in a state of grace and must choose to sin is not the doctrine of original sin.",
+    "Incorrect. The belief that all humans are destined to commit a specific sin is not the doctrine of original sin.",
+    "Incorrect. The belief that some humans are predestined for salvation while others are predestined for damnation is the doctrine of predestination, not original sin."
+    ]
+    },
+    {
+    "ID": "94230",
+    "DateReviewed": "",
+    "question": "Who is known as the 'Father of English Hymnody'?",
+    "skill": "hard",
+    "choices": [
+    "Charles Wesley",
+    "Isaac Watts",
+    "John Newton",
+    "Fanny Crosby"
+    ],
+    "correct": 1,
+    "explanations": [
+    "Incorrect. Charles Wesley was a prolific hymn writer, but he is not considered the 'Father of English Hymnody'.",
+    "Correct. Isaac Watts is known as the 'Father of English Hymnody' for his significant contributions to English hymn writing.",
+    "Incorrect. John Newton was a hymn writer, most famous for writing 'Amazing Grace', but he is not considered the 'Father of English Hymnody'.",
+    "Incorrect. Fanny Crosby was a prolific hymn writer, but she is not considered the 'Father of English Hymnody'."
+    ]
+    },
+    {
+    "ID": "86925",
+    "DateReviewed": "",
+    "question": "Which 16th-century Christian reformer wrote 'Institutes of the Christian Religion'?",
+    "skill": "hard",
+    "choices": [
+    "Martin Luther",
+    "John Calvin",
+    "Ulrich Zwingli",
+    "Huldrych Zwingli"
+    ],
+    "correct": 1,
+    "explanations": [
+    "Incorrect. Martin Luther was a 16th-century Christian reformer, but he did not write 'Institutes of the Christian Religion'.",
+    "Correct. John Calvin, a 16th-century Christian reformer, wrote 'Institutes of the Christian Religion', a foundational work of Reformed theology.",
+    "Incorrect. Ulrich Zwingli was a 16th-century Christian reformer, but he did not write 'Institutes of the Christian Religion'.",
+    "Incorrect. Huldrych Zwingli is an alternative spelling for Ulrich Zwingli, and he did not write 'Institutes of the Christian Religion'."
+    ]
+    },
+    {
+    "ID": "73691",
+    "DateReviewed": "",
+    "question": "What is the 'Immaculate Conception' in Catholic theology?",
+    "skill": "hard",
+    "choices": [
+    "The conception of Jesus by the Virgin Mary",
+    "The conception of Mary by her mother Saint Anne",
+    "The belief that Mary was sinless from the moment of her own conception",
+    "The belief that Mary was assumed bodily into heaven"
+    ],
+    "correct": 2,
+    "explanations": [
+    "Incorrect. The conception of Jesus by the Virgin Mary is known as the Virgin Birth, not the Immaculate Conception.",
+    "Incorrect. The conception of Mary by her mother Saint Anne is not the Immaculate Conception.",
+    "Correct. The Immaculate Conception is the belief that Mary was sinless from the moment of her own conception, in preparation for her role as the mother of Jesus.",
+    "Incorrect. The belief that Mary was assumed bodily into heaven is known as the Assumption, not the Immaculate Conception."
+    ]
+    },
+    {
+    "ID": "54783",
+    "DateReviewed": "",
+    "question": "Which pope called for the Second Vatican Council?",
+    "skill": "hard",
+    "choices": [
+    "Pope John XXIII",
+    "Pope Paul VI",
+    "Pope Benedict XVI",
+    "Pope Francis"
+    ],
+    "correct": 0,
+    "explanations": [
+    "Correct. Pope John XXIII called for the Second Vatican Council, which took place from 1962-1965.",
+    "Incorrect. Pope Paul VI was the pope during the Second Vatican Council, but he did not call for it.",
+    "Incorrect. Pope Benedict XVI was not pope during the time of the Second Vatican Council.",
+    "Incorrect. Pope Francis was not pope during the time of the Second Vatican Council."
+    ]
+    },
+    {
+    "ID": "23842",
+    "DateReviewed": "",
+    "question": "What is the significance of the date 1517 in Christian history?",
+    "skill": "hard",
+    "choices": [
+    "The start of the Protestant Reformation with Martin Luther's posting of the 95 Theses",
+    "The date of the Council of Trent, which addressed issues raised by the Protestant Reformation",
+    "The beginning of the Great Awakening in colonial America",
+    "The date of the publication of the King James Bible"
+    ],
+    "correct": 0,
+    "explanations": [
+    "Correct. The date 1517 marks the start of the Protestant Reformation with Martin Luther's posting of the 95 Theses on the door of the Castle Church in Wittenberg, Germany.",
+    "Incorrect. The Council of Trent was a response to the Protestant Reformation, but it did not occur until 1545-1563.",
+    "Incorrect. The Great Awakening in colonial America occurred in the 18th century, well after 1517.",
+    "Incorrect. The King James Bible was first published in 1611, well after 1517."
+    ]
+    },
+    {
+    "ID": "94528",
+    "DateReviewed": "",
+    "question": "What is the 'filioque' clause in the Nicene Creed?",
+    "skill": "hard",
+    "choices": [
+    "The statement that the Holy Spirit proceeds from the Father and the Son",
+    "The statement that the Son is consubstantial with the Father",
+    "The statement that Jesus was crucified, died, and was buried",
+    "The statement that Jesus will come again to judge the living and the dead"
+    ],
+    "correct": 0,
+    "explanations": [
+    "Correct. The filioque clause in the Nicene Creed is the statement that the Holy Spirit proceeds from the Father and the Son. This was a major point of theological controversy between the Eastern and Western churches, contributing to the Great Schism in 1054.",
+    "Incorrect. The statement that the Son is consubstantial with the Father is part of the Nicene Creed, but it is not the filioque clause.",
+    "Incorrect. The statement that Jesus was crucified, died, and was buried is part of the Apostles' Creed, not the Nicene Creed.",
+    "Incorrect. The statement that Jesus will come again to judge the living and the dead is also part of the Apostles' Creed, not the Nicene Creed."
+    ]
+    },
+    {
+    "ID": "78214",
+    "DateReviewed": "",
+    "question": "What is the 'Communion of Saints' in Catholic theology?",
+    "skill": "hard",
+    "choices": [
+    "The belief in the real presence of Christ in the Eucharist",
+    "The belief that the saints in heaven intercede for and can be called upon to pray for those on earth",
+    "The belief that the Church is the 'body of Christ' and all believers are members of that body",
+    "The belief that the Holy Spirit guides and preserves the Church in its teachings"
+    ],
+    "correct": 1,
+    "explanations": [
+    "Incorrect. The belief in the real presence of Christ in the Eucharist is a different doctrine in Catholic theology.",
+    "Correct. The Communion of Saints is the belief that the saints in heaven intercede for and can be called upon to pray for those on earth. This includes both canonized saints and other faithful departed.",
+    "Incorrect. The belief that the Church is the 'body of Christ' and all believers are members of that body is another doctrine in Catholic theology.",
+    "Incorrect. The belief that the Holy Spirit guides and preserves the Church in its teachings is another doctrine in Catholic theology."
+    ]
+    },
+    {
+    "ID": "63024",
+    "DateReviewed": "",
+    "question": "What is the significance of the year 1054 in Christian history?",
+    "skill": "hard",
+    "choices": [
+    "The year of the Great Schism between the Eastern Orthodox and Roman Catholic Churches",
+    "The year of the Council of Nicaea, which formulated the Nicene Creed",
+    "The year of the publication of Thomas Aquinas' 'Summa Theologica'",
+    "The year of the Diet of Worms, at which Martin Luther was declared a heretic"
+    ],
+    "correct": 0,
+    "explanations": [
+    "Correct. The year 1054 marks the Great Schism between the Eastern Orthodox and Roman Catholic Churches, which was the result of theological, cultural, and political differences that had been building for centuries.",
+    "Incorrect. The Council of Nicaea occurred in the year 325, much earlier than 1054.",
+    "Incorrect. Thomas Aquinas' 'Summa Theologica' was published in the 13th century, much later than 1054.",
+    "Incorrect. The Diet of Worms occurred in 1521, much later than 1054."
+    ]
+    },
+    {
+    "ID": "40295",
+    "DateReviewed": "",
+    "question": "Which reformer is known for the doctrine of predestination?",
+    "skill": "medium",
+    "choices": [
+    "Martin Luther",
+    "John Calvin",
+    "Huldrych Zwingli",
+    "John Wesley"
+    ],
+    "correct": 1,
+    "explanations": [
+    "Incorrect. Martin Luther is known for his doctrine of justification by faith alone, not predestination.",
+    "Correct. John Calvin is known for his doctrine of predestination, which holds that God has already chosen who will be saved and who will be damned.",
+    "Incorrect. Huldrych Zwingli was a Swiss Reformer who disagreed with Calvin on predestination.",
+    "Incorrect. John Wesley was a leader in the Methodist movement, which developed later and did not emphasize predestination in the same way as Calvinism."
+    ]
+    },
+    {
+    "ID": "30876",
+    "DateReviewed": "",
+    "question": "What is the significance of the year 1517 in Christian history?",
+    "skill": "medium",
+    "choices": [
+    "The year of the Council of Trent, which reaffirmed Catholic doctrine and established reforms",
+    "The year of the publication of John Calvin's 'Institutes of the Christian Religion'",
+    "The year of the publication of Martin Luther's Ninety-Five Theses, which sparked the Protestant Reformation",
+    "The year of the English Reformation, in which the Church of England broke away from the authority of the Pope"
+    ],
+    "correct": 2,
+    "explanations": [
+    "Incorrect. The Council of Trent did not occur until the mid-16th century, much later than 1517.",
+    "Incorrect. John Calvin's 'Institutes of the Christian Religion' was first published in 1536, much later than 1517.",
+    "Correct. 1517 is the year that Martin Luther is said to have posted his Ninety-Five Theses on the door of the Castle Church in Wittenberg, which challenged the sale of indulgences and sparked the Protestant Reformation.",
+    "Incorrect. The English Reformation did not begin until the reign of King Henry VIII, several years after 1517."
+    ]
+    },
+    {
+    "ID": "74758",
+    "DateReviewed": "",
+    "question": "What is the 'Immaculate Conception' in Catholic theology?",
+    "skill": "hard",
+    "choices": [
+    "The conception of Jesus in the womb of Mary by the Holy Spirit",
+    "The belief in Mary's perpetual virginity",
+    "The belief that Mary was sinless from the moment of her own conception",
+    "The belief that Mary was assumed bodily into heaven at the end of her life"
+    ],
+    "correct": 2,
+    "explanations": [
+    "Incorrect. The conception of Jesus in the womb of Mary by the Holy Spirit is a different doctrine in Catholic theology.",
+    "Incorrect. The belief in Mary's perpetual virginity is another doctrine in Catholic theology.",
+    "Correct. The Immaculate Conception is the belief that Mary was conceived without original sin and remained sinless throughout her life.",
+    "Incorrect. The belief that Mary was assumed bodily into heaven at the end of her life is another doctrine in Catholic theology, known as the Assumption."
+    ]
+    },
+    {
+    "ID": "26974",
+    "DateReviewed": "",
+    "question": "What is the 'Real Presence' in Catholic theology?",
+    "skill": "hard",
+    "choices": ["An affirmation of the existence of God as a transcendent reality beyond the material world",
+    "The belief that the Eucharist is truly the body and blood of Jesus Christ",
+    "The belief in the resurrection of the dead and the immortality of the soul",
+    "The doctrine that the Pope is the supreme authority in matters of faith and morals"
+    ],
+    "correct": 1,
+    "explanations": [
+    "Incorrect. While the existence of God is an important doctrine in Catholic theology, it is not what is meant by the Real Presence.",
+    "Correct. The Real Presence is the Catholic belief that the Eucharist is truly the body and blood of Jesus Christ, not just a symbol or memorial.",
+    "Incorrect. The belief in the resurrection of the dead and the immortality of the soul is another doctrine in Catholic theology.",
+    "Incorrect. The doctrine of Papal supremacy is another important doctrine in Catholic theology, but it is not what is meant by the Real Presence."
+    ]
+    }
+    ]

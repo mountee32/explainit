@@ -2,27 +2,39 @@
 body, html {
   height: 100%;
   background-image: linear-gradient(45deg, #373b44, #4286f4);
-}
-
-/* Set the font family and color */
-body {
   font-family: Arial, sans-serif;
   color: black;
 }
 
 /* Style the main headings */
-h1, h2 {
-  color: black;
+h1, h2{
+  color: rgb(143, 150, 170);
+  font-size: 2.2rem;
+  margin-left: 50px;
+  
 }
 
+h2 {
+  font-size: 1.2rem;
+  margin-left: 20px;
+}
+
+quiz-question {
+  color: rgb(5, 29, 95);
+  font-size: 2.2rem;
+  margin-left: 0px;
+}
 /* Style the container */
-.container {
+.container-home-page, .quiz-tile {
   background-color: white;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   margin-top: 50px;
   margin-bottom: 50px;
   padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 960px; /* or any other preferred maximum width */
 }
 
 /* Style the categories container */
@@ -51,18 +63,23 @@ h1, h2 {
 .question h4 {
   color: #6dd5ed; /* Light blue */
   cursor: pointer;
+  font-size: 1.4rem;
+  margin-left: 20px;
 }
 
-/* Style the answer container */
+/* Style the answer container and text */
 .answer {
   display: none; /* Initially hidden */
-}
-
-/* Style the answer text */
-.answer p {
+  font-size: 1.4rem;
+  margin-left: 40px;
   color: #373b44;
   margin-bottom: 10px;
 }
+<style>
+  .explanation {
+    font-size: 32px;
+  }
+</style>
 
 /* Style the answer link */
 .answer a {
@@ -75,112 +92,34 @@ h1, h2 {
   text-decoration: underline;
 }
 
-/* Set the background gradient */
-body,html{
-    
-background-image: linear-gradient(149deg, rgba(85, 85, 85, 0.05) 0%, rgba(85, 85, 85, 0.05) 25%,rgba(11, 11, 11, 0.05) 25%, rgba(11, 11, 11, 0.05) 50%,rgba(182, 182, 182, 0.05) 50%, rgba(182, 182, 182, 0.05) 75%,rgba(28, 28, 28, 0.05) 75%, rgba(28, 28, 28, 0.05) 100%),linear-gradient(232deg, rgba(145, 145, 145, 0.05) 0%, rgba(145, 145, 145, 0.05) 25%,rgba(165, 165, 165, 0.05) 25%, rgba(165, 165, 165, 0.05) 50%,rgba(84, 84, 84, 0.05) 50%, rgba(84, 84, 84, 0.05) 75%,rgba(131, 131, 131, 0.05) 75%, rgba(131, 131, 131, 0.05) 100%),linear-gradient(321deg, rgba(254, 254, 254, 0.05) 0%, rgba(254, 254, 254, 0.05) 25%,rgba(249, 249, 249, 0.05) 25%, rgba(249, 249, 249, 0.05) 50%,rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.05) 75%,rgba(104, 104, 104, 0.05) 75%, rgba(104, 104, 104, 0.05) 100%),linear-gradient(90deg, rgb(21, 8, 116),rgb(111, 197, 250)); min-height: 100vh;
-
-    font-family: Arial, sans-serif;
-}
-
-/* Style the main headings */
-h1, {
-    color: rgb(143, 150, 170);
-    font-size: 2.2rem;
-    margin-left: 50px;
-}
-h2 {
-    color: rgb(143, 150, 170);
-    font-size: 1.2rem;
-    margin-left: 20px;
-}
-
-/* Style the category titles */
-.category h3 {
-    color: rgb(21, 48, 121);
-}
-
-        /* Style the question titles */
-        .question h4 {
-            color: rgb(21, 48, 121);
-    cursor: pointer;
-    font-size: 1.4rem;
-    margin-left: 20px;
-}
-/* Style the answer text */
-.answer p {
-    color: rgb(21, 48, 121);
-    margin-bottom: 10px;
-}
-/* Style the categories container */
-#categories-container {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    gap: 20px;
-    padding: 20px;
-}
-
-
-
-/* Style the questions container */
-.questions-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    display: none; /* Initially hidden */
-}
-
-
-
-/* Style the answer container */
-.answer {
-    display: none; /* Initially hidden */
-    font-size: 1.4rem;
-    margin-left: 40px;
-}
-
-
-
-/* Style the answer link */
-.answer a {
-    color: #6dd5ed; /* Light blue */
-    text-decoration: none;
-}
-
-/* Style the answer link on hover */
-.answer a:hover {
-    text-decoration: underline;
-}
+/* Style the header */
 #header {
-    display: flex;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.1); /* Adjust the opacity value */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    position: sticky;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1); /* Adjust the opacity value */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 /* Style the header icon and text container */
 .header-content {
-    display: flex;
-    align-items: center;
-    padding-left: 20px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
 }
 
 /* Style the header text */
 #header h1 {
-    color: whitesmoke;
-    margin: 0;
-    padding-left: 10px;
+  color: whitesmoke;
+  margin: 0;
+  padding-left: 10px;
 }
 
-button {
-  margin: 5px;
-}
+/* Style the animated icons */
 .animated-icon {
   animation-duration: 1s;
   animation-fill-mode: both;
@@ -188,6 +127,7 @@ button {
   margin-right: 8px;
 }
 
+/* Style the correct and wrong answer text */
 .correct {
   color: green;
   animation-name: correct-animation;
@@ -215,75 +155,158 @@ button {
     transform: scale(1.5);
   }
 }
+
+/* Style the quiz section */
 #quiz {
   margin-top: 0em;
 }
+
+/* Style the body background */
 body {
-   
-      background-image: linear-gradient(149deg, rgba(85, 85, 85, 0.05) 0%, rgba(85, 85, 85, 0.05) 25%,rgba(11, 11, 11, 0.05) 25%, rgba(11, 11, 11, 0.05) 50%,rgba(182, 182, 182, 0.05) 50%, rgba(182, 182, 182, 0.05) 75%,rgba(28, 28, 28, 0.05) 75%, rgba(28, 28, 28, 0.05) 100%),linear-gradient(232deg, rgba(145, 145, 145, 0.05) 0%, rgba(145, 145, 145, 0.05) 25%,rgba(165, 165, 165, 0.05) 25%, rgba(165, 165, 165, 0.05) 50%,rgba(84, 84, 84, 0.05) 50%, rgba(84, 84, 84, 0.05) 75%,rgba(131, 131, 131, 0.05) 75%, rgba(131, 131, 131, 0.05) 100%),linear-gradient(321deg, rgba(254, 254, 254, 0.05) 0%, rgba(254, 254, 254, 0.05) 25%,rgba(249, 249, 249, 0.05) 25%, rgba(249, 249, 249, 0.05) 50%,rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.05) 75%,rgba(104, 104, 104, 0.05) 75%, rgba(104, 104, 104, 0.05) 100%),linear-gradient(90deg, rgb(21, 8, 116),rgb(111, 197, 250)); min-height: 100vh;
-    }
+  background-image: linear-gradient(149deg, rgba(85, 85, 85, 0.05) 0%, rgba(85, 85, 85, 0.05) 25%,rgba(11, 11, 11, 0.05) 25%, rgba(11, 11, 11, 0.05) 50%,rgba(182, 182, 182, 0.05) 50%, rgba(182, 182, 182, 0.05) 75%,rgba(28, 28, 28, 0.05) 75%, rgba(28, 28, 28, 0.05) 100%),linear-gradient(232deg, rgba(145, 145, 145, 0.05) 0%, rgba(145, 145, 145, 0.05) 25%,rgba(165, 165, 165, 0.05) 25%, rgba(165, 165, 165, 0.05) 50%,rgba(84, 84, 84, 0.05) 50%, rgba(84, 84, 84, 0.05) 75%,rgba(131, 131, 131, 0.05) 75%, rgba(131, 131, 131, 0.05) 100%),linear-gradient(321deg, rgba(254, 254, 254, 0.05) 0%, rgba(254, 254, 254, 0.05) 25%,rgba(249, 249, 249, 0.05) 25%, rgba(249, 249, 249, 0.05) 50%,rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.05) 75%,rgba(104, 104, 104, 0.05) 75%, rgba(104, 104, 104, 0.05) 100%),linear-gradient(90deg, rgb(21, 8, 116),rgb(111, 197, 250)); 
+  min-height: 100vh;
+}
 
-    .container {
-      padding: 40px 20px;
-    }
+/* Style the header title */
+header-title {
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: auto;
+  max-width: 800px; /* Adjust this value based on the desired maximum width */
+}
 
-    h1, h2 {
-      color: white;
-      text-align: center;
-      margin-bottom: 20px;
-    }
+/* Style the tile section */
+.tiles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px;
+  justify-items: center;
+  align-items: center;
+  border-radius: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* adjust the min and max values to suit your design */
+  grid-gap: 30px;
+  justify-content: center;
+  align-items: stretch;
+}
 
-    .tiles {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      grid-gap: 20px;
-      justify-items: center;
-      align-items: center;
-    }
- .tile {
-      background-color: white;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
-      cursor: pointer;
-      transition: transform 0.2s ease-in-out;
-      width: 350px;
-      height: 200px;
-      display: flex;
-      align-items: center;
-        text-decoration: none;
-    }
+.tile {
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  width: 350px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  background-color: white;
+}
+.bigtile {
 
-    .tile:hover {
-      transform: scale(1.05);
-        text-decoration: none;
-    }
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 90%; /* Adjust this value to control the maximum width of the white tile box */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 20px;
+}
+.tile:hover {
+  transform: scale(1.05);
+  text-decoration: none;
+}
 
-    .tile-icon {
-      font-size: 48px;
-      color: #6dd5ed;
-      margin-right: 10px;
-    }
+.tile-icon {
+  font-size: 48px;
+  color: #6dd5ed;
+  margin-right: 10px;
+}
 
-    .tile-title {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
+.tile-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
 
-    .tile-subtitle {
-      font-size: 14px;
-      color: #777;
-    }
-
-
+.tile-subtitle {
+  font-size: 14px;
+  color: #777;
+}
 
 /* Style the back button */
 #header .back-btn {
-    position: absolute;
-    background-color: rgba(255, 255, 255, .6); 
-    color: #white; 
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.6);
+  color: white;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  padding: 0;
+  margin: 2rem auto; /* Adjust the '2rem' value to control the vertical spacing */
+  max-width: 100%; /* Use 100% to make it full width, or a specific value like '1200px' to control the maximum width */
+  margin-left: auto;
+  margin-right: auto;
+
+
+}
+.choices {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  font-size: 32px;
+}
+.choices button {
+  display: block;
+  margin-bottom: 50px;
+  font-size: 32px;
+}
+
+.quiz-container {
+
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 90%; /* Adjust this value to control the maximum width of the white tile box */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 20px;
+}
+
+<style>
+  .explanation {
+    font-size: 32px;
+  }
 </style>
