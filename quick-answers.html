@@ -3,92 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Quick Answers</title>
     <!-- Include Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="path/to/bootstrap-icons.css">
     <!-- Back button -->
 
-<a href="index.html" class="btn btn-primary position-absolute top-0 start-0 m-3">
-    <span class="tile-icon" style="font-size: 1.5em; font-weight: bold;">&#x2190;</span>
-</a>
 
 
 
-    <style>
-        /* Set the background gradient */
-        body,html{
-            
-       background-image: linear-gradient(149deg, rgba(85, 85, 85, 0.05) 0%, rgba(85, 85, 85, 0.05) 25%,rgba(11, 11, 11, 0.05) 25%, rgba(11, 11, 11, 0.05) 50%,rgba(182, 182, 182, 0.05) 50%, rgba(182, 182, 182, 0.05) 75%,rgba(28, 28, 28, 0.05) 75%, rgba(28, 28, 28, 0.05) 100%),linear-gradient(232deg, rgba(145, 145, 145, 0.05) 0%, rgba(145, 145, 145, 0.05) 25%,rgba(165, 165, 165, 0.05) 25%, rgba(165, 165, 165, 0.05) 50%,rgba(84, 84, 84, 0.05) 50%, rgba(84, 84, 84, 0.05) 75%,rgba(131, 131, 131, 0.05) 75%, rgba(131, 131, 131, 0.05) 100%),linear-gradient(321deg, rgba(254, 254, 254, 0.05) 0%, rgba(254, 254, 254, 0.05) 25%,rgba(249, 249, 249, 0.05) 25%, rgba(249, 249, 249, 0.05) 50%,rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.05) 75%,rgba(104, 104, 104, 0.05) 75%, rgba(104, 104, 104, 0.05) 100%),linear-gradient(90deg, rgb(21, 8, 116),rgb(111, 197, 250)); min-height: 100vh;
 
-            font-family: Arial, sans-serif;
-        }
 
-        /* Style the main headings */
-        h1, h2 {
-            color: rgb(255, 255, 255);
-        }
 
-        /* Style the categories container */
-        #categories-container {
-            display: flex;
-            flex-direction: column;
-            align-items: left;
-            gap: 20px;
-            padding: 20px;
-        }
-
-        /* Style the category titles */
-        .category h3 {
-            color: rgb(21, 48, 121);
-        }
-
-        /* Style the questions container */
-        .questions-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            display: none; /* Initially hidden */
-        }
-
-        /* Style the question titles */
-        .question h4 {
-            color: #6da9ed; /* Light blue */
-            cursor: pointer;
-            font-size: 1.4rem;
-            margin-left: 20px;
-        }
-
-        /* Style the answer container */
-        .answer {
-            display: none; /* Initially hidden */
-            font-size: 1.4rem;
-            margin-left: 40px;
-        }
-
-        /* Style the answer text */
-        .answer p {
-            color: rgb(8, 16, 20);
-            margin-bottom: 10px;
-        }
-
-        /* Style the answer link */
-        .answer a {
-            color: #6dd5ed; /* Light blue */
-            text-decoration: none;
-        }
-
-        /* Style the answer link on hover */
-        .answer a:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
 <body>
-    <!-- Title banner -->
-    <header class="text-center py-4">
-        <h1><span>&#x1F4AC;</span> Quick Answers</h1>
-        <h2>Know how to answer typical questions we're asked when sharing the gospel</h2>
+     <!-- New header -->
+     <div id="header">
+        <div class="header-content">
+            <!-- Wrap the house icon in an anchor tag -->
+            <a href="index.html">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-house" viewBox="0 0 16 16">
+                    <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
+                </svg>
+            </a>
+            <h1>Quick Answers</h1>
+        </div>
+    </div>
+     
+    
     </header>
 
 
@@ -101,7 +44,7 @@
           <header class="text-center py-4">
             <!-- Title and subtitle -->
           </header>
-        
+          <h2>Know how to answer typical questions we're asked when sharing the gospel.  Click on a topic to see the questions and then click the questions needed</h2>
           <!-- Categories container -->
           <div id="categories-container"></div>
         </div>

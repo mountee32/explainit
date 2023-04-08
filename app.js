@@ -1,144 +1,81 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const quizContainer = document.getElementById("quiz");
-  let questions = [];
-  let filteredQuestions = [];
-  let currentQuestionIndex = 0;
-  let totalScore = 0;
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const path = require('path');
 
-  fetch("questions.json")
-    .then(response => response.json())
-    .then(data => {
-      questions = data;
-      displaySkillSelection();
-    });
+const app = express();
 
-    function displaySkillSelection() {
-      quizContainer.innerHTML = `
-        <h2>Welcome to the quiz!</h2>
-        <p>Select your quiz skill level:</p>
-        <button class="btn btn-outline-primary" data-skill="easy">Easy</button>
-        <button class="btn btn-primary" data-skill="medium">Medium</button>
-        <button class="btn btn-outline-primary" data-skill="hard">Hard</button>
-        <br>
-        <p>Select the number of questions:</p>
-        <button class="btn btn-primary" data-questions="5" id="question-5">5</button>
-        <button class="btn btn-outline-primary" data-questions="10" id="question-10">10</button>
-        <button class="btn btn-outline-primary" data-questions="15" id="question-15">15</button>
-        <br>
-        <button class="btn btn-success mt-3" id="start-quiz">Start Quiz</button>
-      `;
-    
-      const skillButtons = quizContainer.querySelectorAll("[data-skill]");
-      const questionButtons = quizContainer.querySelectorAll("[data-questions]");
-      let selectedSkill = "medium"; // Default skill level
-      let selectedNumberOfQuestions = 5; // Default number of questions
-    
-      skillButtons.forEach(button => {
-        button.addEventListener("click", () => {
-          selectedSkill = button.dataset.skill;
-          skillButtons.forEach(btn => {
-            btn.classList.remove("btn-primary");
-            btn.classList.add("btn-outline-primary");
-          });
-          button.classList.remove("btn-outline-primary");
-          button.classList.add("btn-primary");
-        });
-      });
-    
-      questionButtons.forEach(button => {
-        button.addEventListener("click", () => {
-          selectedNumberOfQuestions = parseInt(button.dataset.questions, 10);
-          questionButtons.forEach(btn => {
-            btn.classList.remove("btn-primary");
-            btn.classList.add("btn-outline-primary");
-          });
-          button.classList.remove("btn-outline-primary");
-          button.classList.add("btn-primary");
-        });
-      });
-    
-      document.getElementById("start-quiz").addEventListener("click", () => {
-        filteredQuestions = filterQuestionsBySkill(selectedSkill, selectedNumberOfQuestions);
-        displayQuestion(filteredQuestions[currentQuestionIndex]);
-      });
-    }
-    
-    
-    
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
 
-    function filterQuestionsBySkill(skill, numberOfQuestions) {
-      const skillQuestions = questions.filter(question => question.skill === skill);
-      return skillQuestions.sort(() => 0.5 - Math.random()).slice(0, numberOfQuestions);
-    }
-    
-  function displayQuestion(question) {
-    quizContainer.innerHTML = `
-      <h2>${question.question}</h2>
-      <div class="choices">
-        ${question.choices.map((choice, index) => `
-          <button class="btn btn-outline-primary" data-choice="${index}">${choice}</button>
-        `).join("")}
-      </div>
-      <div class="explanation mt-3" style="display: none;"></div>
-      <button class="btn btn-success mt-3" id="next-question" style="display: none;">Next Question</button>
-    `;
-  
-    const choiceButtons = quizContainer.querySelectorAll("[data-choice]");
-  
-    choiceButtons.forEach(button => {
-      button.addEventListener("click", () => {
-        const answerIndex = parseInt(button.dataset.choice, 10);
-        const correctIndex = question.correct;
-        displayExplanation(question, answerIndex, correctIndex);
-  
-        // Disable all choice buttons after an answer has been selected
-        choiceButtons.forEach(btn => {
-          btn.setAttribute("disabled", "disabled");
-        });
-      });
-    });
-  }
-  
+// Parse JSON request bodies
+app.use(bodyParser.json());
 
-  function displayExplanation(question, answerIndex, correctIndex) {
-    const explanation = quizContainer.querySelector(".explanation");
-    explanation.innerHTML = question.explanations[answerIndex];
-    explanation.style.display = "block";
-  
-    let icon;
-    if (answerIndex === correctIndex) {
-      totalScore++;
-      icon = '<i class="fas fa-check-circle animated-icon correct"></i>';
-    } else {
-      icon = '<i class="fas fa-times-circle animated-icon wrong"></i>';
-    }
-  
-    explanation.innerHTML = `${icon} ${explanation.innerHTML}`;
-  
-    const nextButton = document.getElementById("next-question");
-    nextButton.style.display = "block";
-    nextButton.addEventListener("click", () => {
-      currentQuestionIndex++;
-  
-      if (currentQuestionIndex < filteredQuestions.length) {
-        displayQuestion(filteredQuestions[currentQuestionIndex]);
-      } else {
-        displayResults();
-      }
-    });
-  }
+// Define the API routes
+app.get('/api/questions', (req, res) => {
+  // Read the questions JSON file and send it in the response
+  const questions = JSON.parse(fs.readFileSync(path.join(__dirname, 'questions.json')));
+  res.send(questions);
+});
 
-  function displayResults() {
-    quizContainer.innerHTML = `
-      <h2>Quiz Summary</h2>
-      <p>Your total score: ${totalScore} out of ${filteredQuestions.length}</p>
-      <button class="btn btn-primary" id="start-again">Start Again</button>
-    `;
-
-    document.getElementById("start-again").addEventListener("click", () => {
-      totalScore = 0;
-      currentQuestionIndex = 0;
-      displaySkillSelection();
-    });
+app.get('/api/questions/:id', (req, res) => {
+  // Find the question with the specified ID and send it in the response
+  const questions = JSON.parse(fs.readFileSync(path.join(__dirname, 'questions.json')));
+  const question = questions.find(q => q.id === parseInt(req.params.id));
+  if (question) {
+    res.send(question);
+  } else {
+    res.sendStatus(404);
   }
 });
+
+app.post('/api/questions', (req, res) => {
+  // Add a new question to the questions JSON file and send it in the response
+  const questions = JSON.parse(fs.readFileSync(path.join(__dirname, 'questions.json')));
+  const newQuestion = {
+    id: questions.length + 1,
+    question: req.body.question,
+    skill: req.body.skill,
+    choices: req.body.choices,
+    correct: req.body.correct,
+    explanations: req.body.explanations
+  };
+  questions.push(newQuestion);
+  fs.writeFileSync(path.join(__dirname, 'questions.json'), JSON.stringify(questions, null, 2));
+  res.send(newQuestion);
+});
+
+app.put('/api/questions/:id', (req, res) => {
+  // Update the question with the specified ID in the questions JSON file and send it in the response
+  const questions = JSON.parse(fs.readFileSync(path.join(__dirname, 'questions.json')));
+  const questionIndex = questions.findIndex(q => q.id === parseInt(req.params.id));
+  if (questionIndex !== -1) {
+    questions[questionIndex].question = req.body.question;
+    questions[questionIndex].skill = req.body.skill;
+    questions[questionIndex].choices = req.body.choices;
+    questions[questionIndex].correct = req.body.correct;
+    questions[questionIndex].explanations = req.body.explanations;
+    fs.writeFileSync(path.join(__dirname, 'questions.json'), JSON.stringify(questions, null, 2));
+    res.send(questions[questionIndex]);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+app.delete('/api/questions/:id', (req, res) => {
+  // Delete the question with the specified ID from the questions JSON file and send a success response
+  const questions = JSON.parse(fs.readFileSync(path.join(__dirname, 'questions.json')));
+  const questionIndex = questions.findIndex(q => q.id === parseInt(req.params.id));
+  if (questionIndex !== -1) {
+    questions.splice(questionIndex, 1);
+    fs.writeFileSync(path.join(__dirname, 'questions.json'), JSON.stringify(questions
+        , null, 2));
+        res.sendStatus(200);
+        } else {
+        res.sendStatus(404);
+        }
+        });
+        // Start the server
+app.listen(3000, () => {
+    console.log('Server listening on port 3000');
+    });
