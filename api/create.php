@@ -6,8 +6,6 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 include_once 'config.php';
 
-$log_file = "create_log.txt";
-
 // Replace this value with your own secret token
 $secret_token = 'Jump857571111';
 
@@ -47,25 +45,33 @@ $secret_token = 'Jump857571111';
         $stmt->bindParam(':explanation3', $data['explanations'][2]);
         $stmt->bindParam(':explanation4', $data['explanations'][3]);
 
-        error_log(date('Y-m-d H:i:s') . " - Received data: " . json_encode($data) . "\n", 3, $log_file);
+        $log_msg = date('Y-m-d H:i:s') . " - create api - Executing the INSERT query...\n";
+        file_put_contents('api-log.txt', $log_msg, FILE_APPEND);
 
         if ($stmt->execute()) {
+            $log_msg = date('Y-m-d H:i:s') . " - create api - INSERT query executed successfully.\n";
+            file_put_contents('api-log.txt', $log_msg, FILE_APPEND);
+
             http_response_code(201);
             echo json_encode(array("message" => "Question added successfully."));
-            error_log(date('Y-m-d H:i:s') . " - Question added successfully.\n", 3, $log_file);
         } else {
+            $log_msg = date('Y-m-d H:i:s') . " - create api - Unable to execute the INSERT query.\n";
+            file_put_contents('api-log.txt', $log_msg, FILE_APPEND);
+
             http_response_code(503);
             echo json_encode(array("message" => "Unable to add question."));
-            error_log(date('Y-m-d H:i:s') . " - Query execution failed. Unable to add question.\n", 3, $log_file);
-            error_log("Error details: " . print_r($stmt->errorInfo(), true) . "\n", 3, $log_file);
         }
     } else {
         http_response_code(400);
         echo json_encode(array("message" => "Unable to add question. Data is incomplete."));
-        error_log(date('Y-m-d H:i:s') . " - Unable to add question. Data is incomplete. Received data: " . json_encode($data) . "\n", 3, $log_file);
     }
-    // } else {
-    // http_response_code(401);
-    // echo json_encode(array("message" => "Unauthorized."));
-    // }
-    ?>
+// } else {
+//     http_response_code(401
+// echo json_encode(array("message" => "Unauthorized."));
+// }
+
+// Log received data
+$log_msg = date('Y-m-d H:i:s') . " - create api - Received data: " . json_encode($data) . "\n";
+file_put_contents('api-log.txt', $log_msg, FILE_APPEND);
+
+?>
