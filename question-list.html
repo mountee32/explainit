@@ -41,14 +41,14 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        var url = "https://explainit.app/api/read.php";
-        var token = "Jump857571111";
+        var url = "read.php";
+        var apiKey = '55556666';
 
         $.ajax({
             url: url,
             type: "GET",
             headers: {
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + apiKey
             },
             success: function (response) {
                 console.log(response);

@@ -6,11 +6,11 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 include_once 'config.php';
 
-// Replace this value with your own secret token
-$secret_token = 'Jump857571111';
+// Replace this value with your own secret API key
+$api_key = '55556666';
 
-// Check for the Authorization header and validate the token
-// if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] === 'Bearer ' . $secret_token) {
+// Check for the Authorization header and validate the API key
+if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] === 'Bearer ' . $api_key) {
 
     $stmt = $conn->prepare("SELECT * FROM questions");
     $stmt->execute();
@@ -24,8 +24,7 @@ $secret_token = 'Jump857571111';
         http_response_code(404);
         echo json_encode(array("message" => "No questions found."));
     }
-// } else {
-//     http_response_code(401);
-//     echo json_encode(array("message" => "Unauthorized."));
-// }
-// }
+} else {
+    http_response_code(401);
+    echo json_encode(array("message" => "Unauthorized."));
+}
