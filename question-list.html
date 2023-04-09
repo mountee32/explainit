@@ -30,6 +30,9 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        var url = "https://explainit.app/api/read.php";
+        var apiKey = '55556666';
+
         // Add the following function to handle file input change event
         function importQuestionsFromFile(event) {
             const file = event.target.files[0];
@@ -83,7 +86,15 @@
         // Add the event listener to the file input
         document.getElementById('importFile').addEventListener('change', importQuestionsFromFile);
 
-        // Rest of the JavaScript code
+        // Rest of the JavaScript code for loading questions
+        $.ajax({
+            url: url,
+            type: "GET",
+            headers: {
+                "Authorization": "Bearer " + apiKey
+            },
+            // Rest of the code for loading questions
+        });
     </script>
 
 </body>
