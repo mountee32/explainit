@@ -6,10 +6,15 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 include_once 'config.php';
 
-// Replace this value with your own secret token
 $secret_token = 'Jump857571111';
 
 $data = json_decode(file_get_contents("php://input"), true);
+
+$log_file = 'api-log.txt';
+date_default_timezone_set('UTC');
+$time_stamp = date('Y-m-d H:i:s');
+
+file_put_contents($log_file, "{$time_stamp} - create api - Received data: " . json_encode($data) . "\n", FILE_APPEND);
 
 if (
     !empty($data['question']) &&
@@ -18,7 +23,7 @@ if (
     isset($data['correct']) &&
     !empty($data['explanations'])
 ) {
-    $stmt = $conn->prepare("INSERT INTO questions (
+    $sql = "INSERT INTO questions (
         id, date_reviewed, question, skill,
         choice1, choice2, choice3, choice4,
         correct_choice,
@@ -28,7 +33,11 @@ if (
         :choice1, :choice2, :choice3, :choice4,
         :correct_choice,
         :explanation1, :explanation2, :explanation3, :explanation4
-    )");
+    )";
+
+    file_put_contents($log_file, "{$time_stamp} - create api - Prepared SQL query: {$sql}\n", FILE_APPEND);
+
+    $stmt = $conn->prepare($sql);
 
     $stmt->bindParam(':question', $data['question']);
     $stmt->bindParam(':skill', $data['skill']);
@@ -42,24 +51,28 @@ if (
     $stmt->bindParam(':explanation3', $data['explanations'][2]);
     $stmt->bindParam(':explanation4', $data['explanations'][3]);
 
-    $log_msg = date('Y-m-d H:i:s') . " - create api - Executing the INSERT query...\n";
-    file_put_contents('api-log.txt', $log_msg, FILE_APPEND);
-
-    if ($stmt->execute()) {
-        http_response_code(201);
-        echo json_encode(array("message" => "Question added successfully."));
-        $log_msg = date('Y-m-d H:i:s') . " - create api - INSERT query executed successfully.\n";
-        file_put_contents('api-log.txt', $log_msg, FILE_APPEND);
-    } else {
+    file_put_contents($log_file, "{$time_stamp} - create api - Executing the INSERT query...\n", FILE_APPEND);
+    try {
+        $result = $stmt->execute();
+    } catch (PDOException $e) {
+        file_put_contents($log_file, "{$time_stamp} - create api - Error executing the INSERT query: {$e->getMessage()}\n", FILE_APPEND);
         http_response_code(503);
         echo json_encode(array("message" => "Unable to add question."));
-        $error_info = $stmt->errorInfo();
-        $log_msg = date('Y-m-d H:i:s') . " - create api - INSERT query failed. Error: " . implode(" - ", $error_info) . "\n";
-        file_put_contents('api-log.txt', $log_msg, FILE_APPEND);
+        exit;
     }
-} else {
-    http_response_code(400);
-    echo json_encode(array("message" => "Unable to add question. Data is incomplete."));
-    $log_msg = date('Y-m-d H:i:s') . " - create api - Data is incomplete. Received data: " . json_encode($data) . "\n";
-    file_put_contents('api-log.txt', $log_msg, FILE_APPEND);
+
+    if ($result) {
+        file_put_contents($log_file, "{$time_stamp} - create api - INSERT query executed successfully.\n", FILE_APPEND);
+        http_response_code(201);
+        echo json_encode(array("message" => "Question added successfully."));
+    } else {
+        file_put_contents($log_file, "{$time_stamp} - create api - Failed to execute the INSERT query.\n", FILE_APPEND);
+        http_response_code(503);
+        echo json_encode(array("message" => "Unable to add question."));
+    }
+}else {
+    file_put_contents($log_file, "{$time_stamp} - create api - Unable to add question. Data is incomplete.\n", FILE_APPEND);
+http_response_code(400);
+echo json_encode(array("message" => "Unable to add question. Data is incomplete."));
 }
+?>
