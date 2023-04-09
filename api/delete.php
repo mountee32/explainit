@@ -10,7 +10,7 @@ include_once 'config.php';
 $secret_token = 'Jump857571111';
 
 // Check for the Authorization header and validate the token
-if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] === 'Bearer ' . $secret_token) {
+// if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] === 'Bearer ' . $secret_token) {
 
     $data = json_decode(file_get_contents("php://input"), true);
 
@@ -29,7 +29,7 @@ if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] 
         http_response_code(400);
         echo json_encode(array("message" => "Unable to delete question. ID is missing."));
     }
-} else {
-    http_response_code(401);
-    echo json_encode(array("message" => "Unauthorized."));
-}
+// } else {
+//     http_response_code(401);
+//     echo json_encode(array("message" => "Unauthorized."));
+// }
