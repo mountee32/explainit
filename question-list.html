@@ -98,64 +98,95 @@
 
         document.getElementById('importFile').addEventListener('change', importQuestionsFromFile);
 
-        $.ajax({
-            url: url,
-            type: "GET",
-            headers: {
-               
-                "Authorization": "Bearer " + apiKey
-        },
-        success: function (response) {
-            console.log(response);
-            var questions = response;
-            var tableRows = "";
-
-            questions.sort(function (a, b) {
-                var skillA = a.skill.toUpperCase();
-                var skillB = b.skill.toUpperCase();
-
-                if (skillA < skillB) {
-                    return -1;
+        // Define a function to handle the "Delete" link click event
+        function deleteQuestion(id) {
+            // Send
+            $.ajax({
+                url: 'https://explainit.app/api/delete.php',
+                type: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + apiKey,
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify({ id: id }),
+                success: function (response) {
+                    console.log(response);
+                    alert('Question deleted successfully.');
+                    // Reload the questions after deleting the record
+                    loadQuestions();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                    alert('Unable to delete question.');
                 }
-
-                if (skillA > skillB) {
-                    return 1;
-                }
-
-                var questionA = a.question.toUpperCase();
-                var questionB = b.question.toUpperCase();
-
-                if (questionA < questionB) {
-                    return -1;
-                }
-
-                if (questionA > questionB) {
-                    return 1;
-                }
-
-                return 0;
             });
-
-            for (var i = 0; i < questions.length; i++) {
-                tableRows += "<tr><td>" + questions[i].skill + "</td>";
-                tableRows += "<td>" + questions[i].question + "</td>";
-                tableRows += "<td><a href=\"edit.php?id=" + questions[i].id + "\">Edit</a></td>";
-                tableRows += "<td><a href=\"delete.php?id=" + questions[i].id + "\">Delete</a></td></tr>";
-            }
-
-            $("#questionsBody").html(tableRows);
-            $("#loading").hide();
-            $("#questions").show();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-            $("#loading").hide();
-            $("#error").show();
-            $("#errorMessage").text("Status: " + jqXHR.status + " - " + jqXHR.statusText);
         }
-    });
-</script>
+
+        function loadQuestions() {
+            $.ajax({
+                url: url,
+                type: "GET",
+                headers: {
+                    "Authorization": "Bearer " + apiKey
+                },
+                success: function (response) {
+                    console.log(response);
+                    var questions = response;
+                    var tableRows = "";
+
+                    questions.sort(function (a, b) {
+                        var skillA = a.skill.toUpperCase();
+                        var skillB = b.skill.toUpperCase();
+
+                        if (skillA < skillB) {
+                            return -1;
+                        }
+
+                        if (skillA > skillB) {
+                            return 1;
+                        }
+
+                        var questionA = a.question.toUpperCase();
+                        var questionB = b.question.toUpperCase();
+
+                        if (questionA < questionB) {
+                            return -1;
+                        }
+
+                        if (questionA > questionB) {
+                            return 1;
+                        }
+
+                        return 0;
+                    });
+
+                    for (var i = 0; i < questions.length; i++) {
+                        tableRows += "<tr><td>" + questions[i].skill + "</td>";
+                        tableRows += "<td>" + questions[i].question + "</td>";
+                        tableRows += "<td><a href=\"edit.php?id=" + questions[i].id + "\">Edit</a></td>";
+                        // Add a "Delete" link with the deleteQuestion function call and the question ID
+                        tableRows += "<td><a href=\"javascript:void(0)\" onclick=\"deleteQuestion(" + questions[i].id + ")\">Delete</a></td></tr>";
+                    }
+
+                    $("#questionsBody").html(tableRows);
+                    $("#loading").hide();
+                    $("#questions").show();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                    $("#loading").hide();
+                    $("#error").show();
+                    $("#errorMessage").text("Status: " + jqXHR.status + " - " + jqXHR.statusText);
+                }
+            });
+        }
+
+        // Call the loadQuestions function to initially load the questions
+        loadQuestions();
+    </script>
 </body>
 </html>
