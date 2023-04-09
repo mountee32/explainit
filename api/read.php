@@ -1,0 +1,30 @@
+<?php
+header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+include_once 'config.php';
+
+// Replace this value with your own secret token
+$secret_token = 'Jump857571111';
+
+// Check for the Authorization header and validate the token
+if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] === 'Bearer ' . $secret_token) {
+
+    $stmt = $conn->prepare("SELECT * FROM questions");
+    $stmt->execute();
+
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($stmt->rowCount() > 0) {
+        http_response_code(200);
+        echo json_encode($result);
+    } else {
+        http_response_code(404);
+        echo json_encode(array("message" => "No questions found."));
+    }
+} else {
+    http_response_code(401);
+    echo json_encode(array("message" => "Unauthorized."));
+}
