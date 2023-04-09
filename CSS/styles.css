@@ -63,21 +63,21 @@ quiz-question {
 .question h4 {
   color: #6dd5ed; /* Light blue */
   cursor: pointer;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   margin-left: 20px;
 }
 
 /* Style the answer container and text */
 .answer {
   display: none; /* Initially hidden */
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   margin-left: 40px;
   color: #373b44;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
 }
 <style>
   .explanation {
-    font-size: 32px;
+    font-size: 20px;
   }
 </style>
 
@@ -281,7 +281,7 @@ header-title {
 }
 .choices button {
   display: block;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   font-size: 32px;
 }
 

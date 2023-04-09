@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentQuestionIndex = 0;
   let totalScore = 0;
 
-  fetch("questions.json")
+  fetch("JSON/questions.json")
     .then(response => response.json())
     .then(data => {
       questions = data;

@@ -1,5 +1,5 @@
 // Fetch the starters JSON file
-fetch('starters.json')
+fetch('JSON/starters.json')
   .then(response => response.json()) // Convert the response to JSON
   .then(starters => { // Process the JSON data
     const categoriesContainer = document.getElementById('categories-container'); // Get the categories container element
