@@ -10,7 +10,7 @@ include_once 'config.php';
 $secret_token = 'Jump857571111';
 
 // Check for the Authorization header and validate the token
-if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] === 'Bearer ' . $secret_token) {
+// if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] === 'Bearer ' . $secret_token) {
 
     $stmt = $conn->prepare("SELECT * FROM questions");
     $stmt->execute();
@@ -24,7 +24,8 @@ if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] 
         http_response_code(404);
         echo json_encode(array("message" => "No questions found."));
     }
-} else {
-    http_response_code(401);
-    echo json_encode(array("message" => "Unauthorized."));
-}
+// } else {
+//     http_response_code(401);
+//     echo json_encode(array("message" => "Unauthorized."));
+// }
+// }
