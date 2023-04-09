@@ -10,7 +10,7 @@ include_once 'config.php';
 $api_key = '55556666';
 
 // Check for the Authorization header and validate the API key
-if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] === 'Bearer ' . $api_key) {
+// if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] === 'Bearer ' . $api_key) {
 
     $stmt = $conn->prepare("SELECT * FROM questions");
     $stmt->execute();
@@ -24,7 +24,7 @@ if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] 
         http_response_code(404);
         echo json_encode(array("message" => "No questions found."));
     }
-} else {
-    http_response_code(401);
-    echo json_encode(array("message" => "Unauthorized."));
-}
+// } else {
+//     http_response_code(401);
+//     echo json_encode(array("message" => "Unauthorized."));
+// }
