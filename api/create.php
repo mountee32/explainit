@@ -9,6 +9,9 @@ include_once 'config.php';
 // Replace this value with your own secret token
 $secret_token = 'Jump857571111';
 
+// Set the log file path
+$log_file = 'create_log.txt';
+
 // Check for the Authorization header and validate the token
 // if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] === 'Bearer ' . $secret_token) {
 
@@ -45,16 +48,21 @@ $secret_token = 'Jump857571111';
         $stmt->bindParam(':explanation3', $data['explanations'][2]);
         $stmt->bindParam(':explanation4', $data['explanations'][3]);
 
+        error_log("Executing the INSERT query...\n", 3, $log_file);
+
         if ($stmt->execute()) {
             http_response_code(201);
             echo json_encode(array("message" => "Question added successfully."));
+            error_log("Query executed successfully. Question added.\n", 3, $log_file);
         } else {
             http_response_code(503);
             echo json_encode(array("message" => "Unable to add question."));
+            error_log("Query execution failed. Unable to add question.\n", 3, $log_file);
         }
     } else {
         http_response_code(400);
         echo json_encode(array("message" => "Unable to add question. Data is incomplete."));
+        error_log("Data is incomplete. Unable to add question.\n", 3, $log_file);
     }
 // } else {
 //     http_response_code(401);
