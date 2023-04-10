@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   .then(data => {
     console.log("Questions fetched successfully:", data);
     questions = data;
-    displayQuestionsPopup(data);
+    // displayQuestionsPopup(data);
     displaySkillSelection();
   })
   .catch(error => {
@@ -96,74 +96,77 @@ document.addEventListener("DOMContentLoaded", () => {
       <h2>Question ${currentQuestionIndex + 1} of ${filteredQuestions.length}</h2>
       <quiz-question>${question.question}</quiz-question>
       <div class="choices">
-        ${Object.values(question).filter(v => typeof v === "string" && v.startsWith("choice")).map((choice, index) => `
-          <button class="btn btn-outline-primary" data-choice="${index}">${choice}</button>
+        ${["choice1", "choice2", "choice3", "choice4"].map((choiceKey, index) => `
+          <button class="btn btn-outline-primary" data-choice="${index}">${question[choiceKey]}</button>
         `).join("")}
       </div>
       <div class="explanation mt-3" style="display: none;"></div>
       <button class="btn btn-success mt-3" id="next-question" style="display: none;">Next Question</button> `;
-      const choiceButtons = quizContainer.querySelectorAll("[data-choice]");
-
-choiceButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    const answerIndex = parseInt(button.dataset.choice, 10);
-    const correctIndex = parseInt(question.correct_choice, 10);
-    displayExplanation(question, answerIndex, correctIndex);
-
-    // Disable all choice buttons after an answer has been selected
-    choiceButtons.forEach(btn => {
-      btn.setAttribute("disabled", "disabled");
+    const choiceButtons = quizContainer.querySelectorAll("[data-choice]");
+  
+    choiceButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const answerIndex = parseInt(button.dataset.choice, 10);
+        const correctIndex = parseInt(question.correct_choice, 10);
+        displayExplanation(question, answerIndex, correctIndex);
+  
+        // Disable all choice buttons after an answer has been selected
+        choiceButtons.forEach(btn => {
+          btn.setAttribute("disabled", "disabled");
+        });
+      });
     });
-  });
-});
-}
-
-function displayExplanation(question, answerIndex, correctIndex) {
-const explanation = quizContainer.querySelector(".explanation");
-const choiceButtons = quizContainer.querySelectorAll("[data-choice]");
-// Highlight the correct and wrong answers
-choiceButtons.forEach((button, index) => {
-  const isCorrect = index === correctIndex - 1;
-  const isChosen = index === answerIndex;
-
-  if (isCorrect) {
-    button.classList.add("btn-success");
-    button.classList.remove("btn-outline-primary");
-  } else {
-    button.classList.add("btn-danger");
-    button.classList.remove("btn-outline-primary");
   }
+  
 
-  if (isChosen) {
-    button.disabled = true;
-  } else {
-    button.disabled = true;
+  function displayExplanation(question, answerIndex, correctIndex) {
+    const explanation = quizContainer.querySelector(".explanation");
+    const choiceButtons = quizContainer.querySelectorAll("[data-choice]");
+  
+    // Highlight the correct and wrong answers
+    choiceButtons.forEach((button, index) => {
+      const isCorrect = index === correctIndex;
+      const isChosen = index === answerIndex;
+  
+      if (isCorrect) {
+        button.classList.add("btn-success");
+        button.classList.remove("btn-outline-primary");
+      } else {
+        button.classList.add("btn-danger");
+        button.classList.remove("btn-outline-primary");
+      }
+  
+      if (isChosen) {
+        button.disabled = true;
+      } else {
+        button.disabled = true;
+      }
+    });
+  
+    let icon;
+    if (answerIndex === correctIndex) {
+      totalScore++;
+      icon = '<i class="fas fa-check-circle animated-icon correct"></i>';
+    } else {
+      icon = '<i class="fas fa-times-circle animated-icon wrong"></i>';
+    }
+  
+    explanation.innerHTML = `${icon} ${question[`explanation${answerIndex+1}`]}`;
+    explanation.style.display = "block";
+  
+    const nextButton = document.getElementById("next-question");
+    nextButton.style.display = "block";
+    nextButton.addEventListener("click", () => {
+      currentQuestionIndex++;
+  
+      if (currentQuestionIndex < filteredQuestions.length) {
+        displayQuestion(filteredQuestions[currentQuestionIndex]);
+      } else {
+        displayResults();
+      }
+    });
   }
-});
-
-let icon;
-if (answerIndex === correctIndex - 1) {
-  totalScore++;
-  icon = '<i class="fas fa-check-circle animated-icon correct"></i>';
-} else {
-  icon = '<i class="fas fa-times-circle animated-icon wrong"></i>';
-}
-
-explanation.innerHTML = `${icon} ${question[`explanation${answerIndex+1}`]}`;
-explanation.style.display = "block";
-
-const nextButton = document.getElementById("next-question");
-nextButton.style.display = "block";
-nextButton.addEventListener("click", () => {
-  currentQuestionIndex++;
-
-  if (currentQuestionIndex < filteredQuestions.length) {
-    displayQuestion(filteredQuestions[currentQuestionIndex]);
-  } else {
-    displayResults();
-  }
-});
-}
+  
 
 function displayResults() {
   quizContainer.innerHTML = `<h2>Quiz Summary</h2> <p>Your total score: ${totalScore} out of ${filteredQuestions.length}</p> <button class="btn btn-primary" id="start-again">Start Again</button>`;
