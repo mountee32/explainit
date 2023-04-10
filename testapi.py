@@ -2,6 +2,7 @@ import requests
 import json
 import logging
 import random
+import test_create_question
 
 # Set up logging to both console and file
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s [%(levelname)s] %(message)s', handlers=[logging.FileHandler("testapi.log"), logging.StreamHandler()])
@@ -47,34 +48,35 @@ def read_one_question(id):
 
     logging.info("Finished reading one question.")
 
-# Define a function to create a new random question using the API
-def create_question():
-    logging.info("I'm now creating one question...")
-    new_question = {
-        "question": "What is the capital of " + random.choice(["France", "Spain", "Italy"]) + "?",
-        "skill": random.choice(["easy", "medium", "hard"]),
-        "choice1": random.choice(["Paris", "Madrid", "Rome"]),
-        "choice2": random.choice(["London", "Barcelona", "Milan"]),
-        "choice3": random.choice(["Berlin", "Seville", "Naples"]),
-        "choice4": random.choice(["Lisbon", "Valencia", "Turin"]),
-        "correct_choice": random.randint(1, 4),
-        "explanation1": "Explanation 1",
-        "explanation2": "Explanation 2",
-        "explanation3": "Explanation 3",
-        "explanation4": "Explanation 4"
+def edit_question():
+    logging.info("I'm now editing a question...")
+    question_id = 18390
+    edit_question_url = "http://explainit.app/api/update.php"
+
+    edited_question = {
+        "id": question_id,
+        "question": "_What is the capital of France?",
+        "skill": "easy",
+        "choices": ["Paris", "Barcelona", "Berlin", "Valencia"],
+        "correct": 1,
+        "explanations": [
+            "It's the capital city of France",
+            "It's known for the Eiffel Tower",
+            "It's also called the City of Light",
+            "It's a major center for art and fashion"
+        ]
     }
-    logging.info("Sending payload: " + str(new_question))
+
     try:
-        response = requests.post(CREATE_API_URL, json=new_question)
+        response = requests.put(edit_question_url, json=edited_question)
         if response.status_code == 200:
-            logging.info("New question created successfully.")
+            logging.info("Question edited successfully.")
         else:
-            logging.error("Error: Failed to create new question using the API. Status code: " + str(response.status_code) + " Response text: " + response.text)
+            logging.error("Error: Failed to edit question using the API. Status code: " + str(response.status_code) + " Response text: " + response.text)
     except Exception as e:
         logging.error("Error: " + str(e))
 
-    logging.info("Finished creating one question.")
-
+    logging.info("Finished editing a question.")
 
 # Call the read_all_questions function to log all questions
 read_all_questions()
@@ -85,5 +87,8 @@ if example_id is not None:
 else:
     logging.error("Error: example_id variable is None.")
 
-# Call the create_question function to create a new random question using the API
-create_question()
+# Call the create_question function to create a new question using the API
+test_create_question.create_question()
+
+# Call the edit_question function to edit a question using the API
+edit_question()

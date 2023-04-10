@@ -8,12 +8,15 @@ include_once 'config.php';
 
 // Replace this value with your own secret token
 $secret_token = 'Jump857571111';
-
+$log_file = 'api-log.txt';
+date_default_timezone_set('UTC');
+$time_stamp = date('Y-m-d H:i:s');
 // Check for the Authorization header and validate the token
 // if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] === 'Bearer ' . $secret_token) {
 
     $data = json_decode(file_get_contents("php://input"), true);
-
+    file_put_contents($log_file, "{$time_stamp} - update api - Raw input data: " . file_get_contents("php://input") . "\n", FILE_APPEND);
+    file_put_contents($log_file, "{$time_stamp} - update api - Received data: " . json_encode($data) . "\n", FILE_APPEND);
     if (
         !empty($data['id']) &&
         !empty($data['question']) &&
@@ -49,17 +52,20 @@ $secret_token = 'Jump857571111';
         $stmt->bindParam(':explanation2', $data['explanations'][1]);
         $stmt->bindParam(':explanation3', $data['explanations'][2]);
         $stmt->bindParam(':explanation4', $data['explanations'][3]);
-
+        file_put_contents($log_file, "{$time_stamp} - update api - Prepared SQL query: {$stmt}\n", FILE_APPEND);
         if ($stmt->execute()) {
             http_response_code(200);
             echo json_encode(array("message" => "Question updated successfully."));
+            file_put_contents($log_file, "{$time_stamp} - update api - question updated successfully.: {$e->getMessage()}\n", FILE_APPEND);
         } else {
             http_response_code(503);
             echo json_encode(array("message" => "Unable to update question."));
+            file_put_contents($log_file, "{$time_stamp} - update api - error updating sql.: {$e->getMessage()}\n", FILE_APPEND);
         }
     } else {
         http_response_code(400);
         echo json_encode(array("message" => "Unable to update question. Data is incomplete."));
+        file_put_contents($log_file, "{$time_stamp} - update api - error updating sql.: {$e->getMessage()}\n", FILE_APPEND);
     }
 // } else {
 //     http_response_code(401);
