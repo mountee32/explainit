@@ -1,0 +1,16 @@
+2023-04-10 11:40:55,201 [INFO] I'm now reading all questions...
+2023-04-10 11:40:55,205 [DEBUG] Starting new HTTP connection (1): explainit.app:80
+2023-04-10 11:40:55,368 [DEBUG] http://explainit.app:80 "GET /api/read.php HTTP/1.1" 301 707
+2023-04-10 11:40:55,372 [DEBUG] Starting new HTTPS connection (1): explainit.app:443
+2023-04-10 11:40:55,633 [DEBUG] https://explainit.app:443 "GET /api/read.php HTTP/1.1" 200 557
+2023-04-10 11:40:55,638 [ERROR] Error: Expecting value: line 1 column 1 (char 0)
+2023-04-10 11:40:55,638 [INFO] Finished reading all questions.
+2023-04-10 11:40:55,638 [ERROR] Error: example_id variable is None.
+2023-04-10 11:43:19,626 [INFO] I'm now reading all questions...
+2023-04-10 11:43:19,633 [DEBUG] Starting new HTTP connection (1): explainit.app:80
+2023-04-10 11:43:19,721 [DEBUG] http://explainit.app:80 "GET /api/read.php HTTP/1.1" 301 707
+2023-04-10 11:43:19,725 [DEBUG] Starting new HTTPS connection (1): explainit.app:443
+2023-04-10 11:43:19,916 [DEBUG] https://explainit.app:443 "GET /api/read.php HTTP/1.1" 200 557
+2023-04-10 11:43:19,921 [ERROR] Error: Expecting value: line 1 column 1 (char 0)
+2023-04-10 11:43:19,921 [INFO] Finished reading all questions.
+2023-04-10 11:43:19,921 [ERROR] Error: example_id variable is None.

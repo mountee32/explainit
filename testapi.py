@@ -1,47 +1,56 @@
 import requests
 import json
-import random
+import logging
+
+# Set up logging to both console and file
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s [%(levelname)s] %(message)s', handlers=[logging.FileHandler("testapi.log"), logging.StreamHandler()])
 
 # Define the API URLs
 READ_API_URL = "http://explainit.app/api/read.php"
-ADD_API_URL = "http://explainit.app/api/add.php"
 
-# Define a function to read all questions from the API and print them to the console
-def read_questions():
-    response = requests.get(READ_API_URL)
-    if response.status_code == 200:
-        data = json.loads(response.text)
-        for question in data:
-            print(json.dumps(question, indent=4))
-    else:
-        print("Error: Failed to read questions from the API.")
+# Define a variable to store the ID of the first question
+example_id = None
 
-# Define a function to insert a new random question using the API
-def insert_question():
-    new_question = {
-        "question": "What is the capital of " + random.choice(["France", "Spain", "Italy"]) + "?",
-        "skill": random.choice(["easy", "medium", "hard"]),
-        "choice1": random.choice(["Paris", "Madrid", "Rome"]),
-        "choice2": random.choice(["London", "Barcelona", "Milan"]),
-        "choice3": random.choice(["Berlin", "Seville", "Naples"]),
-        "choice4": random.choice(["Lisbon", "Valencia", "Turin"]),
-        "correct_choice": random.randint(1, 4),
-        "explanation1": "Explanation 1",
-        "explanation2": "Explanation 2",
-        "explanation3": "Explanation 3",
-        "explanation4": "Explanation 4"
-    }
-    response = requests.post(ADD_API_URL, json=new_question)
-    if response.status_code == 200:
-        print("New question added successfully.")
-    else:
-        print("Error: Failed to add new question to the API.")
+# Define a function to read all questions from the API and log them
+def read_all_questions():
+    logging.info("I'm now reading all questions...")
+    try:
+        response = requests.get(READ_API_URL)
+        if response.status_code == 200:
+            data = json.loads(response.text)
+            for question in data:
+                logging.info(json.dumps(question, indent=4))
+            # Store the ID of the first question in the example_id variable
+            global example_id
+            example_id = data[0]["id"]
+        else:
+            logging.error("Error: Failed to read questions from the API.")
+    except Exception as e:
+        logging.error("Error: " + str(e))
 
-# Call the read_questions function to print all questions to the console
-read_questions()
+    logging.info("Finished reading all questions.")
 
-# Call the insert_question function to add a new random question to the API
-insert_question()
+# Define a function to read a single question from the API and log it
+def read_one_question(id):
+    logging.info("I'm now reading one question...")
+    try:
+        response = requests.get(READ_API_URL + "?id=" + str(id))
+        if response.status_code == 200:
+            data = json.loads(response.text)
+            logging.info(json.dumps(data, indent=4))
+        else:
+            logging.error("Error: Failed to read question from the API.")
+    except Exception as e:
+        logging.error("Error: " + str(e))
 
-# Call the read_questions function again to confirm that the new question was added successfully
-read_questions()
+    logging.info("Finished reading one question.")
+
+# Call the read_all_questions function to log all questions
+read_all_questions()
+
+# Call the read_one_question function to log the first question by ID
+if example_id is not None:
+    read_one_question(example_id)
+else:
+    logging.error("Error: example_id variable is None.")
+
