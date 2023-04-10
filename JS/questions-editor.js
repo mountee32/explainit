@@ -150,85 +150,104 @@ async function openEditModal(id) {
   function getEditFormData() {
     const question = document.getElementById("editQuestion").value;
     const skill = document.getElementById("editSkill").value;
-    const choices = [];
-    const explanations = [];
-  
-    // Get the values for choices and explanations
-    for (let i = 1; i <= 4; i++) {
-      choices.push(document.getElementById(`editChoice${i}`).value);
-      explanations.push(document.getElementById(`editExplanation${i}`).value);
-    }
-  
+    const choices = [
+        document.getElementById("editChoice1").value,
+        document.getElementById("editChoice2").value,
+        document.getElementById("editChoice3").value,
+        document.getElementById("editChoice4").value,
+    ];
     const correct_choice = document.querySelector('input[name="editCorrectChoice"]:checked').value;
-  
+    const explanations = [
+        document.getElementById("editExplanation1").value,
+        document.getElementById("editExplanation2").value,
+        document.getElementById("editExplanation3").value,
+        document.getElementById("editExplanation4").value,
+    ];
+
     return {
-      question,
-      skill,
-      choices,
-      correct_choice,
-      explanations,
+        id: parseInt(document.getElementById("editQuestionId").value),
+        date_reviewed: new Date().toISOString().slice(0, 10),
+        question,
+        skill,
+        choice1: choices[0],
+        choice2: choices[1],
+        choice3: choices[2],
+        choice4: choices[3],
+        correct_choice: parseInt(correct_choice),
+        explanation1: explanations[0],
+        explanation2: explanations[1],
+        explanation3: explanations[2],
+        explanation4: explanations[3],
     };
-  }
+}
+
   
   // Set the values in the edit form inputs
   function setEditFormData(questionData) {
-    document.getElementById("editQuestionId").value = questionData.id;
-    document.getElementById("editQuestion").value = questionData.question;
-    document.getElementById("editSkill").value = questionData.skill;
-  
-    // Set the values for choices and explanations
-    for (let i = 1; i <= 4; i++) {
-      document.getElementById(`editChoice${i}`).value = questionData.choices[i - 1];
-      document.getElementById(`editExplanation${i}`).value = questionData.explanations[i - 1];
+    function setEditFormData(questionData) {
+        document.getElementById("editQuestionId").value = questionData.id;
+        document.getElementById("editQuestion").value = questionData.question;
+        document.getElementById("editSkill").value = questionData.skill;
+        document.getElementById("editChoice1").value = questionData.choice1;
+        document.getElementById("editChoice2").value = questionData.choice2;
+        document.getElementById("editChoice3").value = questionData.choice3;
+        document.getElementById("editChoice4").value = questionData.choice4;
+        document.querySelector(`input[name="editCorrectChoice"][value="${questionData.correct_choice}"]`).checked = true;
+        document.getElementById("editExplanation1").value = questionData.explanation1;
+        document.getElementById("editExplanation2").value = questionData.explanation2;
+        document.getElementById("editExplanation3").value = questionData.explanation3;
+        document.getElementById("editExplanation4").value = questionData.explanation4;
     }
-  
-    // Set the value for correct_choice
-    const correctChoiceRadios = document.getElementsByName("editCorrectChoice");
-    for (let i = 0; i < correctChoiceRadios.length; i++) {
-      if (correctChoiceRadios[i].value === questionData.correct_choice) {
-        correctChoiceRadios[i].checked = true;
-      }
-    }
-  }
+    
   
   
   function getEditFormData() {
     const question = document.getElementById("editQuestion").value;
     const skill = document.getElementById("editSkill").value;
-    const choices = [];
-    const explanations = [];
-  
-    for (let i = 1; i <= 4; i++) {
-      choices.push(document.getElementById(`editChoice${i}`).value);
-      explanations.push(document.getElementById(`editExplanation${i}`).value);
-    }
-  
+    const choices = [
+      document.getElementById("editChoice1").value,
+      document.getElementById("editChoice2").value,
+      document.getElementById("editChoice3").value,
+      document.getElementById("editChoice4").value,
+    ];
     const correct_choice = document.querySelector('input[name="editCorrectChoice"]:checked').value;
-  
+    const explanations = [
+      document.getElementById("editExplanation1").value,
+      document.getElementById("editExplanation2").value,
+      document.getElementById("editExplanation3").value,
+      document.getElementById("editExplanation4").value,
+    ];
+    
     return {
       id: parseInt(document.getElementById("editQuestionId").value),
+      date_reviewed: new Date().toISOString().slice(0, 10),
       question,
       skill,
-      choices,
-      correct: parseInt(correct_choice),
-      explanations,
+      choice1: choices[0],
+      choice2: choices[1],
+      choice3: choices[2],
+      choice4: choices[3],
+      correct_choice: parseInt(correct_choice),
+      explanation1: explanations[0],
+      explanation2: explanations[1],
+      explanation3: explanations[2],
+      explanation4: explanations[3],
     };
   }
-  
   
   function setEditFormData(questionData) {
     document.getElementById("editQuestionId").value = questionData.id;
     document.getElementById("editQuestion").value = questionData.question;
     document.getElementById("editSkill").value = questionData.skill;
-    document.getElementById(`editChoice1`).value = questionData.choices[0];
-    document.getElementById(`editChoice2`).value = questionData.choices[1];
-    document.getElementById(`editChoice3`).value = questionData.choices[2];
-    document.getElementById(`editChoice4`).value = questionData.choices[3];
-    document.getElementById(`editExplanation1`).value = questionData.explanations[0];
-    document.getElementById(`editExplanation2`).value = questionData.explanations[1];
-    document.getElementById(`editExplanation3`).value = questionData.explanations[2];
-    document.getElementById(`editExplanation4`).value = questionData.explanations[3];
+    document.getElementById("editChoice1").value = questionData.choice1;
+    document.getElementById("editChoice2").value = questionData.choice2;
+    document.getElementById("editChoice3").value = questionData.choice3;
+    document.getElementById("editChoice4").value = questionData.choice4;
     document.querySelector(`input[name="editCorrectChoice"][value="${questionData.correct_choice}"]`).checked = true;
+    document.getElementById("editExplanation1").value = questionData.explanation1;
+    document.getElementById("editExplanation2").value = questionData.explanation2;
+    document.getElementById("editExplanation3").value = questionData.explanation3;
+    document.getElementById("editExplanation4").value = questionData.explanation4;
   }
   
   
@@ -297,30 +316,7 @@ async function updateQuestion() {
       }
     }
     
-    
-
-    
-
-function getEditFormData() {
-    const question = document.getElementById("editQuestion").value;
-    const skill = document.getElementById("editSkill").value;
-    // [Get the values for choices, correct choice, and explanations]
-
-    return {
-        question: question,
-        skill: skill,
-        // [Add the remaining properties like choices, correct choice, and explanations]
-    };
-}
-
-function setEditFormData(questionData) {
-    document.getElementById("editQuestionId").value = questionData.id;
-    document.getElementById("editQuestion").value = questionData.question;
-    document.getElementById("editSkill").value = questionData.skill;
-    // [Set the values for choices, correct choice, and explanations]
-}
-
-
+   
 
 // Call the fetchQuestions function when the page loads
 fetchQuestions();
