@@ -53,7 +53,7 @@ if (!is_null($conn) && $conn instanceof PDO) {
         WHERE id = :id
     ";
     file_put_contents($log_file, "{$time_stamp} - update api - Prepared SQL query step 1: {$sql}\n", FILE_APPEND);
-    $stmt = $conn->prepare($sql);
+    // $stmt = $conn->prepare($sql);
         file_put_contents($log_file, "{$time_stamp} - update api - Prepared SQL query step 2: {$stmt}\n", FILE_APPEND);
         $stmt->bindParam(':id', $data['id']);
         $stmt->bindParam(':question', $data['question']);
