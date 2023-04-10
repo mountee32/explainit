@@ -3,6 +3,8 @@ import json
 import logging
 import random
 import test_create_question
+import test_update_question
+
 
 # Set up logging to both console and file
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s [%(levelname)s] %(message)s', handlers=[logging.FileHandler("testapi.log"), logging.StreamHandler()])
@@ -10,9 +12,15 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s [%(levelname)s] %(m
 # Define the API URLs
 READ_API_URL = "http://explainit.app/api/read.php"
 CREATE_API_URL = "http://explainit.app/api/create.php"
+DELETE_API_URL = "http://explainit.app/api/delete.php"
 
 # Define a variable to store the ID of the first question
 example_id = None
+
+HEADERS = {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer YOUR_TOKEN"
+}
 
 # Define a function to read all questions from the API and log them
 def read_all_questions():
@@ -48,35 +56,6 @@ def read_one_question(id):
 
     logging.info("Finished reading one question.")
 
-def edit_question():
-    logging.info("I'm now editing a question...")
-    question_id = 18390
-    edit_question_url = "http://explainit.app/api/update.php"
-
-    edited_question = {
-        "id": question_id,
-        "question": "_What is the capital of France?",
-        "skill": "easy",
-        "choices": ["Paris", "Barcelona", "Berlin", "Valencia"],
-        "correct": 1,
-        "explanations": [
-            "It's the capital city of France",
-            "It's known for the Eiffel Tower",
-            "It's also called the City of Light",
-            "It's a major center for art and fashion"
-        ]
-    }
-
-    try:
-        response = requests.put(edit_question_url, json=edited_question)
-        if response.status_code == 200:
-            logging.info("Question edited successfully.")
-        else:
-            logging.error("Error: Failed to edit question using the API. Status code: " + str(response.status_code) + " Response text: " + response.text)
-    except Exception as e:
-        logging.error("Error: " + str(e))
-
-    logging.info("Finished editing a question.")
 
 # Call the read_all_questions function to log all questions
 read_all_questions()
@@ -91,4 +70,35 @@ else:
 test_create_question.create_question()
 
 # Call the edit_question function to edit a question using the API
-edit_question()
+test_update_question.update_question()
+
+# Define a function to delete a question from the API using a specific ID
+def delete_question():
+    logging.info("I'm now deleting questions...")
+    try:
+        # Read all questions
+        response = requests.get(READ_API_URL)
+        if response.status_code == 200:
+            data = json.loads(response.text)
+            # Loop through all questions and delete any where the first character is _
+            for question in data:
+                if question["question"][0] == "_":
+                    logging.info("Deleting question with ID " + str(question["id"]) + "...")
+                    delete_data = {"id": question["id"]}
+                    delete_response = requests.delete(DELETE_API_URL, headers=HEADERS, data=json.dumps(delete_data))
+                    if delete_response.status_code == 200:
+                        logging.info("Question deleted successfully.")
+                    else:
+                        logging.error("Error: Failed to delete question from the API.")
+                else:
+                    logging.info("Skipping question with ID " + str(question["id"]) + ".")
+        else:
+            logging.error("Error: Failed to read questions from the API.")
+    except Exception as e:
+        logging.error("Error: " + str(e))
+
+    logging.info("Finished deleting questions.")
+
+
+# Call the delete_question function to delete a question with ID 18390
+delete_question()
