@@ -31,7 +31,7 @@ $secret_token = 'Jump857571111';
     } else {
         http_response_code(400);
         echo json_encode(array("message" => "Unable to delete question. ID is missing."));
-        ile_put_contents($log_file, "{$time_stamp} - delete api - Unable to delete question. ID is missing" . json_encode($data) . "\n", FILE_APPEND);
+        file_put_contents($log_file, "{$time_stamp} - delete api - Unable to delete question. ID is missing" . json_encode($data) . "\n", FILE_APPEND);
     }
 // } else {
 //     http_response_code(401);
