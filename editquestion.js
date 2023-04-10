@@ -1,46 +1,84 @@
-function createEditModal() {
-    const modal = `
-      <div id="editQuestionModal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Edit Question</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form id="editQuestionForm">
-                <!-- Add form fields here -->
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button type="button" id="saveEditQuestion" class="btn btn-primary">Save</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-  
-    document.querySelector('body').insertAdjacentHTML('beforeend', modal);
-    // Add event listeners for form submission and other functionality
+function openEditModal(id) {
+    loadQuestionData(id);
+    $('#editQuestionModal').modal('show');
   }
   
-  document.addEventListener('click', function (event) {
-    if (event.target.matches('.editButton')) {
-      const questionId = event.target.getAttribute('data-id');
-      // Load the question data into the form and show the modal
-      loadQuestionData(questionId);
-    }
-  });
-  
-  function loadQuestionData(questionId) {
-    // Load the question data by ID from the API and populate the form
-    // After populating the form, show the modal using the following line:
-    // $('#editQuestionModal').modal('show');
+  function loadQuestionData(id) {
+    $.ajax({
+      url: 'https://explainit.app/api/read.php',
+      type: 'GET',
+      headers: {
+        'Authorization': 'Bearer 55556666'
+      },
+      success: function (response) {
+        const question = response.find(q => q.id == id);
+        if (question) {
+          $('#questionId').val(question.id);
+          $('#questionInput').val(question.question);
+          $('#skillInput').val(question.skill);
+          $('#choice1Input').val(question.choices[0]);
+          $('#choice2Input').val(question.choices[1]);
+          $('#choice3Input').val(question.choices[2]);
+          $('#choice4Input').val(question.choices[3]);
+          $('#correctChoiceInput').val(question.correct);
+          $('#explanation1Input').val(question.explanations[0]);
+          $('#explanation2Input').val(question.explanations[1]);
+          $('#explanation3Input').val(question.explanations[2]);
+          $('#explanation4Input').val(question.explanations[3]);
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+        alert('Unable to load question data.');
+      }
+    });
   }
   
-  // Call the createEditModal function to create the modal
-  createEditModal();
+  function saveQuestion() {
+    const id = $('#questionId').val();
+    const question = $('#questionInput').val();
+    const skill = $('#skillInput').val();
+    const choice1 = $('#choice1Input').val();
+    const choice2 = $('#choice2Input').val();
+    const choice3 = $('#choice3Input').val();
+    const choice4 = $('#choice4Input').val();
+    const correct_choice = $('#correctChoiceInput').val();
+    const explanation1 = $('#explanation1Input').val();
+    const explanation2 = $('#explanation2Input').val();
+    const explanation3 = $('#explanation3Input').val();
+    const explanation4 = $('#explanation4Input').val();
+  
+    const questionData = {
+      id: id,
+      question: question,
+      skill: skill,
+      choices: [choice1, choice2, choice3, choice4],
+      correct: correct_choice,
+      explanations: [explanation1, explanation2, explanation3, explanation4]
+    };
+  
+    $.ajax({
+      url: 'https://explainit.app/api/update.php',
+      type: 'PUT',
+      headers: {
+        'Authorization': 'Bearer Jump857571111',
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify(questionData),
+      success: function (response) {
+        console.log(response);
+        alert('Question updated successfully.');
+        $('#editQuestionModal').modal('hide');
+        loadQuestions();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+        alert('Unable to update question.');
+      }
+    });
+  }
   
