@@ -123,7 +123,7 @@ async function fetchQuestions() {
  // Open Edit Question Modal
 async function openEditModal(id) {
     try {
-      const response = await fetch(`https://explainit.app/api/read_one.php?id=${id}`, {
+      const response = await fetch(`https://explainit.app/api/read.php?id=${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
