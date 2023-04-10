@@ -63,42 +63,68 @@
             </div>
         </div>
     
-        <!-- Edit Question Modal -->
-        <div class="modal" tabindex="-1" id="editQuestionModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Question</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       <!-- Edit Question Modal -->
+<div class="modal" tabindex="-1" id="editQuestionModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Question</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editQuestionForm">
+                    <input type="hidden" id="editQuestionId">
+                    <div class="mb-3">
+                        <label for="editQuestion" class="form-label">Question</label>
+                        <input type="text" class="form-control" id="editQuestion" required>
                     </div>
-                    <div class="modal-body">
-                        <!-- [Insert Edit Question Form HTML code here] -->
-                        <form id="editQuestionForm">
-                            <input type="hidden" id="editQuestionId">
-                            <div class="mb-3">
-                                <label for="editQuestion" class="form-label">Question</label>
-                                <input type="text" class="form-control" id="editQuestion" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editSkill" class="form-label">Skill</label>
-                                <select class="form-select" id="editSkill" required>
-                                    <option value="easy">Easy</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="hard">Hard</option>
-                                </select>
-                            </div>
-                            <!-- [Add similar input fields for choices, correct choice, and explanations] -->
-                        </form>
-                        
-                        
+                    <div class="mb-3">
+                        <label for="editSkill" class="form-label">Skill</label>
+                        <select class="form-select" id="editSkill" required>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="updateQuestion()">Save</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <div class="mb-3">
+                        <label for="editChoice1" class="form-label">Choice 1</label>
+                        <input type="text" class="form-control" id="editChoice1" required>
                     </div>
-                </div>
+                    <div class="mb-3">
+                        <label for="editChoice2" class="form-label">Choice 2</label>
+                        <input type="text" class="form-control" id="editChoice2" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editChoice3" class="form-label">Choice 3</label>
+                        <input type="text" class="form-control" id="editChoice3" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editChoice4" class="form-label">Choice 4</label>
+                        <input type="text" class="form-control" id="editChoice4" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCorrectChoice" class="form-label">Correct Choice</label>
+                        <select class="form-select" id="editCorrectChoice" required>
+                            <option value="1">Choice 1</option>
+                            <option value="2">Choice 2</option>
+                            <option value="3">Choice 3</option>
+                            <option value="4">Choice 4</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editExplanation" class="form-label">Explanation</label>
+                        <textarea class="form-control" id="editExplanation" rows="3" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="updateQuestion()">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
+    </div>
+</div>
+
     
         <!-- Delete Question Modal -->
         <div class="modal" tabindex="-1" id="deleteQuestionModal">
