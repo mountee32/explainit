@@ -57,18 +57,19 @@ $time_stamp = date('Y-m-d H:i:s');
         if ($stmt->execute()) {
             http_response_code(200);
             echo json_encode(array("message" => "Question updated successfully."));
-            file_put_contents($log_file, "{$time_stamp} - update api - question updated successfully.: {$e->getMessage()}\n", FILE_APPEND);
+            file_put_contents($log_file, "{$time_stamp}
+            update api - question updated successfully.\n", FILE_APPEND);
         } else {
-            http_response_code(503);
-            echo json_encode(array("message" => "Unable to update question."));
-            file_put_contents($log_file, "{$time_stamp} - update api - error updating sql.: {$e->getMessage()}\n", FILE_APPEND);
+        http_response_code(503);
+        echo json_encode(array("message" => "Unable to update question."));
+        file_put_contents($log_file, "{$time_stamp} - update api - error updating sql.: {$e->getMessage()}\n", FILE_APPEND);
         }
-    } else {
+        } else {
         http_response_code(400);
         echo json_encode(array("message" => "Unable to update question. Data is incomplete."));
-        file_put_contents($log_file, "{$time_stamp} - update api - incomplete data: {$e->getMessage()}\n", FILE_APPEND);
-    }
-// } else {
-//     http_response_code(401);
-//     echo json_encode(array("message" => "Unauthorized."));
-// }
+        file_put_contents($log_file, "{$time_stamp} - update api - incomplete data: " . json_encode($data) . "\n", FILE_APPEND);
+        }
+        // } else {
+        // http_response_code(401);
+        // echo json_encode(array("message" => "Unauthorized."));
+        // }
