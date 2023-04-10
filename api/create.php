@@ -19,7 +19,7 @@ file_put_contents($log_file, "{$time_stamp} - create api - Received data: " . js
 if (
     !empty($data['question']) &&
     !empty($data['skill']) &&
-    !empty($data['choices']) &&
+    !isset($data['choices']) &&
     isset($data['correct']) &&
     !empty($data['explanations'])
 ) {
@@ -70,9 +70,6 @@ if (
         http_response_code(503);
         echo json_encode(array("message" => "Unable to add question."));
     }
-}else {
-    file_put_contents($log_file, "{$time_stamp} - create api - Unable to add question. Data is incomplete.\n", FILE_APPEND);
-http_response_code(400);
-echo json_encode(array("message" => "Unable to add question. Data is incomplete."));
-}
-?>
+} else {
+    $error_msg = "Unable to add question. Data is incomplete.";
+    file_put_contents($log
