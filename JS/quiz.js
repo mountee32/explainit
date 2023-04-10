@@ -5,12 +5,17 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentQuestionIndex = 0;
   let totalScore = 0;
 
-  fetch("JSON/questions.json")
-    .then(response => response.json())
-    .then(data => {
-      questions = data;
-      displaySkillSelection();
-    });
+
+  fetch("https://explainit.app/api/read.php")
+  .then(response => response.json())
+  .then(data => {
+    questions = data;
+    alert("Number of questions retrieved: " + questions.length);
+    displaySkillSelection();
+  });
+    
+
+
 
     function displaySkillSelection() {
       quizContainer.innerHTML = `

@@ -102,5 +102,5 @@ def delete_question():
     logging.info("Finished deleting questions.")
 
 
-# Call the delete_question function to delete a question with ID 18390
+# Call the delete_question function to delete any question starting with underscore _
 delete_question()
