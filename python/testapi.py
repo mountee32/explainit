@@ -10,9 +10,9 @@ import test_update_question
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s [%(levelname)s] %(message)s', handlers=[logging.FileHandler("testapi.log"), logging.StreamHandler()])
 
 # Define the API URLs
-READ_API_URL = "http://explainit.app/api/read.php"
-CREATE_API_URL = "http://explainit.app/api/create.php"
-DELETE_API_URL = "http://explainit.app/api/delete.php"
+READ_API_URL = "https://explainit.app/api/read.php"
+CREATE_API_URL = "https://explainit.app/api/create.php"
+DELETE_API_URL = "https://explainit.app/api/delete.php"
 
 # Define a variable to store the ID of the first question
 example_id = None
@@ -83,15 +83,17 @@ def delete_question():
             # Loop through all questions and delete any where the first character is _
             for question in data:
                 if question["question"][0] == "_":
-                    logging.info("Deleting question with ID " + str(question["id"]) + "...")
+                    logging.info("Deleting question with ID " + str(question["id"]) + " and content: " + question["question"] + "...")
                     delete_data = {"id": question["id"]}
-                    delete_response = requests.delete(DELETE_API_URL, headers=HEADERS, data=json.dumps(delete_data))
+                    logging.info("API call: " + DELETE_API_URL + ", data: " + json.dumps(delete_data))
+
+                    delete_response = requests.delete(DELETE_API_URL, data=json.dumps(delete_data))
                     if delete_response.status_code == 200:
                         logging.info("Question deleted successfully.")
                     else:
                         logging.error("Error: Failed to delete question from the API.")
                 else:
-                    logging.info("Skipping question with ID " + str(question["id"]) + ".")
+                    logging.info("Skipping question with ID " + str(question["id"]) + " and content: " + question["question"] + ".")
         else:
             logging.error("Error: Failed to read questions from the API.")
     except Exception as e:
