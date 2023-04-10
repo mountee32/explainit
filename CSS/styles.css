@@ -1,5 +1,5 @@
 /* Set the background gradient */
-body, html {
+html {
   height: 100%;
   background-image: linear-gradient(45deg, #373b44, #4286f4);
   font-family: Arial, sans-serif;
@@ -19,7 +19,7 @@ h2 {
   margin-left: 20px;
 }
 
-quiz-question {
+.quiz-question {
   color: rgb(5, 29, 95);
   font-size: 2.2rem;
   margin-left: 0px;
@@ -75,11 +75,11 @@ quiz-question {
   color: #373b44;
   margin-bottom: 2px;
 }
-<style>
+
   .explanation {
     font-size: 20px;
   }
-</style>
+
 
 /* Style the answer link */
 .answer a {
@@ -168,7 +168,7 @@ body {
 }
 
 /* Style the header title */
-header-title {
+.header-title {
   color: white;
   text-align: center;
   margin-bottom: 20px;
@@ -306,11 +306,11 @@ header-title {
   padding: 20px;
 }
 
-<style>
+
   .explanation {
     font-size: 32px;
   }
-</style>
+
 .card-container {
   padding: 50px;
   border-left: 1px solid #ccc;
