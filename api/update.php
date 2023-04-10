@@ -25,6 +25,7 @@ $time_stamp = date('Y-m-d H:i:s');
         isset($data['correct']) &&
         !empty($data['explanations'])
     ) {
+        file_put_contents($log_file, "{$time_stamp} - update api - Good it's not blank: " . json_encode($data) . "\n", FILE_APPEND);
         $stmt = $conn->prepare("UPDATE questions SET
             question = :question,
             skill = :skill,
