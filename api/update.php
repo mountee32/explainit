@@ -52,9 +52,11 @@ if (!is_null($conn) && $conn instanceof PDO) {
         explanation4 = :explanation4
         WHERE id = :id
     ";
-    file_put_contents($log_file, "{$time_stamp} - update api - Prepared SQL query step 1: {$sql}\n", FILE_APPEND);
-    // $stmt = $conn->prepare($sql);
-        file_put_contents($log_file, "{$time_stamp} - update api - Prepared SQL query step 2: {$stmt}\n", FILE_APPEND);
+        file_put_contents($log_file, "{$time_stamp} - update api - Prepared SQL query step 1: {$sql}\n", FILE_APPEND);
+        $stmt = $conn->prepare($sql);
+
+        file_put_contents($log_file, "{$time_stamp} - update api - Prepared SQL query step 2: {$sql}\n", FILE_APPEND);
+
         $stmt->bindParam(':id', $data['id']);
         $stmt->bindParam(':question', $data['question']);
         $stmt->bindParam(':skill', $data['skill']);
@@ -67,7 +69,7 @@ if (!is_null($conn) && $conn instanceof PDO) {
         $stmt->bindParam(':explanation2', $data['explanations'][1]);
         $stmt->bindParam(':explanation3', $data['explanations'][2]);
         $stmt->bindParam(':explanation4', $data['explanations'][3]);
-        file_put_contents($log_file, "{$time_stamp} - update api - Prepared SQL query step 3: {$stmt}\n", FILE_APPEND);
+        file_put_contents($log_file, "{$time_stamp} - update api - Prepared SQL query step 3: {$sql}\n", FILE_APPEND);
         if ($stmt->execute()) {
             http_response_code(200);
             echo json_encode(array("message" => "Question updated successfully."));
