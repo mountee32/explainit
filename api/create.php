@@ -8,7 +8,9 @@ include_once 'config.php';
 
 $secret_token = 'Jump857571111';
 
+
 $data = json_decode(file_get_contents("php://input"), true);
+file_put_contents($log_file, "{$time_stamp} - create api - Raw input data: " . file_get_contents("php://input") . "\n", FILE_APPEND);
 
 $log_file = 'api-log.txt';
 date_default_timezone_set('UTC');
