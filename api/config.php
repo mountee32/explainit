@@ -16,3 +16,12 @@ try {
 } catch (PDOException $exception) {
     echo "Connection error: " . $exception->getMessage();
 }
+
+
+if (!is_null($conn) && $conn instanceof PDO) {
+    // Connection is valid
+    file_put_contents($log_file, "config.php - Database connection valid: ");
+} else {
+    // Connection is invalid
+    file_put_contents($log_file, "config.php - Database connection invalid: ");
+}

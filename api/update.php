@@ -11,6 +11,17 @@ $secret_token = 'Jump857571111';
 $log_file = 'api-log.txt';
 date_default_timezone_set('UTC');
 $time_stamp = date('Y-m-d H:i:s');
+
+// Log the connection details
+file_put_contents($log_file, "update api - Database connection details: " . print_r($conn, true) . "\n", FILE_APPEND);
+
+// Check that the connection object is not null and is an instance of the PDO class
+if (!is_null($conn) && $conn instanceof PDO) {
+    // Connection is valid
+} else {
+    // Connection is invalid
+}
+
 // Check for the Authorization header and validate the token
 // if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] === 'Bearer ' . $secret_token) {
 
