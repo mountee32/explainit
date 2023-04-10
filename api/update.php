@@ -39,7 +39,7 @@ $time_stamp = date('Y-m-d H:i:s');
             explanation4 = :explanation4
             WHERE id = :id"
         );
-
+        file_put_contents($log_file, "{$time_stamp} - update api - Prepared SQL query step 1: {$stmt}\n", FILE_APPEND);
         $stmt->bindParam(':id', $data['id']);
         $stmt->bindParam(':question', $data['question']);
         $stmt->bindParam(':skill', $data['skill']);
@@ -52,7 +52,7 @@ $time_stamp = date('Y-m-d H:i:s');
         $stmt->bindParam(':explanation2', $data['explanations'][1]);
         $stmt->bindParam(':explanation3', $data['explanations'][2]);
         $stmt->bindParam(':explanation4', $data['explanations'][3]);
-        file_put_contents($log_file, "{$time_stamp} - update api - Prepared SQL query: {$stmt}\n", FILE_APPEND);
+        file_put_contents($log_file, "{$time_stamp} - update api - Prepared SQL query step 2: {$stmt}\n", FILE_APPEND);
         if ($stmt->execute()) {
             http_response_code(200);
             echo json_encode(array("message" => "Question updated successfully."));
@@ -65,7 +65,7 @@ $time_stamp = date('Y-m-d H:i:s');
     } else {
         http_response_code(400);
         echo json_encode(array("message" => "Unable to update question. Data is incomplete."));
-        file_put_contents($log_file, "{$time_stamp} - update api - error updating sql.: {$e->getMessage()}\n", FILE_APPEND);
+        file_put_contents($log_file, "{$time_stamp} - update api - incomplete data: {$e->getMessage()}\n", FILE_APPEND);
     }
 // } else {
 //     http_response_code(401);
