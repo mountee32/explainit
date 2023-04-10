@@ -141,7 +141,7 @@ event
                 for (var i = 0; i < questions.length; i++) {
                     tableRows += "<tr><td>" + questions[i].skill + "</td>";
                     tableRows += "<td>" + questions[i].question + "</td>";
-                    tableRows += "<td><a href=\"edit.php?id=" + questions[i].id + "\">Edit</a></td>";
+                    tableRows += "<td><button class='btn btn-primary btn-sm editButton' data-id='" + questions[i].id + "'>Edit</button></td>";
                     // Add a "Delete" link with the deleteQuestion function call and the question ID
                     tableRows += "<td><a href=\"javascript:void(0)\" onclick=\"deleteQuestion(" + questions[i].id + ")\">Delete</a></td></tr>";
                 }
@@ -166,5 +166,6 @@ event
 </script>
 
 <script src="deletequestion.js"></script>
+<script src="editquestion.js"></script>
 </body>
 </html>
