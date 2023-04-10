@@ -206,13 +206,15 @@ async function openEditModal(id) {
     const correct_choice = document.querySelector('input[name="editCorrectChoice"]:checked').value;
   
     return {
+      id: parseInt(document.getElementById("editQuestionId").value),
       question,
       skill,
       choices,
-      correct_choice,
+      correct: parseInt(correct_choice),
       explanations,
     };
   }
+  
   
   function setEditFormData(questionData) {
     document.getElementById("editQuestionId").value = questionData.id;
@@ -234,29 +236,30 @@ async function openEditModal(id) {
 // Update Question
 async function updateQuestion() {
     const questionData = getEditFormData();
-
+  
     try {
-        const response = await fetch("https://explainit.app/api/update.php", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer your_api_key_here",
-            },
-            body: JSON.stringify(questionData),
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error ${response.status}`);
-        }
-
-        // Refresh the table and close the modal
-        fetchQuestions();
-        const editQuestionModal = new bootstrap.Modal(document.getElementById("editQuestionModal"));
-        editQuestionModal.hide();
+      const response = await fetch("https://explainit.app/api/update.php", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer your_api_key_here",
+        },
+        body: JSON.stringify(questionData),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+  
+      // Refresh the table and close the modal
+      fetchQuestions();
+      const editQuestionModal = new bootstrap.Modal(document.getElementById("editQuestionModal"));
+      editQuestionModal.hide();
     } catch (error) {
-        console.error("Error updating question:", error);
+      console.error("Error updating question:", error);
     }
-}
+  }
+  
 
     
     // Open Delete Question Modal
