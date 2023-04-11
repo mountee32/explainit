@@ -8,6 +8,7 @@ include_once 'config.php';
 
 // Replace this value with your own secret API key
 $api_key = '55556666';
+file_put_contents($log_file, "{$time_stamp} - create api - Raw input data: " . file_get_contents("php://input") . "\n", FILE_APPEND);
 
 // Check for the Authorization header and validate the API key
 // if (isset(getallheaders()['Authorization']) && getallheaders()['Authorization'] === 'Bearer ' . $api_key) {

@@ -4,12 +4,13 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-include_once 'config.php';
+
 
 $secret_token = 'Jump857571111';
 $log_file = 'api-log.txt';
 date_default_timezone_set('UTC');
 $time_stamp = date('Y-m-d H:i:s');
+include_once 'config.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 file_put_contents($log_file, "{$time_stamp} - create api - Raw input data: " . file_get_contents("php://input") . "\n", FILE_APPEND);
