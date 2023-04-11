@@ -54,74 +54,49 @@
         </div>
     </div>
 
-    <!-- Edit Question Modal -->
-    <div class="modal" tabindex="-1" id="editQuestionModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Question</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editQuestionForm">
-                        <div class="mb-3">
-                            
-                            <label for="editDateAdded" class="form-label">Date Added</label> <!-- New input field for Date Added -->
-                            <input type="date" class="form-control" id="editDateAdded" required>
-                        </div>
-                        <!-- Remaining form code -->
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="updateQuestion()">Save</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
+  <!-- Edit Question Modal -->
+<div class="modal" tabindex="-1" id="editQuestionModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Question</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editQuestionForm">
+                    <input type="hidden" id="editQuestionId"> <!-- Hidden input field for question ID -->
+                    <div class="mb-3">
+                        <label for="editDateAdded" class="form-label">Date Added</label>
+                        <input type="date" class="form-control" id="editDateAdded" readonly>
+                    </div>
+                    <!-- Remaining form code -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="updateQuestion()">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-    
-    <!-- Delete Question Modal -->
-    <!-- ... -->
-    
+</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-        <!-- Delete Question Modal -->
-        <div class="modal" tabindex="-1" id="deleteQuestionModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Delete Question</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to delete this question?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" onclick="deleteQuestion()">Delete</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
+<!-- Delete Question Modal -->
+<div class="modal" tabindex="-1" id="deleteQuestionModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Question</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this question?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="deleteQuestion()">Delete</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
-    
-
-
+    </div>
+</div>
 </body>
 </html>
