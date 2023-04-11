@@ -22,8 +22,9 @@ try {
 
 if (!is_null($conn) && $conn instanceof PDO) {
     // Connection is valid
-    file_put_contents($log_file, "config.php - Database connection valid: ");
+    file_put_contents($log_file, "config.php - Database connection valid.\n", FILE_APPEND);
+  
 } else {
     // Connection is invalid
-    file_put_contents($log_file, "config.php - Database connection invalid: ");
+    file_put_contents($log_file, "config.php - Database connection invalid.\n", FILE_APPEND);
 }
