@@ -1,24 +1,24 @@
 // Fetch questions and populate the table
 async function fetchQuestions() {
-    try {
-        const response = await fetch("https://explainit.app/api/read.php", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer your_api_key_here",
-            },
-        });
+  try {
+      const response = await fetch("https://explainit.app/api/read.php", {
+          method: "GET",
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer your_api_key_here",
+          },
+      });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error ${response.status}`);
-        }
+      if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+      }
 
-        const data = await response.json();
-        console.log(data); // Add this line to check the data format
-        populateTable(data);
-    } catch (error) {
-        console.error("Error fetching questions:", error);
-    }
+      const data = await response.json();
+      console.log(data); // Add this line to check the data format
+      populateTable(data);
+  } catch (error) {
+      console.error("Error fetching questions:", error);
+  }
 }
 
   
@@ -180,27 +180,24 @@ async function openEditModal(id) {
         explanation4: explanations[3],
     };
 }
-
   
   // Set the values in the edit form inputs
   function setEditFormData(questionData) {
-    function setEditFormData(questionData) {
-        document.getElementById("editQuestionId").value = questionData.id;
-        document.getElementById("editQuestion").value = questionData.question;
-        document.getElementById("editSkill").value = questionData.skill;
-        document.getElementById("editChoice1").value = questionData.choice1;
-        document.getElementById("editChoice2").value = questionData.choice2;
-        document.getElementById("editChoice3").value = questionData.choice3;
-        document.getElementById("editChoice4").value = questionData.choice4;
-        document.querySelector(`input[name="editCorrectChoice"][value="${questionData.correct_choice}"]`).checked = true;
-        document.getElementById("editExplanation1").value = questionData.explanation1;
-        document.getElementById("editExplanation2").value = questionData.explanation2;
-        document.getElementById("editExplanation3").value = questionData.explanation3;
-        document.getElementById("editExplanation4").value = questionData.explanation4;
-    }
+    document.getElementById("editQuestionId").value = questionData.id;
+    document.getElementById("editQuestion").value = questionData.question;
+    document.getElementById("editSkill").value = questionData.skill;
+    document.getElementById("editChoice1").value = questionData.choice1;
+    document.getElementById("editChoice2").value = questionData.choice2;
+    document.getElementById("editChoice3").value = questionData.choice3;
+    document.getElementById("editChoice4").value = questionData.choice4;
+    document.querySelector(`input[name="editCorrectChoice"][value="${questionData.correct_choice}"]`).checked = true;
+    document.getElementById("editExplanation1").value = questionData.explanation1;
+    document.getElementById("editExplanation2").value = questionData.explanation2;
+    document.getElementById("editExplanation3").value = questionData.explanation3;
+    document.getElementById("editExplanation4").value = questionData.explanation4;
+}
     
-  
-  
+   
   function getEditFormData() {
     const question = document.getElementById("editQuestion").value;
     const skill = document.getElementById("editSkill").value;
