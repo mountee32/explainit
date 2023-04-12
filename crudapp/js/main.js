@@ -19,12 +19,14 @@ function fetchQuestions() {
         dataType: 'json',
         success: function(data) {
             displayQuestions(data);
+            displayQuestionCount(data); // Add this line
         },
         error: function(err) {
             console.error('Error fetching questions:', err);
         }
     });
 }
+
 
 function displayQuestions(questions) {
     const tableBody = $('#questionTableBody');
@@ -204,5 +206,18 @@ function updateQuestion(questionData) {
             console.error('Error updating question:', err);
         }
     });
+}
+function displayQuestionCount(questions) {
+    const questionCount = {
+        easy: 0,
+        medium: 0,
+        hard: 0,
+    };
+
+    questions.forEach(question => {
+        questionCount[question.skill]++;
+    });
+
+    $('#questionCount').text(`Easy: ${questionCount.easy}, Medium: ${questionCount.medium}, Hard: ${questionCount.hard}`);
 }
 
