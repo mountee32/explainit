@@ -314,9 +314,9 @@ body {
 }
 
 /* Add a hover effect for the answer link */
-.answer a:hover {
-  color: #008a93;
-}
+/* .answer a:hover { */
+  /* color: #008a93; */
+/* } */
 
 /* Add a hover effect for the tile */
 .tile:hover {
@@ -338,9 +338,9 @@ body {
   transition: background-color 0.2s ease-in-out;
   margin: 5px; /* Adjust this value for the desired gap size */
 }
-.choices button:hover {
-  background-color: #008a93;
-}
+/* .choices button:hover { */
+  /* background-color: #008a93; */
+/* } */
 
 .quiz-container {
 
