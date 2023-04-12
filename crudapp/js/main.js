@@ -19,14 +19,13 @@ function fetchQuestions() {
         dataType: 'json',
         success: function(data) {
             displayQuestions(data);
-            displayQuestionCount(data); // Add this line
+            displayQuestionCount(data); // Make sure this line is present
         },
         error: function(err) {
             console.error('Error fetching questions:', err);
         }
     });
 }
-
 
 
 function displayQuestions(questions) {
@@ -208,7 +207,7 @@ function updateQuestion(questionData) {
         }
     });
 }
-ffunction displayQuestionCount(questions) {
+function displayQuestionCount(questions) {
     const questionCount = {
         easy: 0,
         medium: 0,
@@ -221,4 +220,3 @@ ffunction displayQuestionCount(questions) {
 
     $('#questionCount').text(`Easy: ${questionCount.easy}, Medium: ${questionCount.medium}, Hard: ${questionCount.hard}`);
 }
-
