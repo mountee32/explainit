@@ -41,18 +41,20 @@ function displayQuestions(questions) {
             });
 
         const editButton = $('<button>') // Add an edit button
-            .addClass('btn btn-primary btn-sm')
+            .addClass('btn btn-primary btn-sm me-2') // Add me-2 class for spacing
             .text('Edit')
             .on('click', function() {
                 editQuestion(question);
             });
+
+        const actionsDiv = $('<div>').addClass('d-flex').append(editButton, deleteButton);
 
         const row = $('<tr>').append(
             $('<td>').text(question.id),
             $('<td>').text(question.date_reviewed),
             $('<td>').text(question.question),
             $('<td>').text(question.skill),
-            $('<td>').append(editButton, ' ', deleteButton) // Add the edit and delete buttons to the actions column
+            $('<td>').append(actionsDiv) // Add the actionsDiv containing the edit and delete buttons
         );
         tableBody.append(row);
     });
