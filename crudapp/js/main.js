@@ -10,7 +10,29 @@ $(document).ready(function() {
             alert('Please fill in the following required fields: ' + invalidFields.join(', '));
         }
     });
+
+    // Add event listener to reset the form and restore the create question behavior when the modal is closed
+    $('#questionModal').on('hidden.bs.modal', function() {
+        resetFormAndCreateQuestionBehavior();
+    });
 });
+
+function resetFormAndCreateQuestionBehavior() {
+    const form = $('#questionForm');
+    form[0].reset();
+    form.find('[name="id"]').val('');
+
+    $('#saveQuestionBtn').off('click').on('click', function() {
+        const questionData = getFormData(form);
+        const invalidFields = validateQuestionData(questionData);
+        if (invalidFields.length === 0) {
+            createQuestion(questionData);
+        } else {
+            alert('Please fill in the following required fields: ' + invalidFields.join(', '));
+        }
+    });
+}
+
 
 function fetchQuestions() {
     $.ajax({
