@@ -100,7 +100,7 @@ function createQuestion(questionData) {
                 $('#questionModal').modal('hide');
                 alert('Question added successfully.'); // Add this line to show a success message
             } else {
-                alert('Error creating question: ' + data.message);
+                // alert('Error creating question: ' + data.message);
             }
         },
         error: function(err) {
