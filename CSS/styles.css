@@ -1,14 +1,18 @@
-/* Set the background gradient */
+/* Add this line to import the Google font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Update the font-family */
 html {
-  height: 100%;
-  background-image: linear-gradient(45deg, #373b44, #4286f4);
-  font-family: Arial, sans-serif;
-  color: black;
+  font-family: 'Poppins', sans-serif;
+  background-image: linear-gradient(45deg, #222, #00adb5);
 }
+
+
 
 /* Style the main headings */
 h1, h2{
-  color: rgb(143, 150, 170);
+  color: #eeeeee;
+
   font-size: 2.2rem;
   margin-left: 50px;
   
@@ -19,13 +23,9 @@ h2 {
   margin-left: 20px;
 }
 
-.quiz-question {
-  color: rgb(5, 29, 95);
-  font-size: 2.2rem;
-  margin-left: 0px;
-}
+
 /* Style the container */
-.container-home-page, .quiz-tile {
+.container-home-page {
   background-color: white;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
@@ -48,7 +48,7 @@ h2 {
 
 /* Style the category titles */
 .category h3 {
-  color: #373b44;
+  color: #222;
 }
 
 /* Style the questions container */
@@ -61,7 +61,7 @@ h2 {
 
 /* Style the question titles */
 .question h4 {
-  color: #6dd5ed; /* Light blue */
+  color: #00adb5;
   cursor: pointer;
   font-size: 1.2rem;
   margin-left: 20px;
@@ -72,7 +72,7 @@ h2 {
   display: none; /* Initially hidden */
   font-size: 1.1rem;
   margin-left: 40px;
-  color: #373b44;
+  color: #00adb5;
   margin-bottom: 2px;
 }
 
@@ -99,7 +99,7 @@ h2 {
   background-color: rgba(255, 255, 255, 0.1); /* Adjust the opacity value */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  position: sticky;
+  position: top;
   top: 0;
   width: 100%;
   z-index: 1000;
@@ -156,10 +156,6 @@ h2 {
   }
 }
 
-/* Style the quiz section */
-#quiz {
-  margin-top: 0em;
-}
 
 /* Style the body background */
 body {
@@ -183,20 +179,19 @@ body {
 .tiles-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-gap: 20px;
   justify-items: center;
   align-items: center;
   border-radius: 40px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* adjust the min and max values to suit your design */
   grid-gap: 30px;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
 }
 
 .tile {
   border-radius: 20px;
   padding: 20px;
+  box-sizing: border-box;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
@@ -251,27 +246,81 @@ body {
 
 /* Style the back button */
 #header .back-btn {
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.3);
   color: white;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  transition: background-color 0.2s ease-in-out;
+}
+/* Add a hover effect for back button */
+#header .back-btn:hover {
+  background-color: rgba(255, 255, 255, 0.5);
 }
 .header-content {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
-
+  width: 100%; /* Add this line to make the container take up full width of the header */
 }
 .container {
   padding: 0;
   margin: 2rem auto; /* Adjust the '2rem' value to control the vertical spacing */
-  max-width: 100%; /* Use 100% to make it full width, or a specific value like '1200px' to control the maximum width */
+  max-width: 90%; /* Use 100% to make it full width, or a specific value like '1200px' to control the maximum width */
   margin-left: auto;
   margin-right: auto;
+ 
+
+}
 
 
+
+  .explanation {
+    font-size: 32px;
+  }
+
+.card-container {
+  padding: 50px;
+  border-left: none
+  border-right: none
+}
+
+
+
+/* Add these new styles for the hero area */
+.hero {
+  background-image: url('/imgs/index-hero.jpg'); /* Replace with your desired hero image */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 30vh; /* Adjust this value to control the height of the hero area */
+  margin-bottom:3px;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  color: #ffffff;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* -------------------- Quiz Section ----------------------------- */
+/* Add a hover effect for the question titles */
+.question h4:hover {
+  color: #008a93;
+}
+
+/* Add a hover effect for the answer link */
+.answer a:hover {
+  color: #008a93;
+}
+
+/* Add a hover effect for the tile */
+.tile:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9);
 }
 .choices {
   display: flex;
@@ -280,9 +329,17 @@ body {
   font-size: 32px;
 }
 .choices button {
-  display: block;
-  margin-bottom: 20px;
-  font-size: 32px;
+  font-size: 24px;
+  background-color: #01165a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  transition: background-color 0.2s ease-in-out;
+  margin: 5px; /* Adjust this value for the desired gap size */
+}
+.choices button:hover {
+  background-color: #008a93;
 }
 
 .quiz-container {
@@ -297,9 +354,8 @@ body {
   flex-direction: column; /* Add this line to stack the elements vertically */
   text-decoration: none;
   background-color: white;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 30%; /* Adjust this value to control the maximum width of the white tile box */
+  margin: auto;
+  max-width: 90%; /* Adjust this value to control the maximum width of the white tile box */
   background-color: white;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
@@ -307,14 +363,28 @@ body {
   margin-bottom: 50px;
   padding: 20px;
 }
+.quiz-question {
+  color: #222;
+  font-size: 2.2rem;
+  margin-left: 0px;
+}
 
+/* Style the container */
+.quiz-tile {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 960px; /* or any other preferred maximum width */
+}
 
-  .explanation {
-    font-size: 32px;
-  }
-
-.card-container {
-  padding: 50px;
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
+#quiz {
+  margin-top: 0em;
+}
+.question-number {
+  color: #333;
 }

@@ -93,7 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function displayQuestion(question) {
     quizContainer.innerHTML = `
-      <h2>Question ${currentQuestionIndex + 1} of ${filteredQuestions.length}</h2>
+    <h2 class="question-number">Question ${currentQuestionIndex + 1} of ${filteredQuestions.length}</h2>
+  
       <quiz-question>${question.question}</quiz-question>
       <div class="choices">
         ${["choice1", "choice2", "choice3", "choice4"].map((choiceKey, index) => `
@@ -176,4 +177,8 @@ function displayResults() {
     displaySkillSelection();
   });
 }
+
+
+
+
 });
