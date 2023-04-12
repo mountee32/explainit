@@ -11,6 +11,7 @@ $(document).ready(function() {
         }
     });
 
+    
     // Add event listener to reset the form and restore the create question behavior when the modal is closed
     $('#questionModal').on('hidden.bs.modal', function() {
         resetFormAndCreateQuestionBehavior();
