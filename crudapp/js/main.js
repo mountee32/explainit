@@ -55,14 +55,14 @@ $(document).ready(function() {
 
     $('#saveQuestionBtn').on('click', function() {
         const questionData = getFormData($('#questionForm'));
-        if (validateQuestionData(questionData)) {
+        const invalidFields = validateQuestionData(questionData);
+        if (invalidFields.length === 0) {
             createQuestion(questionData);
         } else {
-            alert('Please fill in all required fields.');
+            alert('Please fill in the following required fields: ' + invalidFields.join(', '));
         }
     });
 });
-
 function getFormData(form) {
     return {
         date_reviewed: form.find('[name="date_reviewed"]').val(),
@@ -82,11 +82,22 @@ function getFormData(form) {
 
 
 function validateQuestionData(questionData) {
-    return questionData.date_reviewed && questionData.question && questionData.skill
-           && questionData.choice1 && questionData.choice2 && questionData.choice3
-           && questionData.choice4 && questionData.correct_choice
-           && questionData.explanation1 && questionData.explanation2
-           && questionData.explanation3 && questionData.explanation4;
+    const invalidFields = [];
+
+    if (!questionData.date_reviewed) invalidFields.push('Date Reviewed');
+    if (!questionData.question) invalidFields.push('Question');
+    if (!questionData.skill) invalidFields.push('Skill');
+    if (!questionData.choice1) invalidFields.push('Choice 1');
+    if (!questionData.choice2) invalidFields.push('Choice 2');
+    if (!questionData.choice3) invalidFields.push('Choice 3');
+    if (!questionData.choice4) invalidFields.push('Choice 4');
+    if (!questionData.correct_choice) invalidFields.push('Correct Choice');
+    if (!questionData.explanation1) invalidFields.push('Explanation 1');
+    if (!questionData.explanation2) invalidFields.push('Explanation 2');
+    if (!questionData.explanation3) invalidFields.push('Explanation 3');
+    if (!questionData.explanation4) invalidFields.push('Explanation 4');
+
+    return invalidFields;
 }
 
 function createQuestion(questionData) {
