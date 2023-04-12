@@ -31,6 +31,7 @@ $(document).ready(function() {
     });
 });
 
+
 async function importQuestions(questions) {
     const invalidQuestions = [];
     const importResults = {
@@ -53,7 +54,8 @@ async function importQuestions(questions) {
             importResults.failed++;
         } else {
             try {
-                const response = await createQuestion(questionData, true);
+                const { status } = await createQuestion(questionData, true);
+
                 if (response.status === 201) {
                     importResults.success++;
                 } else {
@@ -227,7 +229,7 @@ function createQuestion(questionData, returnResponse = false) {
             dataType: 'json',
             success: function (data, textStatus, jqXHR) {
                 if (returnResponse) {
-                    resolve(jqXHR);
+                    resolve({ status: jqXHR.status, data: data }); // Add the status property
                 } else {
                     if (jqXHR.status === 201) {
                         fetchQuestions();
@@ -248,6 +250,7 @@ function createQuestion(questionData, returnResponse = false) {
         });
     });
 }
+
 
 function editQuestion(question) {
     const form = $('#questionForm');
