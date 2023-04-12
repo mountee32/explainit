@@ -86,7 +86,6 @@ function validateQuestionData(questionData) {
     return invalidFields;
 }
 
-
 function createQuestion(questionData) {
     $.ajax({
         url: 'https://explainit.app/api/create.php',
