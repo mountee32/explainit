@@ -56,7 +56,7 @@ async function importQuestions(questions) {
             try {
                 const { status } = await createQuestion(questionData, true);
 
-                if (response.status === 201) {
+                if (status === 201) { // Replace 'response.status' with 'status'
                     importResults.success++;
                 } else {
                     importResults.failed++;
@@ -208,7 +208,7 @@ function deleteQuestion(questionId) {
         success: function(data) {
             if (data.message === 'Question deleted successfully.') {
                 fetchQuestions();
-                alert('Question deleted successfully.');
+                // alert('Question deleted successfully.');
             } else {
                 alert('Error deleting question: ' + data.message);
             }
