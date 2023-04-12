@@ -65,40 +65,38 @@ $(document).ready(function() {
 });
 function getFormData(form) {
     return {
-        date_reviewed: form.find('[name="date_reviewed"]').val(),
         question: form.find('[name="question"]').val(),
         skill: form.find('[name="skill"]').val(),
-        choice1: form.find('[name="choice1"]').val(),
-        choice2: form.find('[name="choice2"]').val(),
-        choice3: form.find('[name="choice3"]').val(),
-        choice4: form.find('[name="choice4"]').val(),
-        correct_choice: form.find('[name="correct_choice"]').val(),
-        explanation1: form.find('[name="explanation1"]').val(),
-        explanation2: form.find('[name="explanation2"]').val(),
-        explanation3: form.find('[name="explanation3"]').val(),
-        explanation4: form.find('[name="explanation4"]').val()
+        choices: [
+            form.find('[name="choice1"]').val(),
+            form.find('[name="choice2"]').val(),
+            form.find('[name="choice3"]').val(),
+            form.find('[name="choice4"]').val()
+        ],
+        correct: parseInt(form.find('[name="correct_choice"]').val(), 10),
+        explanations: [
+            form.find('[name="explanation1"]').val(),
+            form.find('[name="explanation2"]').val(),
+            form.find('[name="explanation3"]').val(),
+            form.find('[name="explanation4"]').val()
+        ]
     };
 }
+
 
 
 function validateQuestionData(questionData) {
     const invalidFields = [];
 
-    if (!questionData.date_reviewed) invalidFields.push('Date Reviewed');
     if (!questionData.question) invalidFields.push('Question');
     if (!questionData.skill) invalidFields.push('Skill');
-    if (!questionData.choice1) invalidFields.push('Choice 1');
-    if (!questionData.choice2) invalidFields.push('Choice 2');
-    if (!questionData.choice3) invalidFields.push('Choice 3');
-    if (!questionData.choice4) invalidFields.push('Choice 4');
-    if (!questionData.correct_choice) invalidFields.push('Correct Choice');
-    if (!questionData.explanation1) invalidFields.push('Explanation 1');
-    if (!questionData.explanation2) invalidFields.push('Explanation 2');
-    if (!questionData.explanation3) invalidFields.push('Explanation 3');
-    if (!questionData.explanation4) invalidFields.push('Explanation 4');
+    if (!questionData.choices.every(choice => choice)) invalidFields.push('Choices');
+    if (!Number.isInteger(questionData.correct)) invalidFields.push('Correct Choice');
+    if (!questionData.explanations.every(explanation => explanation)) invalidFields.push('Explanations');
 
     return invalidFields;
 }
+
 
 function createQuestion(questionData) {
     $.ajax({
