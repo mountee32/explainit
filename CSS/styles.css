@@ -293,11 +293,13 @@ body {
   transition: transform 0.2s ease-in-out;
   display: flex;
   align-items: center;
+  justify-content: center; /* Add this line to center the content horizontally */
+  flex-direction: column; /* Add this line to stack the elements vertically */
   text-decoration: none;
   background-color: white;
   margin-left: auto;
   margin-right: auto;
-  max-width: 90%; /* Adjust this value to control the maximum width of the white tile box */
+  max-width: 30%; /* Adjust this value to control the maximum width of the white tile box */
   background-color: white;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
