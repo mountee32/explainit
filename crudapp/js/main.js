@@ -33,16 +33,24 @@ function displayQuestions(questions) {
     const groupedQuestions = groupAndSortQuestions(questions);
 
     groupedQuestions.forEach(function(question) {
+        const deleteButton = $('<button>')
+            .addClass('btn btn-danger btn-sm')
+            .text('Delete')
+            .on('click', function() {
+                deleteQuestion(question.id);
+            });
+
         const row = $('<tr>').append(
             $('<td>').text(question.id),
             $('<td>').text(question.date_reviewed),
             $('<td>').text(question.question),
             $('<td>').text(question.skill),
-            $('<td>') // Actions column will be filled in future releases
+            $('<td>').append(deleteButton) // Add the delete button to the actions column
         );
         tableBody.append(row);
     });
 }
+
 
 function groupAndSortQuestions(questions) {
     const skillOrder = ['easy', 'medium', 'hard'];
@@ -108,5 +116,29 @@ function createQuestion(questionData) {
     });
 }
 
+function deleteQuestion(questionId) {
+    if (!confirm('Are you sure you want to delete this question?')) {
+        return;
+    }
+
+    $.ajax({
+        url: 'https://explainit.app/api/delete.php',
+        method: 'DELETE',
+        data: JSON.stringify({ id: questionId }),
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function(data) {
+            if (data.message === 'Question deleted successfully.') {
+                fetchQuestions();
+                alert('Question deleted successfully.');
+            } else {
+                alert('Error deleting question: ' + data.message);
+            }
+        },
+        error: function(err) {
+            console.error('Error deleting question:', err);
+        }
+    });
+}
 
 
