@@ -94,22 +94,20 @@ function createQuestion(questionData) {
         data: JSON.stringify(questionData),
         contentType: 'application/json',
         dataType: 'json',
-        success: function(data) {
-            if (data.status === 'success') {
+        success: function (data, textStatus, jqXHR) {
+            if (jqXHR.status === 201) { // Check if the status code is 201
                 fetchQuestions();
                 $('#questionModal').modal('hide');
-                alert('Question added successfully.'); // Add this line to show a success message
+                alert('Question added successfully.'); // Show a success message
             } else {
-                // alert('Error creating question: ' + data.message);
+                alert('Error creating question: ' + data.message);
             }
         },
-        error: function(err) {
+        error: function (err) {
             console.error('Error creating question:', err);
         }
     });
 }
-
-
 
 
 
