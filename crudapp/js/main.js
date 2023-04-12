@@ -69,6 +69,7 @@ function groupAndSortQuestions(questions) {
 
 function getFormData(form) {
     return {
+        id: form.find('[name="id"]').val(), // Add this line
         question: form.find('[name="question"]').val(),
         skill: form.find('[name="skill"]').val(),
         choices: [
@@ -86,6 +87,7 @@ function getFormData(form) {
         ]
     };
 }
+
 
 
 
