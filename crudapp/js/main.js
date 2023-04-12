@@ -207,7 +207,7 @@ function updateQuestion(questionData) {
         }
     });
 }
-ffunction displayQuestions(questions) {
+function displayQuestions(questions) {
     const tableBody = $('#tableBody');
     tableBody.empty();
 
