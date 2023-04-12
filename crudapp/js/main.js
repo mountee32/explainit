@@ -207,16 +207,23 @@ function updateQuestion(questionData) {
         }
     });
 }
-function displayQuestionCount(questions) {
-    const questionCount = {
-        easy: 0,
-        medium: 0,
-        hard: 0,
-    };
+ffunction displayQuestions(questions) {
+    const tableBody = $('#tableBody');
+    tableBody.empty();
 
-    questions.forEach(question => {
-        questionCount[question.skill]++;
+    questions.forEach((question, index) => {
+        const dateReviewed = question.date_reviewed ? new Date(question.date_reviewed).toLocaleDateString() : 'Not reviewed';
+
+        const row = `<tr>
+            <th scope="row">${index + 1}</th>
+            <td>${question.question}</td>
+            <td>${question.skill}</td>
+            <td>${dateReviewed}</td>
+            <td>
+                <button class="btn btn-primary" onclick="editQuestion(${question.id})">Edit</button>
+                <button class="btn btn-danger" onclick="deleteQuestion(${question.id})">Delete</button>
+            </td>
+        </tr>`;
+        tableBody.append(row);
     });
-
-    $('#questionCount').text(`Easy: ${questionCount.easy}, Medium: ${questionCount.medium}, Hard: ${questionCount.hard}`);
 }
