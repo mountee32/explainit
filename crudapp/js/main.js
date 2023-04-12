@@ -40,12 +40,19 @@ function displayQuestions(questions) {
                 deleteQuestion(question.id);
             });
 
+        const editButton = $('<button>') // Add an edit button
+            .addClass('btn btn-primary btn-sm')
+            .text('Edit')
+            .on('click', function() {
+                editQuestion(question);
+            });
+
         const row = $('<tr>').append(
             $('<td>').text(question.id),
             $('<td>').text(question.date_reviewed),
             $('<td>').text(question.question),
             $('<td>').text(question.skill),
-            $('<td>').append(deleteButton) // Add the delete button to the actions column
+            $('<td>').append(editButton, ' ', deleteButton) // Add the edit and delete buttons to the actions column
         );
         tableBody.append(row);
     });
@@ -141,5 +148,46 @@ function deleteQuestion(questionId) {
     });
 }
 
+function editQuestion(question) {
+    const form = $('#questionForm');
+    form.find('[name="id"]').val(question.id);
+    form.find('[name="question"]').val(question.question);
+    form.find('[name="skill"]').val(question.skill);
+    question.choices.forEach((choice, index) => form.find(`[name="choice${index + 1}"]`).val(choice));
+    form.find('[name="correct_choice"]').val(question.correct_choice);
+    question.explanations.forEach((explanation, index) => form.find(`[name="explanation${index + 1}"]`).val(explanation));
 
+    $('#saveQuestionBtn').off('click').on('click', function() {
+        const updatedQuestionData = getFormData(form);
+        const invalidFields = validateQuestionData(updatedQuestionData);
+        if (invalidFields.length === 0) {
+            updateQuestion(updatedQuestionData);
+        } else {
+            alert('Please fill in the following required fields: ' + invalidFields.join(', '));
+        }
+    });
+
+    $('#questionModal').modal('show');
+}
+function updateQuestion(questionData) {
+    $.ajax({
+        url: 'https://explainit.app/api/update.php',
+        method: 'PUT',
+        data: JSON.stringify(questionData),
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function(data) {
+            if (data.message === 'Question updated successfully.') {
+                fetchQuestions();
+                $('#questionModal').modal('hide');
+                alert('Question updated successfully.');
+            } else {
+                alert('Error updating question: ' + data.message);
+            }
+        },
+        error: function(err) {
+            console.error('Error updating question:', err);
+        }
+    });
+}
 
