@@ -28,6 +28,7 @@ function fetchQuestions() {
 }
 
 
+
 function displayQuestions(questions) {
     const tableBody = $('#questionTableBody');
     tableBody.empty();
@@ -207,7 +208,7 @@ function updateQuestion(questionData) {
         }
     });
 }
-function displayQuestionCount(questions) {
+ffunction displayQuestionCount(questions) {
     const questionCount = {
         easy: 0,
         medium: 0,
