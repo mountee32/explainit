@@ -31,10 +31,14 @@ $(document).ready(function() {
     });
 });
 
-function importQuestions(questions) {
+async function importQuestions(questions) {
     const invalidQuestions = [];
+    const importResults = {
+        success: 0,
+        failed: 0
+    };
 
-    questions.forEach((question, index) => {
+    for (const [index, question] of questions.entries()) {
         const questionData = {
             question: question.question,
             skill: question.skill,
@@ -46,16 +50,29 @@ function importQuestions(questions) {
         const invalidFields = validateQuestionData(questionData);
         if (invalidFields.length > 0) {
             invalidQuestions.push({ index, invalidFields });
+            importResults.failed++;
+        } else {
+            try {
+                const response = await createQuestion(questionData, true);
+                if (response.status === 201) {
+                    importResults.success++;
+                } else {
+                    importResults.failed++;
+                }
+            } catch (error) {
+                console.error('Error importing question:', error);
+                importResults.failed++;
+            }
         }
-    });
+    }
 
     if (invalidQuestions.length > 0) {
         const invalidSummary = invalidQuestions.map(invalid => `Question ${invalid.index + 1}: ${invalid.invalidFields.join(', ')}`).join('\n');
         alert(`Invalid questions found:\n${invalidSummary}`);
-    } else {
-        alert(`All ${questions.length} questions are valid.`);
-        // You will implement the actual import in Release 7
     }
+
+    alert(`Import results: ${importResults.success} questions imported successfully, ${importResults.failed} failed.`);
+    fetchQuestions(); // Refresh the question list after importing
 }
 
 
@@ -200,25 +217,35 @@ function deleteQuestion(questionId) {
     });
 }
 
-function createQuestion(questionData) {
-    $.ajax({
-        url: 'https://explainit.app/api/create.php',
-        method: 'POST',
-        data: JSON.stringify(questionData),
-        contentType: 'application/json',
-        dataType: 'json',
-        success: function (data, textStatus, jqXHR) {
-            if (jqXHR.status === 201) { // Check if the status code is 201
-                fetchQuestions();
-                $('#questionModal').modal('hide');
-                alert('Question added successfully.'); // Show a success message
-            } else {
-                alert('Error creating question: ' + data.message);
+function createQuestion(questionData, returnResponse = false) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: 'https://explainit.app/api/create.php',
+            method: 'POST',
+            data: JSON.stringify(questionData),
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (data, textStatus, jqXHR) {
+                if (returnResponse) {
+                    resolve(jqXHR);
+                } else {
+                    if (jqXHR.status === 201) {
+                        fetchQuestions();
+                        $('#questionModal').modal('hide');
+                        alert('Question added successfully.');
+                    } else {
+                        alert('Error creating question: ' + data.message);
+                    }
+                }
+            },
+            error: function (err) {
+                if (returnResponse) {
+                    reject(err);
+                } else {
+                    console.error('Error creating question:', err);
+                }
             }
-        },
-        error: function (err) {
-            console.error('Error creating question:', err);
-        }
+        });
     });
 }
 
