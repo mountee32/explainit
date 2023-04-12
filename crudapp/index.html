@@ -43,76 +43,78 @@
           </div>
           <div class="modal-body">
             <form id="questionForm">
+                <!-- Add the hidden input field for the "id" -->
+                <input type="hidden" name="id">
+
                 <!-- existing fields -->
                 <div class="form-group">
-                    <label for="date_reviewed">Date Reviewed</label>
-                    <input type="date" class="form-control" name="date_reviewed" required>
-                </div>
-                <div class="form-group">
-                    <label for="question">Question</label>
-                    <textarea class="form-control" name="question" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="skill">Skill</label>
-                    <select class="form-control" name="skill" required>
-                        <option value="easy">Easy</option>
-                        <option value="medium">Medium</option>
-                        <option value="hard">Hard</option>
-                    </select>
-                </div>
-        
-                <!-- new fields -->
-                <div class="form-group">
-                    <label for="choice1">Choice 1</label>
-                    <textarea class="form-control" name="choice1" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="choice2">Choice 2</label>
-                    <textarea class="form-control" name="choice2" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="choice3">Choice 3</label>
-                    <textarea class="form-control" name="choice3" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="choice4">Choice 4</label>
-                    <textarea class="form-control" name="choice4" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="correct_choice">Correct Choice</label>
-                    <select class="form-control" name="correct_choice" required>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="explanation1">Explanation 1</label>
-                    <textarea class="form-control" name="explanation1" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="explanation2">Explanation 2</label>
-                    <textarea class="form-control" name="explanation2" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="explanation3">Explanation 3</label>
-                    <textarea class="form-control" name="explanation3" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="explanation4">Explanation 4</label>
-                    <textarea class="form-control" name="explanation4" required></textarea>
-                </div>
-            </form>
-        </div>
-        
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="saveQuestionBtn">Save Question</button>
-            </div>
+                  <label for="date_reviewed">Date Reviewed</label>
+                  <input type="date" class="form-control" name="date_reviewed" required>
+              </div>
+              <div class="form-group">
+                  <label for="question">Question</label>
+                  <textarea class="form-control" name="question" required></textarea>
+              </div>
+              <div class="form-group">
+                  <label for="skill">Skill</label>
+                  <select class="form-control" name="skill" required>
+                      <option value="easy">Easy</option>
+                      <option value="medium">Medium</option>
+                      <option value="hard">Hard</option>
+                  </select>
+              </div>
+      
+              <!-- new fields -->
+              <div class="form-group">
+                  <label for="choice1">Choice 1</label>
+                  <textarea class="form-control" name="choice1" required></textarea>
+              </div>
+              <div class="form-group">
+                  <label for="choice2">Choice 2</label>
+                  <textarea class="form-control" name="choice2" required></textarea>
+              </div>
+              <div class="form-group">
+                  <label for="choice3">Choice 3</label>
+                  <textarea class="form-control" name="choice3" required></textarea>
+              </div>
+              <div class="form-group">
+                  <label for="choice4">Choice 4</label>
+                  <textarea class="form-control" name="choice4" required></textarea>
+              </div>
+              <div class="form-group">
+                  <label for="correct_choice">Correct Choice</label>
+                  <select class="form-control" name="correct_choice" required>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                  <label for="explanation1">Explanation 1</label>
+                  <textarea class="form-control" name="explanation1" required></textarea>
+              </div>
+              <div class="form-group">
+                  <label for="explanation2">Explanation 2</label>
+                  <textarea class="form-control" name="explanation2" required></textarea>
+              </div>
+              <div class="form-group">
+                  <label for="explanation3">Explanation 3</label>
+                  <textarea class="form-control" name="explanation3" required></textarea>
+              </div>
+              <div class="form-group">
+                  <label for="explanation4">Explanation 4</label>
+                  <textarea class="form-control" name="explanation4" required></textarea>
+              </div>
+          </form>
+      </div>
+      
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="saveQuestionBtn">Save Question</button>
           </div>
         </div>
       </div>
-    </body>
-  </html>
-  
+    </div>
+  </body>
+</html>
