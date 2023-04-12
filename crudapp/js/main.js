@@ -3,10 +3,11 @@ $(document).ready(function() {
 
     $('#saveQuestionBtn').on('click', function() {
         const questionData = getFormData($('#questionForm'));
-        if (validateQuestionData(questionData)) {
+        const invalidFields = validateQuestionData(questionData);
+        if (invalidFields.length === 0) {
             createQuestion(questionData);
         } else {
-            alert('Please fill in all required fields.');
+            alert('Please fill in the following required fields: ' + invalidFields.join(', '));
         }
     });
 });
@@ -50,19 +51,7 @@ function groupAndSortQuestions(questions) {
         .sort((a, b) => a.question.localeCompare(b.question))
         .sort((a, b) => skillOrder.indexOf(a.skill) - skillOrder.indexOf(b.skill));
 }
-$(document).ready(function() {
-    fetchQuestions();
 
-    $('#saveQuestionBtn').on('click', function() {
-        const questionData = getFormData($('#questionForm'));
-        const invalidFields = validateQuestionData(questionData);
-        if (invalidFields.length === 0) {
-            createQuestion(questionData);
-        } else {
-            alert('Please fill in the following required fields: ' + invalidFields.join(', '));
-        }
-    });
-});
 function getFormData(form) {
     return {
         question: form.find('[name="question"]').val(),
@@ -109,6 +98,7 @@ function createQuestion(questionData) {
             if (data.status === 'success') {
                 fetchQuestions();
                 $('#questionModal').modal('hide');
+                alert('Question added successfully.'); // Add this line to show a success message
             } else {
                 alert('Error creating question: ' + data.message);
             }
@@ -118,7 +108,6 @@ function createQuestion(questionData) {
         }
     });
 }
-
 
 
 
