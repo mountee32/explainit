@@ -10,13 +10,54 @@ $(document).ready(function() {
             alert('Please fill in the following required fields: ' + invalidFields.join(', '));
         }
     });
-
-    
+    $('#importQuestionsBtn').on('click', function() {
+        $('#importQuestionsFile').click();
+    });
+    // Add change event listener for the hidden file input element
+    $('#importQuestionsFile').on('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const jsonData = JSON.parse(e.target.result);
+                importQuestions(jsonData);
+            };
+            reader.readAsText(file);
+        }
+    });
     // Add event listener to reset the form and restore the create question behavior when the modal is closed
     $('#questionModal').on('hidden.bs.modal', function() {
         resetFormAndCreateQuestionBehavior();
     });
 });
+
+function importQuestions(questions) {
+    const invalidQuestions = [];
+
+    questions.forEach((question, index) => {
+        const questionData = {
+            question: question.question,
+            skill: question.skill,
+            choices: question.choices,
+            correct: question.correct,
+            explanations: question.explanations
+        };
+
+        const invalidFields = validateQuestionData(questionData);
+        if (invalidFields.length > 0) {
+            invalidQuestions.push({ index, invalidFields });
+        }
+    });
+
+    if (invalidQuestions.length > 0) {
+        const invalidSummary = invalidQuestions.map(invalid => `Question ${invalid.index + 1}: ${invalid.invalidFields.join(', ')}`).join('\n');
+        alert(`Invalid questions found:\n${invalidSummary}`);
+    } else {
+        alert(`All ${questions.length} questions are valid.`);
+        // You will implement the actual import in Release 7
+    }
+}
+
 
 function resetFormAndCreateQuestionBehavior() {
     const form = $('#questionForm');
