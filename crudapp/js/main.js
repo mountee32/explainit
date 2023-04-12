@@ -61,6 +61,7 @@ function displayQuestions(questions) {
 }
 
 
+
 function groupAndSortQuestions(questions) {
     const skillOrder = ['easy', 'medium', 'hard'];
 
