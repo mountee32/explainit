@@ -101,27 +101,7 @@ function validateQuestionData(questionData) {
     return invalidFields;
 }
 
-function createQuestion(questionData) {
-    $.ajax({
-        url: 'https://explainit.app/api/create.php',
-        method: 'POST',
-        data: JSON.stringify(questionData),
-        contentType: 'application/json',
-        dataType: 'json',
-        success: function (data, textStatus, jqXHR) {
-            if (jqXHR.status === 201) { // Check if the status code is 201
-                fetchQuestions();
-                $('#questionModal').modal('hide');
-                alert('Question added successfully.'); // Show a success message
-            } else {
-                alert('Error creating question: ' + data.message);
-            }
-        },
-        error: function (err) {
-            console.error('Error creating question:', err);
-        }
-    });
-}
+
 
 function deleteQuestion(questionId) {
     if (!confirm('Are you sure you want to delete this question?')) {
@@ -148,14 +128,42 @@ function deleteQuestion(questionId) {
     });
 }
 
+function createQuestion(questionData) {
+    $.ajax({
+        url: 'https://explainit.app/api/create.php',
+        method: 'POST',
+        data: JSON.stringify(questionData),
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function (data, textStatus, jqXHR) {
+            if (jqXHR.status === 201) { // Check if the status code is 201
+                fetchQuestions();
+                $('#questionModal').modal('hide');
+                alert('Question added successfully.'); // Show a success message
+            } else {
+                alert('Error creating question: ' + data.message);
+            }
+        },
+        error: function (err) {
+            console.error('Error creating question:', err);
+        }
+    });
+}
+
 function editQuestion(question) {
     const form = $('#questionForm');
     form.find('[name="id"]').val(question.id);
     form.find('[name="question"]').val(question.question);
     form.find('[name="skill"]').val(question.skill);
-    question.choices.forEach((choice, index) => form.find(`[name="choice${index + 1}"]`).val(choice));
+    form.find('[name="choice1"]').val(question.choice1);
+    form.find('[name="choice2"]').val(question.choice2);
+    form.find('[name="choice3"]').val(question.choice3);
+    form.find('[name="choice4"]').val(question.choice4);
     form.find('[name="correct_choice"]').val(question.correct_choice);
-    question.explanations.forEach((explanation, index) => form.find(`[name="explanation${index + 1}"]`).val(explanation));
+    form.find('[name="explanation1"]').val(question.explanation1);
+    form.find('[name="explanation2"]').val(question.explanation2);
+    form.find('[name="explanation3"]').val(question.explanation3);
+    form.find('[name="explanation4"]').val(question.explanation4);
 
     $('#saveQuestionBtn').off('click').on('click', function() {
         const updatedQuestionData = getFormData(form);
@@ -169,6 +177,7 @@ function editQuestion(question) {
 
     $('#questionModal').modal('show');
 }
+
 function updateQuestion(questionData) {
     $.ajax({
         url: 'https://explainit.app/api/update.php',
