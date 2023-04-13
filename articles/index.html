@@ -23,7 +23,8 @@
     </nav>
     <main>
       <div class="container">
-        <?php include "articles.php"; ?>
+        <ul id="articles-list"></ul>
+        <div id="pagination"></div>
       </div>
     </main>
     <footer>
@@ -31,5 +32,9 @@
         <p>&copy; 2023 Christian Apologetics Training Site</p>
       </div>
     </footer>
-  </body>
-</html>
+    <script>
+      function getArticles(page) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            var response

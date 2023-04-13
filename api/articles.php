@@ -33,27 +33,21 @@ $offset = ($currentPage - 1) * $articlesPerPage;
 $sql = "SELECT * FROM articles WHERE status = 'Published' ORDER BY created_at DESC LIMIT $offset, $articlesPerPage";
 $result = mysqli_query($connection, $sql);
 if (mysqli_num_rows($result) > 0) {
-  echo "<ul>";
+  $articles = array();
   while ($row = mysqli_fetch_assoc($result)) {
-    echo "<li><a href=\"article.php?id=" . $row["id"] . "\">" . $row["title"] . "</a></li>";
+    $article = array(
+      'id' => $row['id'],
+      'title' => $row['title'],
+      'category' => $row['category'],
+      'tags' => $row['tags'],
+      'content' => $row['content'],
+      'created_at' => $row['created_at'],
+      'updated_at' => $row['updated_at']
+    );
+    $articles[] = $article;
   }
-  echo "</ul>";
+  header('Content-Type: application/json');
+  echo json_encode($articles);
 } else {
-  echo "<p>No articles found.</p>";
+  echo json_encode(array('message' => 'No articles found.'));
 }
-
-// Display the pagination links
-echo "<div class=\"pagination\">";
-echo "<span>Page $currentPage of $numPages:</span>";
-if ($currentPage > 1) {
-  echo "<a href=\"?page=" . ($currentPage - 1) . "\">Prev</a>";
-}
-for ($i = 1; $i <= $numPages; $i++) {
-  if ($i == $currentPage) {
-    echo "<span>$i</span>";
-  } else {
-    echo "<a href=\"?page=$i\">$i</a>";
-  }
-}
-if ($currentPage < $numPages) {
-  echo "<a href
