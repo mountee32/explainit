@@ -18,7 +18,7 @@ if (isset($_GET["page"])) {
 }
 
 // Retrieve the total number of articles
-$sql = "SELECT COUNT(*) AS num_articles FROM articles WHERE status = 'Published'";
+$sql = "SELECT COUNT(*) AS num_articles FROM article WHERE status = 'Published'";
 $result = mysqli_query($connection, $sql);
 $row = mysqli_fetch_assoc($result);
 $numArticles = $row["num_articles"];
@@ -30,24 +30,36 @@ $numPages = ceil($numArticles / $articlesPerPage);
 $offset = ($currentPage - 1) * $articlesPerPage;
 
 // Retrieve the articles for the current page
-$sql = "SELECT * FROM articles WHERE status = 'Published' ORDER BY created_at DESC LIMIT $offset, $articlesPerPage";
+$sql = "SELECT * FROM article WHERE status = 'Published' ORDER BY created_at DESC LIMIT $offset, $articlesPerPage";
 $result = mysqli_query($connection, $sql);
 if (mysqli_num_rows($result) > 0) {
-  $articles = array();
+  echo "<ul>";
   while ($row = mysqli_fetch_assoc($result)) {
-    $article = array(
-      'id' => $row['id'],
-      'title' => $row['title'],
-      'category' => $row['category'],
-      'tags' => $row['tags'],
-      'content' => $row['content'],
-      'created_at' => $row['created_at'],
-      'updated_at' => $row['updated_at']
-    );
-    $articles[] = $article;
+    echo "<li><a href=\"article.php?id=" . $row["id"] . "\">" . $row["title"] . "</a></li>";
   }
-  header('Content-Type: application/json');
-  echo json_encode($articles);
+  echo "</ul>";
 } else {
-  echo json_encode(array('message' => 'No articles found.'));
+  echo "<p>No articles found.</p>";
 }
+
+// Display the pagination links
+echo "<div class=\"pagination\">";
+echo "<span>Page $currentPage of $numPages:</span>";
+if ($currentPage > 1) {
+  echo "<a href=\"?page=" . ($currentPage - 1) . "\">Prev</a>";
+}
+for ($i = 1; $i <= $numPages; $i++) {
+  if ($i == $currentPage) {
+    echo "<span>$i</span>";
+  } else {
+    echo "<a href=\"?page=$i\">$i</a>";
+  }
+}
+if ($currentPage < $numPages) {
+  echo "<a href=\"?page=" . ($currentPage + 1) . "\">Next</a>";
+}
+echo "</div>";
+
+// Close the database connection
+mysqli_close($connection);
+?>
