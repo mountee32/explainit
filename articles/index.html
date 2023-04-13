@@ -37,4 +37,41 @@
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
-            var response
+            var response = JSON.parse(this.responseText);
+            var articlesList = document.getElementById("articles-list");
+            articlesList.innerHTML = "";
+            for (var i = 0; i < response.articles.length; i++) {
+              var article = response.articles[i];
+              var li = document.createElement("li");
+              var a = document.createElement("a");
+              a.href = "article.php?id=" + article.id;
+              a.innerText = article.title;
+              li.appendChild(a);
+              articlesList.appendChild(li);
+            }
+            var pagination = document.getElementById("pagination");
+            pagination.innerHTML = "";
+            for (var i = 1; i <= response.numPages; i++) {
+              var a = document.createElement("a");
+              a.href = "#";
+              a.innerText = i;
+              a.onclick = (function(page) {
+                return function() {
+                  getArticles(page);
+                };
+              })(i);
+              if (i == page) {
+                a.classList.add("active");
+              }
+              pagination.appendChild(a);
+            }
+          }
+        };
+        xmlhttp.open("GET", "https://explainit.app/api/articles.php?page=" + page, true);
+        xmlhttp.send();
+      }
+
+      getArticles(1);
+    </script>
+  </body>
+</html>
