@@ -11,7 +11,7 @@ header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 include_once 'config.php';
-
+file_put_contents($log_file, "{$time_stamp} - QAContentAPI api - Raw input data: " . file_get_contents("php://input") .
 if (!$conn) {
     http_response_code(500);
     echo json_encode(array("message" => "Error: Unable to connect to the database."));
