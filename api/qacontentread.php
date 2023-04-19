@@ -9,8 +9,11 @@ header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-
+$log_file = 'api-log.txt';
+date_default_timezone_set('UTC');
+$time_stamp = date('Y-m-d H:i:s');
 include_once 'config.php';
+
 file_put_contents($log_file, "{$time_stamp} - QAContentAPI api - Raw input data: " . file_get_contents("php://input") .
 if (!$conn) {
     http_response_code(500);
