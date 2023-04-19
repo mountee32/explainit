@@ -97,7 +97,7 @@ function resetFormAndCreateQuestionBehavior() {
 
 function fetchQuestions() {
     $.ajax({
-        url: 'https://explainit.app/api/read.php',
+        url: 'https://explainit.app/api/quizread.php',
         method: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -200,7 +200,7 @@ function deleteQuestion(questionId) {
     }
 
     $.ajax({
-        url: 'https://explainit.app/api/delete.php',
+        url: 'https://explainit.app/api/quizdelete.php',
         method: 'DELETE',
         data: JSON.stringify({ id: questionId }),
         contentType: 'application/json',
@@ -222,7 +222,7 @@ function deleteQuestion(questionId) {
 function createQuestion(questionData, returnResponse = false) {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: 'https://explainit.app/api/create.php',
+            url: 'https://explainit.app/api/quizcreate.php',
             method: 'POST',
             data: JSON.stringify(questionData),
             contentType: 'application/json',
@@ -282,7 +282,7 @@ function editQuestion(question) {
 
 function updateQuestion(questionData) {
     $.ajax({
-        url: 'https://explainit.app/api/update.php',
+        url: 'https://explainit.app/api/quizupdate.php',
         method: 'PUT',
         data: JSON.stringify(questionData),
         contentType: 'application/json',
