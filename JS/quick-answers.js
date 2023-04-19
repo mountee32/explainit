@@ -1,8 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Change the fetch URL to the API endpoint
     fetch('https://explainit.app/api/qacontentread.php')
-        .then(response => response.json())
-        .then(data => {
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
             const categoriesContainer = document.getElementById('categories-container');
             const groupedData = {};
 
