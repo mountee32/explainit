@@ -388,3 +388,36 @@ body {
 .question-number {
   color: #333;
 }
+
+.accordion-header .accordion-button {
+  /* Add your styles here */
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  background-color: transparent;
+}
+
+.accordion-header .accordion-button.collapsed {
+  /* Add your styles here */
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  background-color: transparent;
+}
+
+.accordion-body p {
+  /* Add your styles here */
+  font-size: 14px;
+  font-weight: none;
+  border: none;
+  background-color: transparent;
+}
+
+.accordion-body a {
+  /* Add your styles here */
+  font-size: 14px;
+  font-weight: none;
+  border: none;
+  background-color: transparent;
+
+}
