@@ -1,5 +1,5 @@
 <?php
-// curl -X GET "https://explainit.app/api/qacategoriesread.php?id=1"
+// curl -X GET "https://explainit.app/api/qaquestionsread.php?id=1"
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -19,7 +19,7 @@ if (!$conn) {
 }
 
 if (isset($_GET['id'])) {
-    $stmt = $conn->prepare("SELECT * FROM qa_categories WHERE id = :id");
+    $stmt = $conn->prepare("SELECT * FROM qa_questions WHERE id = :id");
     $stmt->bindParam(":id", $_GET['id']);
     $stmt->execute();
 
@@ -30,10 +30,10 @@ if (isset($_GET['id'])) {
         echo json_encode($result);
     } else {
         http_response_code(404);
-        echo json_encode(array("message" => "Category not found."));
+        echo json_encode(array("message" => "Question not found."));
     }
 } else {
-    $stmt = $conn->prepare("SELECT * FROM qa_categories");
+    $stmt = $conn->prepare("SELECT * FROM qa_questions");
     $stmt->execute();
 
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -43,7 +43,7 @@ if (isset($_GET['id'])) {
         echo json_encode($result);
     } else {
         http_response_code(404);
-        echo json_encode(array("message" => "No categories found."));
+        echo json_encode(array("message" => "No questions found."));
     }
 }
 ?>
