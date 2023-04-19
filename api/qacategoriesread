@@ -1,11 +1,20 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-// curl -X GET "https://explainit.app/api/qacategoriesread.php?id=1"
 
 include_once 'config.php';
+
+if (!$conn) {
+    http_response_code(500);
+    echo json_encode(array("message" => "Error: Unable to connect to the database."));
+    exit();
+}
 
 if (isset($_GET['id'])) {
     $stmt = $conn->prepare("SELECT * FROM qa_categories WHERE id = :id");
