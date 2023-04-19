@@ -38,7 +38,7 @@ if (!is_null($conn) && $conn instanceof PDO) {
     ) {
         file_put_contents($log_file, "{$time_stamp} - update api - Good it's not blank: " . json_encode($data) . "\n", FILE_APPEND);
         $sql = "
-        UPDATE questions SET
+        UPDATE quiz SET
         question = :question,
         skill = :skill,
         choice1 = :choice1,

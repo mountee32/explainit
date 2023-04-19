@@ -28,7 +28,7 @@ file_put_contents($log_file, "{$time_stamp} - READ api - Raw input data: " . fil
             echo json_encode(array("message" => "Question not found."));
         }
     } else {
-        $stmt = $conn->prepare("SELECT * FROM questions");
+        $stmt = $conn->prepare("SELECT * FROM quiz");
         $stmt->execute();
 
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

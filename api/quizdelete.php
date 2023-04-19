@@ -15,7 +15,7 @@ $secret_token = 'Jump857571111';
     file_put_contents($log_file, "{$time_stamp} - delete api - Raw input data: " . file_get_contents("php://input") . "\n", FILE_APPEND);
     file_put_contents($log_file, "{$time_stamp} - delete api - Received data: " . json_encode($data) . "\n", FILE_APPEND);
     if (!empty($data['id'])) {
-        $stmt = $conn->prepare("DELETE FROM questions WHERE id = :id");
+        $stmt = $conn->prepare("DELETE FROM quiz WHERE id = :id");
         $stmt->bindParam(':id', $data['id']);
 
         if ($stmt->execute()) {

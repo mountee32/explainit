@@ -23,7 +23,7 @@ if (
     isset($data['correct']) &&
     !empty($data['explanations'])
 ) {
-    $sql = "INSERT INTO questions (
+    $sql = "INSERT INTO quiz (
         id, date_reviewed, question, skill,
         choice1, choice2, choice3, choice4,
         correct_choice,
