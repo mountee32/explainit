@@ -19,7 +19,7 @@ if (!$conn) {
 }
 
 if (isset($_GET['id'])) {
-    $stmt = $conn->prepare("SELECT * FROM qa_content WHERE id = :id");
+    $stmt = $conn->prepare("SELECT * FROM qacontent WHERE id = :id");
     $stmt->bindParam(":id", $_GET['id']);
     $stmt->execute();
 
