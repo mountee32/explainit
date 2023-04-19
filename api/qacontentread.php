@@ -33,7 +33,7 @@ if (isset($_GET['id'])) {
         echo json_encode(array("message" => "Content not found."));
     }
 } else {
-    $stmt = $conn->prepare("SELECT * FROM qa_content");
+    $stmt = $conn->prepare("SELECT * FROM qacontent");
     $stmt->execute();
 
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
