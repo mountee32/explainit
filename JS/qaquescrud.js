@@ -11,8 +11,7 @@ const saveQuestionBtn = document.getElementById("saveQuestionBtn");
 
 // Event listeners
 window.addEventListener("load", loadQuestions);
-addQuestionForm.addEventListener("submit", addQuestion);
-editQuestionForm.addEventListener("submit", updateQuestion);
+
 saveQuestionBtn.addEventListener("click", saveQuestion);
 
 async function callApi(action, data = {}) {
@@ -152,9 +151,13 @@ function resetFormAndEditQuestionBehavior() {
   $("#questionModal").modal("show");
 }
 function saveQuestion() {
-  const form = addQuestionForm.style.display === "block" ? addQuestionForm : editQuestionForm;
-  form.dispatchEvent(new Event("submit"));
-}
+    if (addQuestionForm.style.display === "block") {
+      addQuestionForm.dispatchEvent(new Event("submit"));
+    } else {
+      editQuestionForm.dispatchEvent(new Event("submit"));
+    }
+  }
+  
 
 function getFormData(form) {
   const formData = new FormData(form);
@@ -164,14 +167,5 @@ function getFormData(form) {
   });
   return data;
 }
-function submitForm() {
-    const addForm = document.getElementById('add-question-form');
-    const editForm = document.getElementById('edit-question-form');
-    if (addForm.style.display !== 'none') {
-      addForm.dispatchEvent(new Event('submit'));
-    } else {
-      editForm.dispatchEvent(new Event('submit'));
-    }
-    questionModal.hide(); // Add this line to hide the modal
-  }
+
   
