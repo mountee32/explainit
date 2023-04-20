@@ -69,58 +69,62 @@ function loadQuestions() {
 }
 
 function displayQuestions(questions) {
-  questionTableBody.innerHTML = "";
-  questions.forEach((question) => {
-    const row = document.createElement("tr");
+    questionTableBody.innerHTML = "";
+    questions.forEach((question) => {
+      const row = document.createElement("tr");
+  
+      const idCell = document.createElement("td");
+      idCell.innerHTML = question.id;
+      row.appendChild(idCell);
+  
+      const categoryIDCell = document.createElement("td");
+      categoryIDCell.innerHTML = question.category_id;
+      row.appendChild(categoryIDCell);
+  
+      const questionCell = document.createElement("td");
+      questionCell.innerHTML = question.question;
+      row.appendChild(questionCell);
+  
+      const answerCell = document.createElement("td");
+      answerCell.innerHTML = question.answer;
+      row.appendChild(answerCell);
+  
+      const linkCell = document.createElement("td");
+      linkCell.innerHTML = question.link;
+      row.appendChild(linkCell);
+  
+      const actionCell = document.createElement("td");
+      const editButton = document.createElement("button");
+      editButton.className = "btn btn-warning me-2";
+      editButton.innerHTML = "Edit";
+      editButton.onclick = () => editQuestion(question.id.toString());
 
-    const idCell = document.createElement("td");
-    idCell.innerHTML = question.id;
-    row.appendChild(idCell);
+      actionCell.appendChild(editButton);
+  
+      const deleteButton = document.createElement("button");
+      deleteButton.className = "btn btn-danger";
+      deleteButton.innerHTML = "Delete";
+      deleteButton.onclick = () => removeQuestion(question.id.toString());
 
-    const categoryCell = document.createElement("td");
-    categoryCell.innerHTML = question.category_id;
-    row.appendChild(categoryCell);
+      actionCell.appendChild(deleteButton);
+  
+      row.appendChild(actionCell);
+  
+      questionTableBody.appendChild(row);
+    });
+  }
+  
 
-    const questionCell = document.createElement("td");
-    questionCell.innerHTML = question.question;
-    row.appendChild(questionCell);
-
-    const answerCell = document.createElement("td");
-    answerCell.innerHTML = question.answer;
-    row.appendChild(answerCell);
-
-    const linkCell = document.createElement("td");
-    linkCell.innerHTML = question.link;
-    row.appendChild(linkCell);
-
-    const actionCell = document.createElement("td");
-    const editButton = document.createElement("button");
-    editButton.className = "btn btn-warning me-2";
-    editButton.innerHTML = "Edit";
-    editButton.onclick = () => editQuestion(question.id);
-    actionCell.appendChild(editButton);
-
-    const deleteButton = document.createElement("button");
-    deleteButton.className = "btn btn-danger";
-    deleteButton.innerHTML = "Delete";
-    deleteButton.onclick = () => removeQuestion(question.id);
-    actionCell.appendChild(deleteButton);
-
-    row.appendChild(actionCell);
-
-    questionTableBody.appendChild(row);
-  });
-}
-
-function editQuestion(id) {
-  const question = questions.find((q) => q.id === id);
-  document.getElementById("edit-question-id").value = question.id;
-  document.getElementById("edit-question-category_id").value = question.category_id;
-  document.getElementById("edit-question-question").value = question.question;
-  document.getElementById("edit-question-answer").value = question.answer;
-  document.getElementById("edit-question-link").value = question.link;
-  resetFormAndEditQuestionBehavior();
-}
+  function editQuestion(id) {
+    const question = questions.find((q) => q.id === id);
+    document.getElementById("edit-question-id").value = question.id;
+    document.getElementById("edit-category_id").value = question.category_id;
+    document.getElementById("edit-question").value = question.question;
+    document.getElementById("edit-answer").value = question.answer;
+    document.getElementById("edit-link").value = question.link;
+    resetFormAndEditQuestionBehavior();
+  }
+  
 
 function removeQuestion(id) {
   if (confirm("Are you sure you want to delete this question?")) {
@@ -158,12 +162,13 @@ function getFormData(form) {
   return data;
 }
 function submitForm() {
-  const addForm = document.getElementById('add-question-form');
-  const editForm = document.getElementById('edit-question-form');
-  if (addForm.style.display !== 'none') {
-    addForm.dispatchEvent(new Event('submit'));
-  } else {
-    editForm.dispatchEvent(new Event('submit'));
+    const addForm = document.getElementById('add-question-form');
+    const editForm = document.getElementById('edit-question-form');
+    if (addForm.style.display !== 'none') {
+      addForm.dispatchEvent(new Event('submit'));
+    } else {
+      editForm.dispatchEvent(new Event('submit'));
+    }
+    questionModal.hide(); // Add this line to hide the modal
   }
-  questionModal.hide(); // Add this line to hide the modal
-}
+  
