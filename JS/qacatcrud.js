@@ -132,7 +132,6 @@ function resetFormAndEditCategoryBehavior() {
   document.getElementById("categoryModalLabel").innerHTML = "Edit Category";
   $("#categoryModal").modal("show");
 }
-
 function saveCategory() {
   const form = addCategoryForm.style.display === "block" ? addCategoryForm : editCategoryForm;
   form.dispatchEvent(new Event("submit"));
