@@ -43,8 +43,8 @@
         </div>
     </div>
 
-     <!-- Modal -->
-     <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+    <!-- Modal -->
+    <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -52,11 +52,18 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="categoryForm">
+                    <form id="add-category-form">
                         <input type="hidden" name="id" value="">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title*</label>
                             <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                    </form>
+                    <form id="edit-category-form" style="display:none;">
+                        <input type="hidden" id="edit-category-id" name="id" value="">
+                        <div class="mb-3">
+                            <label for="edit-category-title" class="form-label">Title*</label>
+                            <input type="text" class="form-control" id="edit-category-title" name="title" required>
                         </div>
                     </form>
                 </div>
@@ -69,7 +76,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
     <script src="JS/qacatcrud.js"></script>
 </body>
-
 </html>
