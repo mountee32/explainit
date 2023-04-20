@@ -96,15 +96,23 @@ function loadCategories() {
 function displayCategories(categories) {
   categoryList.innerHTML = "";
   categories.forEach((category) => {
-    const listItem = document.createElement("li");
+    const row = document.createElement("tr");
+    
+    const titleCell = document.createElement("td");
+    titleCell.innerHTML = category.title;
+    row.appendChild(titleCell);
+    
+    const actionCell = document.createElement("td");
     const editButton = document.createElement("button");
     editButton.innerHTML = "Edit";
     editButton.addEventListener("click", () => editCategory(category));
-    listItem.innerHTML = category.title;
-    listItem.appendChild(editButton);
-    categoryList.appendChild(listItem);
+    actionCell.appendChild(editButton);
+    row.appendChild(actionCell);
+    
+    categoryList.appendChild(row);
   });
 }
+
 
 function addCategory(event) {
   event.preventDefault();
