@@ -3,22 +3,19 @@ const apiUrl = "https://explainit.app/api/qacategories.php";
 let categories = [];
 
 // DOM elements
-const addCategoryForm = document.getElementById("categoryForm");
-const editCategoryForm = document.getElementById("add-category-form");
-const editCategoryIdInput = document.getElementById("edit-category-id");
-const editCategoryTitleInput = document.getElementById("edit-category-title");
-
-const categoryList = document.getElementById("categoryTableBody");
-
+const addCategoryForm = document.getElementById("add-category-form");
+const editCategoryForm = document.getElementById("edit-category-form");
+const categoryTableBody = document.getElementById("categoryTableBody");
+const saveCategoryBtn = document.getElementById("saveCategoryBtn");
 
 // Event listeners
 window.addEventListener("load", loadCategories);
 addCategoryForm.addEventListener("submit", addCategory);
 editCategoryForm.addEventListener("submit", updateCategory);
-
+saveCategoryBtn.addEventListener("click", saveCategory);
 
 async function callApi(action, data = {}) {
-  const response = await fetch(API_URL + `?action=${action}`, {
+  const response = await fetch(apiUrl + `?action=${action}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -41,9 +38,11 @@ async function getCategories() {
   return response;
 }
 
-async function addCategory(title) {
-  const response = await callApi('create', { title });
-  return response;
+async function addCategory(event) {
+  event.preventDefault();
+  const formData = getFormData(addCategoryForm);
+  const response = await callApi('create', formData);
+  loadCategories();
 }
 
 async function deleteCategory(id) {
@@ -51,38 +50,12 @@ async function deleteCategory(id) {
   return response;
 }
 
-async function updateCategory(id, title) {
-  const response = await callApi('update', { id, title });
-  return response;
+async function updateCategory(event) {
+  event.preventDefault();
+  const formData = getFormData(editCategoryForm);
+  const response = await callApi('update', formData);
+  loadCategories();
 }
-
-async function loginUser(username, password) {
-  const response = await fetch(API_URL + '?action=login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      username,
-      password
-    })
-  });
-
-  const responseData = await response.json();
-
-  if (!response.ok) {
-    throw new Error(responseData.message || 'Something went wrong');
-  }
-
-  localStorage.setItem('jwt', responseData.token);
-
-  return responseData;
-}
-
-async function logoutUser() {
-  localStorage.removeItem('jwt');
-}
-
 
 // Functions
 function loadCategories() {
@@ -96,142 +69,77 @@ function loadCategories() {
 }
 
 function displayCategories(categories) {
-  categoryList.innerHTML = "";
+  categoryTableBody.innerHTML = "";
   categories.forEach((category) => {
     const row = document.createElement("tr");
-    
+
+    const idCell = document.createElement("td");
+    idCell.innerHTML = category.id;
+    row.appendChild(idCell);
+
     const titleCell = document.createElement("td");
     titleCell.innerHTML = category.title;
     row.appendChild(titleCell);
-    
+
     const actionCell = document.createElement("td");
     const editButton = document.createElement("button");
+    editButton.className = "btn btn-warning me-2";
     editButton.innerHTML = "Edit";
-    editButton.addEventListener("click", () => editCategory(category));
+    editButton.onclick = () => editCategory(category.id);
     actionCell.appendChild(editButton);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "btn btn-danger";
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = () => removeCategory(category.id);
+    actionCell.appendChild(deleteButton);
+
     row.appendChild(actionCell);
-    
-    categoryList.appendChild(row);
+
+    categoryTableBody.appendChild(row);
   });
 }
 
-
-function addCategory(event) {
-  event.preventDefault();
-  const formData = getFormData(addCategoryForm);
-  fetch(apiUrl + "?action=create", {
-    method: "POST",
-    body: JSON.stringify(formData),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data.message);
-      loadCategories();
-    })
-    .catch((error) => console.error(error));
+function editCategory(id) {
+  const category = categories.find((cat) => cat.id === id);
+  document.getElementById("edit-category-id").value = category.id;
+  document.getElementById("edit-category-title").value = category.title;
+  resetFormAndEditCategoryBehavior();
 }
 
-function editCategory(category) {
-  editCategoryIdInput.value = category.id;
-  editCategoryTitleInput.value = category.title;
+function removeCategory(id) {
+  if (confirm("Are you sure you want to delete this category?")) {
+    deleteCategory(id)
+      .then(() => {
+        loadCategories();
+      })
+      .catch((error) => console.error(error));
+  }
+}
+
+function resetFormAndCreateCategoryBehavior() {
+  addCategoryForm.style.display = "block";
+  editCategoryForm.style.display = "none";
+  document.getElementById("categoryModalLabel").innerHTML = "Add Category";
+}
+
+function resetFormAndEditCategoryBehavior() {
+  addCategoryForm.style.display = "none";
+  editCategoryForm.style.display = "block";
+  document.getElementById("categoryModalLabel").innerHTML = "Edit Category";
+  $("#categoryModal").modal("show");
+}
+
+function saveCategory() {
+  const form = addCategoryForm.style.display === "block" ? addCategoryForm : editCategoryForm;
+  form.dispatchEvent(new Event("submit"));
 }
 
 function getFormData(form) {
   const formData = new FormData(form);
   const data = {};
-  for (const [key, value] of formData.entries()) {
+  formData.forEach((value, key) => {
     data[key] = value;
-  }
+  });
   return data;
 }
-
-function updateCategory(event) {
-  event.preventDefault();
-  const formData = getFormData(editCategoryForm);
-  fetch(apiUrl + "?action=update", {
-    method: "PUT",
-    body: JSON.stringify(formData),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data.message);
-      loadCategories();
-    })
-    .catch((error) => console.error(error));
-}
-function getFormData(form) {
-  let data = {};
-  let inputs = form.querySelectorAll("input, select, textarea");
-  for (let i = 0; i < inputs.length; i++) {
-    let input = inputs[i];
-    let name = input.getAttribute("name");
-    let value = input.value.trim();
-    if (name) {
-      data[name] = value;
-    }
-  }
-  return data;
-}
-
-function resetForm(form) {
-  form.reset();
-  let idField = form.querySelector('[name="id"]');
-  if (idField) {
-    idField.value = "";
-  }
-}
-
-function showMessage(message, isError = false) {
-  let messageElem = document.querySelector(".message");
-  messageElem.textContent = message;
-  messageElem.classList.remove("error");
-  messageElem.classList.remove("success");
-  messageElem.classList.add(isError ? "error" : "success");
-  messageElem.style.display = "block";
-  setTimeout(() => {
-    messageElem.style.display = "none";
-  }, 3000);
-}
-
-// Event listeners
-window.addEventListener("load", () => {
-  getCategories();
-});
-
-document.querySelector("#categories").addEventListener("click", (e) => {
-  if (e.target.classList.contains("edit-button")) {
-    let id = e.target.getAttribute("data-id");
-    getCategoryById(id);
-  } else if (e.target.classList.contains("delete-button")) {
-    let id = e.target.getAttribute("data-id");
-    deleteCategory(id);
-  }
-});
-
-document.querySelector("#add-form").addEventListener("submit", (e) => {
-  e.preventDefault();
-  let form = e.target;
-  let data = getFormData(form);
-  createCategory(data);
-});
-
-document.querySelector("#edit-form").addEventListener("submit", (e) => {
-  e.preventDefault();
-  let form = e.target;
-  let data = getFormData(form);
-  updateCategory(data);
-});
-
-document.querySelector(".close-button").addEventListener("click", () => {
-  hideModal();
-});
-
-document.querySelector("#modal-overlay").addEventListener("click", () => {
-  hideModal();
-});
