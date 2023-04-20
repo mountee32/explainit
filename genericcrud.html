@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <title>Release 1</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Release 1</h1>
+      <div class="form-group">
+        <label for="tableSelect">Select a table:</label>
+        <select class="form-control" id="tableSelect">
+          <option value="">Select a table...</option>
+          <option value="quiz">Quiz</option>
+          <option value="qa_questions">Q&A Questions</option>
+          <option value="qa_categories">Q&A Categories</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="searchInput">Search:</label>
+        <input type="text" class="form-control" id="searchInput" />
+      </div>
+      <table class="table">
+        <thead>
+          <tr id="headerRow"></tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <script src="JS/genericcrud.js"></script>
+  </body>
+</html>
