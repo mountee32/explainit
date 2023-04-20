@@ -11,6 +11,9 @@ const saveQuestionBtn = document.getElementById("saveQuestionBtn");
 
 // Event listeners
 window.addEventListener("load", loadQuestions);
+addQuestionForm.addEventListener("submit", addQuestion);
+editQuestionForm.addEventListener("submit", updateQuestion);
+
 
 saveQuestionBtn.addEventListener("click", saveQuestion);
 
