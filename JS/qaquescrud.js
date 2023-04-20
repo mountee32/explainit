@@ -52,11 +52,14 @@ async function deleteQuestion(id) {
 }
 
 async function updateQuestion(event) {
-  event.preventDefault();
-  const formData = getFormData(editQuestionForm);
-  const response = await callApi('update', formData);
-  loadQuestions();
-}
+    event.preventDefault();
+    const formData = getFormData(editQuestionForm);
+    console.log("formData:", formData); // Add this line to log the formData
+    const response = await callApi('update', formData);
+    console.log("response:", response); // Add this line to log the response
+    loadQuestions();
+  }
+  
 
 // Functions
 function loadQuestions() {
