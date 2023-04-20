@@ -1,12 +1,15 @@
 // Global variables
 const apiUrl = "https://explainit.app/api/qacategories.php";
 let categories = [];
+const categoryModal = new bootstrap.Modal(document.getElementById('categoryModal'));
+
 
 // DOM elements
 const addCategoryForm = document.getElementById("add-category-form");
 const editCategoryForm = document.getElementById("edit-category-form");
 const categoryTableBody = document.getElementById("categoryTableBody");
 const saveCategoryBtn = document.getElementById("saveCategoryBtn");
+
 
 // Event listeners
 window.addEventListener("load", loadCategories);
@@ -151,4 +154,6 @@ function submitForm() {
   } else {
     editForm.dispatchEvent(new Event('submit'));
   }
+  categoryModal.hide(); // Add this line to hide the modal
 }
+
