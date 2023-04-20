@@ -4,9 +4,11 @@ let categories = [];
 
 // DOM elements
 const addCategoryForm = document.getElementById("categoryForm");
-const editCategoryForm = document.getElementById("editCategoryForm");
-const editCategoryIdInput = document.getElementById("id");
-const editCategoryTitleInput = document.getElementById("title");
+const editCategoryForm = document.getElementById("add-category-form");
+const editCategoryIdInput = document.getElementById("edit-category-id");
+const editCategoryTitleInput = document.getElementById("edit-category-title");
+
+const categoryList = document.getElementById("categoryTableBody");
 
 
 // Event listeners
