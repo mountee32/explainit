@@ -46,6 +46,7 @@ async function addQuestion(event) {
   const formData = getFormData(addQuestionForm);
   const response = await callApi('create', formData);
   loadQuestions();
+  questionModal.hide(); // Add this line to close the modal
 }
 
 async function deleteQuestion(id) {
@@ -60,6 +61,7 @@ async function updateQuestion(event) {
     const response = await callApi('update', formData);
     console.log("response:", response); // Add this line to log the response
     loadQuestions();
+    questionModal.hide(); // Add this line to close the modal
   }
   
 
