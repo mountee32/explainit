@@ -3,7 +3,7 @@ const apiUrl = "https://explainit.app/api/qacategories.php";
 let categories = [];
 
 // DOM elements
-const categoryList = document.getElementById("category-list");
+const categoryList = document.getElementById("categoryTableBody");
 const addCategoryForm = document.getElementById("add-category-form");
 const editCategoryForm = document.getElementById("edit-category-form");
 const editCategoryIdInput = document.getElementById("edit-category-id");
