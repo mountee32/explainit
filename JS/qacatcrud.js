@@ -143,3 +143,12 @@ function getFormData(form) {
   });
   return data;
 }
+function submitForm() {
+  const addForm = document.getElementById('add-category-form');
+  const editForm = document.getElementById('edit-category-form');
+  if (addForm.style.display !== 'none') {
+    addForm.dispatchEvent(new Event('submit'));
+  } else {
+    editForm.dispatchEvent(new Event('submit'));
+  }
+}
