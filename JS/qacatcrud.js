@@ -1,332 +1,226 @@
-$(document).ready(function() {
-    fetchCategories();
+// Global variables
+const apiUrl = "https://explainit.app/api/qacategories.php";
+let categories = [];
 
-    $('#saveCategoryBtn').on('click', function() {
-        const categoryData = getFormData($('#categoryForm'));
-        const invalidFields = validateCategoryData(categoryData);
-        if (invalidFields.length === 0) {
-            createCategory(categoryData);
-        } else {
-            alert('Please fill in the following required fields: ' + invalidFields.join(', '));
-        }
-    });
-    $('#importCategoriesBtn').on('click', function() {
-        $('#importCategoriesFile').click();
-    });
-    // Add change event listener for the hidden file input element
-    $('#importCategoriesFile').on('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const jsonData = JSON.parse(e.target.result);
-                importCategories(jsonData);
-            };
-            reader.readAsText(file);
-        }
-    });
-    // Add event listener to reset the form and restore the create category behavior when the modal is closed
-    $('#categoryModal').on('hidden.bs.modal', function() {
-        resetFormAndCreateCategoryBehavior();
-    });
-});
+// DOM elements
+const categoryList = document.getElementById("category-list");
+const addCategoryForm = document.getElementById("add-category-form");
+const editCategoryForm = document.getElementById("edit-category-form");
+const editCategoryIdInput = document.getElementById("edit-category-id");
+const editCategoryTitleInput = document.getElementById("edit-category-title");
 
+// Event listeners
+window.addEventListener("load", loadCategories);
+addCategoryForm.addEventListener("submit", addCategory);
+editCategoryForm.addEventListener("submit", editCategory);
 
-async function importCategories(categories) {
-    const invalidCategories = [];
-    const importResults = {
-        success: 0,
-        failed: 0
-    };
-
-    for (const [index, category] of categories.entries()) {
-        const categoryData = {
-            title: category.title
-        };
-
-        const invalidFields = validateCategoryData(categoryData);
-        if (invalidFields.length > 0) {
-            invalidCategories.push({ index, invalidFields });
-            importResults.failed++;
-        } else {
-            try {
-                const { status } = await createCategory(categoryData, true);
-
-                if (status === 201) { // Replace 'response.status' with 'status'
-                    importResults.success++;
-                } else {
-                    importResults.failed++;
-                }
-            } catch (error) {
-                console.error('Error importing category:', error);
-                importResults.failed++;
-            }
-        }
-    }
-
-    if (invalidCategories.length > 0) {
-        const invalidSummary = invalidCategories.map(invalid => `Category ${invalid.index + 1}: ${invalid.invalidFields.join(', ')}`).join('\n');
-        alert(`Invalid categories found:\n${invalidSummary}`);
-    }
-
-    alert(`Import results: ${importResults.success} categories imported successfully, ${importResults.failed} failed.`);
-    fetchCategories(); // Refresh the category list after importing
-}
-
-
-function resetFormAndCreateCategoryBehavior() {
-    const form = $('#categoryForm');
-    form[0].reset();
-    form.find('[name="id"]').val('');
-
-    $('#saveCategoryBtn').off('click').on('click', function() {
-        const categoryData = getFormData(form);
-        const invalidFields = validateCategoryData(categoryData);
-        if (invalidFields.length === 0) {
-            createCategory(categoryData);
-        } else {
-            alert('Please fill in the following required fields: ' + invalidFields.join(', '));
-        }
-    });
-}
-
-
-function fetchCategories() {
-    $.ajax({
-        url: 'https://explainit.app/api/qacategoriesread.php',
-        method: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            displayCategories(data);
-            displayCategoryCount(data); // Make sure this line is present
-        },
-        error: function(err) {
-            console.error('Error fetching categories:', err);
-        }
-    });
-}
-
-
-function displayCategories(categories) {
-  const tableBody = $('#categoryTableBody');
-  tableBody.empty();
-
-  categories.forEach(function (category) {
-    const deleteButton = $('<button>')
-      .addClass('btn btn-danger btn-sm')
-      .text('Delete')
-      .on('click', function () {
-        deleteCategory(category.id);
-      });
-
-    const editButton = $('<button>') // Add an edit button
-      .addClass('btn btn-primary btn-sm me-2') // Add me-2 class for spacing
-      .text('Edit')
-      .on('click', function () {
-        editCategory(category);
-      });
-
-    const actionsDiv = $('<div>').addClass('d-flex').append(editButton, deleteButton);
-
-    const row = $('<tr>').append(
-      $('<td>').text(category.id),
-      $('<td>').append($('<input>').val(category.title).prop('disabled', true)),
-      $('<td>').append(actionsDiv) // Add the actionsDiv containing the edit and delete buttons
-    );
-    tableBody.append(row);
+async function callApi(action, data = {}) {
+  const response = await fetch(API_URL + `?action=${action}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+    },
+    body: JSON.stringify(data)
   });
-}
 
-function groupAndSortCategories(categories) {
-  return categories.sort((a, b) => a.title.localeCompare(b.title));
-}
+  const responseData = await response.json();
 
-function deleteCategory(categoryId) {
-  if (!confirm('Are you sure you want to delete this category?')) {
-    return;
+  if (!response.ok) {
+    throw new Error(responseData.message || 'Something went wrong');
   }
 
-  $.ajax({
-    url: 'https://explainit.app/api/qacategories.php',
-    method: 'DELETE',
-    data: JSON.stringify({ id: categoryId }),
-    contentType: 'application/json',
-    dataType: 'json',
-    success: function (data) {
-      if (data.message === 'Category deleted successfully.') {
-        fetchCategories();
-      } else {
-        alert('Error deleting category: ' + data.message);
-      }
+  return responseData;
+}
+
+async function getCategories() {
+  const response = await callApi('read');
+  return response;
+}
+
+async function addCategory(title) {
+  const response = await callApi('create', { title });
+  return response;
+}
+
+async function deleteCategory(id) {
+  const response = await callApi('delete', { id });
+  return response;
+}
+
+async function updateCategory(id, title) {
+  const response = await callApi('update', { id, title });
+  return response;
+}
+
+async function loginUser(username, password) {
+  const response = await fetch(API_URL + '?action=login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
     },
-    error: function (err) {
-      console.error('Error deleting category:', err);
-    }
+    body: JSON.stringify({
+      username,
+      password
+    })
+  });
+
+  const responseData = await response.json();
+
+  if (!response.ok) {
+    throw new Error(responseData.message || 'Something went wrong');
+  }
+
+  localStorage.setItem('jwt', responseData.token);
+
+  return responseData;
+}
+
+async function logoutUser() {
+  localStorage.removeItem('jwt');
+}
+
+
+// Functions
+function loadCategories() {
+  fetch(apiUrl + "?action=read")
+    .then((response) => response.json())
+    .then((data) => {
+      categories = data;
+      displayCategories(categories);
+    })
+    .catch((error) => console.error(error));
+}
+
+function displayCategories(categories) {
+  categoryList.innerHTML = "";
+  categories.forEach((category) => {
+    const listItem = document.createElement("li");
+    const editButton = document.createElement("button");
+    editButton.innerHTML = "Edit";
+    editButton.addEventListener("click", () => editCategory(category));
+    listItem.innerHTML = category.title;
+    listItem.appendChild(editButton);
+    categoryList.appendChild(listItem);
   });
 }
 
-function createCategory(categoryData, returnResponse = false) {
-  return new Promise((resolve, reject) => {
-    $.ajax({
-      url: 'https://explainit.app/api/qacategories.php',
-      method: 'POST',
-      data: JSON.stringify(categoryData),
-      contentType: 'application/json',
-      dataType: 'json',
-      success: function (data, textStatus, jqXHR) {
-        if (returnResponse) {
-          resolve({ status: jqXHR.status, data: data }); // Add the status property
-        } else {
-          if (jqXHR.status === 201) {
-            fetchCategories();
-            $('#categoryModal').modal('hide');
-            alert('Category added successfully.');
-          } else {
-            alert('Error creating category: ' + data.message);
-          }
-        }
-      },
-      error: function (err) {
-        if (returnResponse) {
-          reject(err);
-        } else {
-          console.error('Error creating category:', err);
-        }
-      }
-    });
-  });
-}
-
-function updateCategory(categoryData) {
-  $.ajax({
-    url: 'https://explainit.app/api/qacategories.php',
-    method: 'PUT',
-    data: JSON.stringify(categoryData),
-    contentType: 'application/json',
-    dataType: 'json',
-    success: function (data) {
-      if (data.message === 'Category updated successfully.') {
-        fetchCategories();
-        $('#categoryModal').modal('hide');
-        alert('Category updated successfully.');
-      } else {
-        alert('Error updating category: ' + data.message);
-      }
+function addCategory(event) {
+  event.preventDefault();
+  const formData = getFormData(addCategoryForm);
+  fetch(apiUrl + "?action=create", {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json",
     },
-    error: function (err) {
-      console.error('Error updating category:', err);
-    }
-  });
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data.message);
+      loadCategories();
+    })
+    .catch((error) => console.error(error));
 }
 
 function editCategory(category) {
-    const form = $('#categoryForm');
-    form.find('[name="id"]').val(category.id);
-    form.find('[name="title"]').val(category.title);
-
-    $('#saveCategoryBtn').off('click').on('click', function() {
-        const updatedCategoryData = getFormData(form);
-        const invalidFields = validateCategoryData(updatedCategoryData);
-        if (invalidFields.length === 0) {
-            updateCategory(updatedCategoryData);
-        } else {
-            alert('Please fill in the following required fields: ' + invalidFields.join(', '));
-        }
-    });
-
-    $('#categoryModal').modal('show');
-}
-
-function updateCategory(categoryData) {
-    $.ajax({
-        url: 'https://explainit.app/api/qacategories/update.php',
-        method: 'PUT',
-        data: JSON.stringify(categoryData),
-        contentType: 'application/json',
-        dataType: 'json',
-        success: function(data) {
-            if (data.message === 'Category updated successfully.') {
-                fetchCategories();
-                $('#categoryModal').modal('hide');
-                alert('Category updated successfully.');
-            } else {
-                alert('Error updating category: ' + data.message);
-            }
-        },
-        error: function(err) {
-            console.error('Error updating category:', err);
-        }
-    });
-}
-
-function deleteCategory(categoryId) {
-    if (!confirm('Are you sure you want to delete this category?')) {
-        return;
-    }
-
-    $.ajax({
-        url: 'https://explainit.app/api/qacategories/delete.php',
-        method: 'DELETE',
-        data: JSON.stringify({ id: categoryId }),
-        contentType: 'application/json',
-        dataType: 'json',
-        success: function(data) {
-            if (data.message === 'Category deleted successfully.') {
-                fetchCategories();
-                // alert('Category deleted successfully.');
-            } else {
-                alert('Error deleting category: ' + data.message);
-            }
-        },
-        error: function(err) {
-            console.error('Error deleting category:', err);
-        }
-    });
-}
-
-function createCategory(categoryData, returnResponse = false) {
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            url: 'https://explainit.app/api/qacategories/create.php',
-            method: 'POST',
-            data: JSON.stringify(categoryData),
-            contentType: 'application/json',
-            dataType: 'json',
-            success: function (data, textStatus, jqXHR) {
-                if (returnResponse) {
-                    resolve({ status: jqXHR.status, data: data }); // Add the status property
-                } else {
-                    if (jqXHR.status === 201) {
-                        fetchCategories();
-                        $('#categoryModal').modal('hide');
-                        alert('Category added successfully.');
-                    } else {
-                        alert('Error creating category: ' + data.message);
-                    }
-                }
-            },
-            error: function (err) {
-                if (returnResponse) {
-                    reject(err);
-                } else {
-                    console.error('Error creating category:', err);
-                }
-            }
-        });
-    });
-}
-
-function validateCategoryData(categoryData) {
-    const invalidFields = [];
-
-    if (!categoryData.title) invalidFields.push('Title');
-
-    return invalidFields;
+  editCategoryIdInput.value = category.id;
+  editCategoryTitleInput.value = category.title;
 }
 
 function getFormData(form) {
-    return {
-        id: form.find('[name="id"]').val(),
-        title: form.find('[name="title"]').val()
-    };
+  const formData = new FormData(form);
+  const data = {};
+  for (const [key, value] of formData.entries()) {
+    data[key] = value;
+  }
+  return data;
 }
+
+function updateCategory(event) {
+  event.preventDefault();
+  const formData = getFormData(editCategoryForm);
+  fetch(apiUrl + "?action=update", {
+    method: "PUT",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data.message);
+      loadCategories();
+    })
+    .catch((error) => console.error(error));
+}
+function getFormData(form) {
+  let data = {};
+  let inputs = form.querySelectorAll("input, select, textarea");
+  for (let i = 0; i < inputs.length; i++) {
+    let input = inputs[i];
+    let name = input.getAttribute("name");
+    let value = input.value.trim();
+    if (name) {
+      data[name] = value;
+    }
+  }
+  return data;
+}
+
+function resetForm(form) {
+  form.reset();
+  let idField = form.querySelector('[name="id"]');
+  if (idField) {
+    idField.value = "";
+  }
+}
+
+function showMessage(message, isError = false) {
+  let messageElem = document.querySelector(".message");
+  messageElem.textContent = message;
+  messageElem.classList.remove("error");
+  messageElem.classList.remove("success");
+  messageElem.classList.add(isError ? "error" : "success");
+  messageElem.style.display = "block";
+  setTimeout(() => {
+    messageElem.style.display = "none";
+  }, 3000);
+}
+
+// Event listeners
+window.addEventListener("load", () => {
+  getCategories();
+});
+
+document.querySelector("#categories").addEventListener("click", (e) => {
+  if (e.target.classList.contains("edit-button")) {
+    let id = e.target.getAttribute("data-id");
+    getCategoryById(id);
+  } else if (e.target.classList.contains("delete-button")) {
+    let id = e.target.getAttribute("data-id");
+    deleteCategory(id);
+  }
+});
+
+document.querySelector("#add-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  let form = e.target;
+  let data = getFormData(form);
+  createCategory(data);
+});
+
+document.querySelector("#edit-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  let form = e.target;
+  let data = getFormData(form);
+  updateCategory(data);
+});
+
+document.querySelector(".close-button").addEventListener("click", () => {
+  hideModal();
+});
+
+document.querySelector("#modal-overlay").addEventListener("click", () => {
+  hideModal();
+});
