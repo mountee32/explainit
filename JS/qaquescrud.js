@@ -156,12 +156,17 @@ function resetFormAndEditQuestionBehavior() {
   $("#questionModal").modal("show");
 }
 function saveQuestion() {
-    if (addQuestionForm.style.display === "block") {
-      addQuestionForm.dispatchEvent(new Event("submit"));
-    } else {
-      editQuestionForm.dispatchEvent(new Event("submit"));
+    try {
+      if (addQuestionForm.style.display === "block") {
+        addQuestionForm.dispatchEvent(new Event("submit"));
+      } else {
+        editQuestionForm.dispatchEvent(new Event("submit"));
+      }
+    } catch (error) {
+      alert("Error: " + error.message);
     }
   }
+  
   
 
 function getFormData(form) {
