@@ -18,14 +18,6 @@ addQuestionForm.addEventListener("submit", addQuestion);
 editQuestionForm.addEventListener("submit", updateQuestion);
 saveQuestionBtn.addEventListener("click", saveQuestion);
 
-// Toggle event listener
-document.querySelectorAll('input[type=radio][name="apiToggle"]').forEach(radio => {
-  radio.addEventListener('change', event => {
-    apiUrl = event.target.id === "quickAnswers" ? quickAnswersApiUrl : conversationStartersApiUrl;
-    pageTitle.textContent = event.target.id === "quickAnswers" ? "Quick Answers Questions" : "Conversation Starters Questions";
-    loadQuestions();
-  });
-});
 
 async function callApi(action, data = {}) {
   const response = await fetch(apiUrl + `?action=${action}`, {
@@ -130,22 +122,23 @@ function displayQuestions(questions) {
     questionTableBody.appendChild(row);
   });
 }
+
 function switchContentType(contentType) {
-  apiToggle = contentType;
-  if (apiToggle === "quickAnswers") {
-    document.title = "Quick Answers Questions";
+  if (contentType === "quickAnswers") {
+    apiUrl = quickAnswersApiUrl;
+    pageTitle.textContent = "Quick Answers Questions";
+    document.getElementById("quickAnswersBtn").classList.add("active");
+    document.getElementById("conversationStartersBtn").classList.remove("active");
   } else {
-    document.title = "Conversation Starters CRUD";
+    apiUrl = conversationStartersApiUrl;
+    pageTitle.textContent = "Conversation Starters Questions";
+    document.getElementById("quickAnswersBtn").classList.remove("active");
+    document.getElementById("conversationStartersBtn").classList.add("active");
   }
   loadQuestions();
 }
-document.getElementById("quickAnswers").addEventListener("change", () => {
-  switchContentType("quickAnswers");
-});
 
-document.getElementById("conversationStarters").addEventListener("change", () => {
-  switchContentType("conversationStarters");
-});
+
 function resetFormAndCreateQuestionBehavior() {
   addQuestionForm.style.display = "block";
   editQuestionForm.style.display = "none";
