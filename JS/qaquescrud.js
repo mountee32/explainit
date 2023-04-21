@@ -1,4 +1,7 @@
 // Global variables
+const quickAnswersApiUrl = "https://explainit.app/api/qaquestions.php";
+const conversationStartersApiUrl = "https://explainit.app/api/stquestions.php";
+let apiUrl = quickAnswersApiUrl;
 let questions = [];
 const questionModal = new bootstrap.Modal(document.getElementById('questionModal'));
 
@@ -7,6 +10,7 @@ const addQuestionForm = document.getElementById("add-question-form");
 const editQuestionForm = document.getElementById("edit-question-form");
 const questionTableBody = document.getElementById("questionTableBody");
 const saveQuestionBtn = document.getElementById("saveQuestionBtn");
+const pageTitle = document.querySelector(".container h1");
 
 // Event listeners
 window.addEventListener("load", loadQuestions);
@@ -14,19 +18,17 @@ addQuestionForm.addEventListener("submit", addQuestion);
 editQuestionForm.addEventListener("submit", updateQuestion);
 saveQuestionBtn.addEventListener("click", saveQuestion);
 
-document.querySelectorAll("input[name='apiToggle']").forEach((toggleButton) => {
-  toggleButton.addEventListener("change", loadQuestions);
+// Toggle event listener
+document.querySelectorAll('input[type=radio][name="apiToggle"]').forEach(radio => {
+  radio.addEventListener('change', event => {
+    apiUrl = event.target.id === "quickAnswers" ? quickAnswersApiUrl : conversationStartersApiUrl;
+    pageTitle.textContent = event.target.id === "quickAnswers" ? "Quick Answers Questions" : "Conversation Starters Questions";
+    loadQuestions();
+  });
 });
 
-function getApiUrl() {
-  const apiUrlQuickAnswers = "https://explainit.app/api/qaquestions.php";
-  const apiUrlConversationStarters = "https://explainit.app/api/stquestions.php";
-  
-  return document.getElementById("quickAnswers").checked ? apiUrlQuickAnswers : apiUrlConversationStarters;
-}
-
 async function callApi(action, data = {}) {
-  const response = await fetch(getApiUrl() + `?action=${action}`, {
+  const response = await fetch(apiUrl + `?action=${action}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -54,7 +56,7 @@ async function addQuestion(event) {
   const formData = getFormData(addQuestionForm);
   const response = await callApi('create', formData);
   loadQuestions();
-  questionModal.hide(); // Add this line to close the modal
+  questionModal.hide();
 }
 
 async function deleteQuestion(id) {
@@ -63,16 +65,13 @@ async function deleteQuestion(id) {
 }
 
 async function updateQuestion(event) {
-    event.preventDefault();
-    const formData = getFormData(editQuestionForm);
-    console.log("formData:", formData); // Add this line to log the formData
-    const response = await callApi('update', formData);
-    console.log("response:", response); // Add this line to log the response
-    loadQuestions();
-    questionModal.hide(); // Add this line to close the modal
+  event.preventDefault();
+  const formData = getFormData(editQuestionForm);
+  const response = await callApi('update', formData);
+  loadQuestions();
+  questionModal.hide();
 }
 
-// Functions
 function loadQuestions() {
   getQuestions()
     .then((data) => {
@@ -83,114 +82,85 @@ function loadQuestions() {
 }
 
 function displayQuestions(questions) {
-    questionTableBody.innerHTML = "";
-    questions.forEach((question) => {
-      const row = document.createElement("tr");
-  
-      const idCell = document.createElement("td");
-      idCell.innerHTML = question.id;
-      row.appendChild(idCell);
-  
-      const categoryIDCell = document.createElement("td");
-      categoryIDCell.innerHTML = question.category_id;
-      row.appendChild(categoryIDCell);
-  
-      const questionCell = document.createElement("td");
-      questionCell.innerHTML = question.question;
-      row.appendChild(questionCell);
-  
-      const answerCell = document.createElement("td");
-      answerCell.innerHTML = question.answer;
-      row.appendChild(answerCell);
-  
-      const linkCell = document.createElement("td");
-      linkCell.innerHTML = question.link;
-      row.appendChild(linkCell);
+  questionTableBody.innerHTML = "";
+  questions.forEach((question) => {
+    const row = document.createElement("tr");
 
-      const actionCell = document.createElement("td");
-      const editButton = document.createElement("button");
-      editButton.className = "btn btn-warning me-2";
-      editButton.innerHTML = "Edit";
-      editButton.onclick = () => editQuestion(question.id.toString());
-      actionCell.appendChild(editButton);
+    const idCell = document.createElement("td");
+    idCell.innerHTML = question.id;
+    row.appendChild(idCell);
 
-      const deleteButton = document.createElement("button");
-      deleteButton.className = "btn btn-danger";
-      deleteButton.innerHTML = "Delete";
-      deleteButton.onclick = () => removeQuestion(question.id.toString());
-      actionCell.appendChild(deleteButton);
+    const categoryIDCell = document.createElement("td");
+    categoryIDCell.innerHTML = question.category_id;
+    row.appendChild(categoryIDCell);
 
-      row.appendChild(actionCell);
+    const questionCell = document.createElement("td");
+    questionCell.innerHTML = question.question;
+    row.appendChild(questionCell);
 
-      questionTableBody.appendChild(row);
-    });
-}
+    const answerCell = document.createElement("td");
+    answerCell.innerHTML = question.answer;
+    row.appendChild(answerCell);
 
-function editQuestion(id) {
-    const question = questions.find((q) => q.id === id);
-    document.getElementById("edit-question-id").value = question.id;
-    document.getElementById("edit-category_id").value = question.category_id;
-    document.getElementById("edit-question").value = question.question;
-    document.getElementById("edit-answer").value = question.answer;
-    document.getElementById("edit-link").value = question.link;
-    resetFormAndEditQuestionBehavior();
-}
+    const linkCell = document.createElement("td");
+    linkCell.innerHTML = question.link;
+    row.appendChild(linkCell);
 
-function removeQuestion(id) {
-    if (confirm("Are you sure you want to delete this question?")) {
-        deleteQuestion(id)
-            .then(() => {
-                loadQuestions();
-            })
-            .catch((error) => console.error(error));
-    }
+    const actionCell = document.createElement("td");
+    const editButton = document.createElement("button");
+    editButton.className = "btn btn-warning me-2";
+    editButton.innerHTML = "Edit";
+    editButton.onclick = () => editQuestionBehavior(question);
+    actionCell.appendChild(editButton);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "btn btn-danger";
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = () => {
+      deleteQuestion(question.id)
+        .then(() => {
+          loadQuestions();
+        })
+        .catch((error) => console.error(error));
+    };
+    actionCell.appendChild(deleteButton);
+
+    row.appendChild(actionCell);
+
+    questionTableBody.appendChild(row);
+  });
 }
 
 function resetFormAndCreateQuestionBehavior() {
-    addQuestionForm.style.display = "block";
-    editQuestionForm.style.display = "none";
-    document.getElementById("questionModalLabel").innerHTML = "Add Question";
+  addQuestionForm.style.display = "block";
+  editQuestionForm.style.display = "none";
+  addQuestionForm.reset();
 }
 
-function resetFormAndEditQuestionBehavior() {
-    addQuestionForm.style.display = "none";
-    editQuestionForm.style.display = "block";
-    document.getElementById("questionModalLabel").innerHTML = "Edit Question";
-    $("#questionModal").modal("show");
-}
-
-function saveQuestion() {
-    try {
-        if (addQuestionForm.style.display === "block") {
-            addQuestionForm.dispatchEvent(new Event("submit"));
-        } else {
-            editQuestionForm.dispatchEvent(new Event("submit"));
-        }
-    } catch (error) {
-        alert("Error: " + error.message);
-    }
+function editQuestionBehavior(question) {
+  addQuestionForm.style.display = "none";
+  editQuestionForm.style.display = "block";
+  questionModal.show();
+  editQuestionForm.elements["id"].value = question.id;
+  editQuestionForm.elements["category"].value = question.category_id;
+  editQuestionForm.elements["question"].value = question.question;
+  editQuestionForm.elements["answer"].value = question.answer;
+  editQuestionForm.elements["link"].value = question.link;
 }
 
 function getFormData(form) {
-    const formData = new FormData(form);
-    const data = {};
-    formData.forEach((value, key) => {
-        data[key] = value;
-    });
-    return data;
+  const formData = new FormData(form);
+  const data = {};
+  formData.forEach((value, key) => {
+    data[key] = value;
+  });
+  return data;
 }
-function switchContentType() {
-  const newContentType = contentType === "qaquestions" ? "stquestions" : "qaquestions";
-  contentType = newContentType;
 
-  // Update the title depending on the content type
-  document.title = contentType === "qaquestions" ? "Quick Answers CRUD" : "Conversation Starters CRUD";
-
-  // Update the nav link text
-  document.querySelector(".nav-link.active").textContent = contentType === "qaquestions" ? "Quick Answers" : "Conversation Starters";
-
-  // Update the header text
-  document.querySelector("h1.h3").textContent = contentType === "qaquestions" ? "Quick Answers" : "Conversation Starters";
-
-  loadQuestions();
+function saveQuestion() {
+  if (addQuestionForm.style.display === "block") {
+    addQuestion();
+  } else {
+    updateQuestion();
+  }
 }
