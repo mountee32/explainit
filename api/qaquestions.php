@@ -18,8 +18,8 @@ $action = isset($data['action']) ? $data['action'] : (isset($_GET['action']) ? $
 
 if ($action === 'create') {
     if (!empty($data['category_id']) && !empty($data['question']) && !empty($data['answer'])) {
-        $stmt = $conn->prepare("INSERT INTO qa_questions (id, category_id, question, answer, link) VALUES (NULL, :category_id, :question, :answer, :link)");
-        $stmt->bindParam(':category_id', $data['category_id']);
+        $stmt = $conn->prepare("INSERT INTO qa_questions (id, category, question, answer, link) VALUES (NULL, :category_id, :question, :answer, :link)");
+        $stmt->bindParam(':category', $data['category']);
         $stmt->bindParam(':question', $data['question']);
         $stmt->bindParam(':answer', $data['answer']);
         $stmt->bindParam(':link', $data['link']);
@@ -50,10 +50,10 @@ if ($action === 'create') {
         echo json_encode(array("message" => "Unable to delete question. ID is missing."));
     }
 } elseif ($action === 'update') {
-    if (!empty($data['id']) && !empty($data['category_id']) && !empty($data['question']) && !empty($data['answer'])) {
-        $stmt = $conn->prepare("UPDATE qa_questions SET category_id = :category_id, question = :question, answer = :answer, link = :link WHERE id = :id");
+    if (!empty($data['id']) && !empty($data['category']) && !empty($data['question']) && !empty($data['answer'])) {
+        $stmt = $conn->prepare("UPDATE qa_questions SET category = :category, question = :question, answer = :answer, link = :link WHERE id = :id");
         $stmt->bindParam(':id', $data['id']);
-        $stmt->bindParam(':category_id', $data['category_id']);
+        $stmt->bindParam(':category', $data['category']);
         $stmt->bindParam(':question', $data['question']);
         $stmt->bindParam(':answer', $data['answer']);
         $stmt->bindParam(':link', $data['link']);
