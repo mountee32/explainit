@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Change the fetch URL to the API endpoint
+    // Change the fetch URL to the new API endpoint
     fetch('https://explainit.app/api/qaquestions.php?action=read')
     .then(response => {
         if (!response.ok) {
@@ -11,15 +11,15 @@ document.addEventListener('DOMContentLoaded', function () {
             const categoriesContainer = document.getElementById('categories-container');
             const groupedData = {};
 
-            // Group the data by TITLE
+            // Group the data by category
             data.forEach(item => {
-                if (!groupedData[item.TITLE]) {
-                    groupedData[item.TITLE] = [];
+                if (!groupedData[item.category]) {
+                    groupedData[item.category] = [];
                 }
-                groupedData[item.TITLE].push(item);
+                groupedData[item.category].push(item);
             });
 
-            Object.entries(groupedData).forEach(([title, questions], index) => {
+            Object.entries(groupedData).forEach(([category, questions], index) => {
                 const categoryItem = document.createElement('div');
                 categoryItem.classList.add('accordion-item');
 
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 categoryButton.setAttribute('data-bs-target', `#category-collapse-${index}`);
                 categoryButton.setAttribute('aria-expanded', 'false');
                 categoryButton.setAttribute('aria-controls', `category-collapse-${index}`);
-                categoryButton.textContent = title;
+                categoryButton.textContent = category;
 
                 // Append categoryButton to categoryHeader
                 categoryHeader.appendChild(categoryButton);
