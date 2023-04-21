@@ -13,10 +13,14 @@ include_once 'config.php';
 $data = json_decode(file_get_contents("php://input"), true);
 file_put_contents($log_file, "{$time_stamp} - api - Raw input data: " . file_get_contents("php://input") . "\n", FILE_APPEND);
 file_put_contents($log_file, "{$time_stamp} - api - Received data: " . json_encode($data) . "\n", FILE_APPEND);
+file_put_contents($log_file, "{$time_stamp} - api - Action: " . (isset($data['action']) ? $data['action'] : (isset($_GET['action']) ? $_GET['action'] : 'None')) . "\n", FILE_APPEND);
 
 $action = isset($data['action']) ? $data['action'] : (isset($_GET['action']) ? $_GET['action'] : null);
 
 if ($action === 'create') {
+    file_put_contents($log_file, "{$time_stamp} - api - Entered 'create' action\n", FILE_APPEND);
+    file_put_contents($log_file, "{$time_stamp} - api - Checking if data is complete\n", FILE_APPEND);
+
     if (!empty($data['category']) && !empty($data['question']) && !empty($data['answer'])) {
         // Debug information
         file_put_contents($log_file, "{$time_stamp} - api - Category: {$data['category']}, Question: {$data['question']}, Answer: {$data['answer']}, Link: {$data['link']}\n", FILE_APPEND);
