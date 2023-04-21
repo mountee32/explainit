@@ -130,16 +130,22 @@ function displayQuestions(questions) {
     questionTableBody.appendChild(row);
   });
 }
-function switchContentType() {
+function switchContentType(contentType) {
+  apiToggle = contentType;
   if (apiToggle === "quickAnswers") {
-    apiToggle = "conversationStarters";
-    document.title = "Conversation Starters CRUD";
-  } else {
-    apiToggle = "quickAnswers";
     document.title = "Quick Answers Questions";
+  } else {
+    document.title = "Conversation Starters CRUD";
   }
   loadQuestions();
 }
+document.getElementById("quickAnswers").addEventListener("change", () => {
+  switchContentType("quickAnswers");
+});
+
+document.getElementById("conversationStarters").addEventListener("change", () => {
+  switchContentType("conversationStarters");
+});
 function resetFormAndCreateQuestionBehavior() {
   addQuestionForm.style.display = "block";
   editQuestionForm.style.display = "none";
@@ -173,10 +179,3 @@ function saveQuestion() {
     updateQuestion();
   }
 }
-document.getElementById("quickAnswers").addEventListener("change", () => {
-  switchContentType();
-});
-
-document.getElementById("conversationStarters").addEventListener("change", () => {
-  switchContentType();
-});
