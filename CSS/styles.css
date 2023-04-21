@@ -389,28 +389,48 @@ body {
   color: #333;
 }
 
-.accordion-header .accordion-button {
-  /* Add your styles here */
+/* Category heading styles */
+.category-heading .accordion-button {
   font-size: 24px;
   font-weight: bold;
   border: none;
   background-color: transparent;
+  padding-left: 5px;
+  text-align: left;
 }
 
-.accordion-header .accordion-button.collapsed {
-  /* Add your styles here */
+.category-heading .accordion-button.collapsed {
   font-size: 24px;
   font-weight: bold;
   border: none;
   background-color: transparent;
+  padding-left: 5px;
 }
 
+/* Question heading styles */
+.question-heading .accordion-button {
+  font-size: 18px;
+  font-weight: normal;
+  border: none;
+  background-color: transparent;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.question-heading .accordion-button.collapsed {
+  font-size: 18px;
+  font-weight: normal;
+  border: none;
+  background-color: transparent;
+  padding-left: 20px;
+}
 .accordion-body p {
   /* Add your styles here */
   font-size: 14px;
   font-weight: none;
   border: none;
   background-color: transparent;
+  padding-left: 40px; /* Increase the value to indent the text more */
 }
 
 .accordion-body a {
@@ -419,5 +439,19 @@ body {
   font-weight: none;
   border: none;
   background-color: transparent;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
 
+
+.category-icon {
+  font-size: 24px;
+  margin-right: 10px;
+  transition: transform 0.3s ease;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.category-icon.rotate {
+  transform: rotate(90deg);
 }

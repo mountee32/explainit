@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 categoryItem.classList.add('accordion-item');
 
                 const categoryHeader = document.createElement('h2');
-                categoryHeader.classList.add('accordion-header');
+                categoryHeader.classList.add('accordion-header', 'category-heading');
+
                 categoryHeader.setAttribute('id', `category-heading-${index}`);
 
                 const categoryButton = document.createElement('button');
@@ -34,11 +35,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 categoryButton.setAttribute('data-bs-target', `#category-collapse-${index}`);
                 categoryButton.setAttribute('aria-expanded', 'false');
                 categoryButton.setAttribute('aria-controls', `category-collapse-${index}`);
-                categoryButton.textContent = category;
+                const categoryIcon = document.createElement('i');
+                categoryIcon.classList.add('bi', 'bi-chevron-right', 'category-icon');
+                
+                categoryButton.style.display = 'flex';
+                categoryButton.style.alignItems = 'center';
+                
+                const categoryTextWrapper = document.createElement('span');
+                categoryTextWrapper.style.display = 'inline-block';
+                categoryTextWrapper.style.marginLeft = '10px';
+                categoryTextWrapper.textContent = category;
+                
+                categoryButton.appendChild(categoryIcon);
+                categoryButton.appendChild(categoryTextWrapper);
+                
+
 
                 // Append categoryButton to categoryHeader
                 categoryHeader.appendChild(categoryButton);
-
+                categoryButton.addEventListener('click', (event) => {
+                    if (event.target === categoryButton || event.target === categoryIcon) {
+                      categoryIcon.classList.toggle('rotate');
+                    }
+                  });
+                  
+                  
                 // Create a div for the category-collapse
                 const categoryCollapse = document.createElement('div');
                 categoryCollapse.classList.add('accordion-collapse', 'collapse');
@@ -59,7 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     questionItem.classList.add('accordion-item');
 
                     const questionHeader = document.createElement('h2');
-                    questionHeader.classList.add('accordion-header');
+                    questionHeader.classList.add('accordion-header', 'question-heading');
+
                     questionHeader.setAttribute('id', `question-heading-${index}-${questionIndex}`);
 
                     const questionButton = document.createElement('button');
@@ -69,10 +91,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     questionButton.setAttribute('data-bs-target', `#question-collapse-${index}-${questionIndex}`);
                     questionButton.setAttribute('aria-expanded', 'false');
                     questionButton.setAttribute('aria-controls', `question-collapse-${index}-${questionIndex}`);
-                    questionButton.textContent = questionData.question;
+                    const questionIcon = document.createElement('i');
+                    questionIcon.classList.add('bi', 'bi-chevron-right', 'category-icon');
+                    questionButton.appendChild(questionIcon);
+                    questionButton.insertAdjacentText('beforeend', questionData.question);
 
                     // Append questionButton to questionHeader
                     questionHeader.appendChild(questionButton);
+                    questionButton.addEventListener('click', (event) => {
+                        if (event.target === questionButton || event.target === questionIcon) {
+                          questionIcon.classList.toggle('rotate');
+                        }
+                      });
+                      
 
                     // Create a div for the question-collapse
                     const questionCollapse = document.createElement('div');
