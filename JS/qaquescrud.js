@@ -76,29 +76,29 @@ function loadQuestions() {
 }
 
 function displayQuestions(questions) {
-    questionTableBody.innerHTML = "";
-    questions.forEach((question) => {
-      const row = document.createElement("tr");
-  
-      const idCell = document.createElement("td");
-      idCell.innerHTML = question.id;
-      row.appendChild(idCell);
-  
-      const categoryIDCell = document.createElement("td");
-      categoryIDCell.innerHTML = question.category_id;
-      row.appendChild(categoryIDCell);
-  
-      const questionCell = document.createElement("td");
-      questionCell.innerHTML = question.question;
-      row.appendChild(questionCell);
-  
-      const answerCell = document.createElement("td");
-      answerCell.innerHTML = question.answer;
-      row.appendChild(answerCell);
-  
-      const linkCell = document.createElement("td");
-      linkCell.innerHTML = question.link;
-      row.appendChild(linkCell);
+  questionTableBody.innerHTML = "";
+  questions.forEach((question) => {
+    const row = document.createElement("tr");
+
+    const idCell = document.createElement("td");
+    idCell.innerHTML = question.id;
+    row.appendChild(idCell);
+
+    const categoryCell = document.createElement("td");
+    categoryCell.innerHTML = question.category;
+    row.appendChild(categoryCell);
+
+    const questionCell = document.createElement("td");
+    questionCell.innerHTML = question.question;
+    row.appendChild(questionCell);
+
+    const answerCell = document.createElement("td");
+    answerCell.innerHTML = question.answer;
+    row.appendChild(answerCell);
+
+    const linkCell = document.createElement("td");
+    linkCell.innerHTML = question.link;
+    row.appendChild(linkCell);
   
       const actionCell = document.createElement("td");
       const editButton = document.createElement("button");
@@ -125,12 +125,13 @@ function displayQuestions(questions) {
   function editQuestion(id) {
     const question = questions.find((q) => q.id === id);
     document.getElementById("edit-question-id").value = question.id;
-    document.getElementById("edit-category_id").value = question.category_id;
+    document.getElementById("edit-category").value = question.category;
     document.getElementById("edit-question").value = question.question;
     document.getElementById("edit-answer").value = question.answer;
     document.getElementById("edit-link").value = question.link;
     resetFormAndEditQuestionBehavior();
   }
+  
   
 
 function removeQuestion(id) {
