@@ -26,7 +26,11 @@
         <div class="row">
             <div class="col">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h1 class="h3">Questions</h1>
+                    <h1 class="h3" id="contentTitle">Quick Answers Questions</h1>
+                    <div>
+                        <button type="button" id="quickAnswersBtn" class="btn btn-primary active" onclick="switchContentType('quickAnswers')">Quick Answers</button>
+                        <button type="button" id="conversationStartersBtn" class="btn btn-outline-primary" onclick="switchContentType('conversationStarters')">Conversation Starters</button>
+                    </div>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#questionModal" onclick="resetFormAndCreateQuestionBehavior()">Create Question</button>
                 </div>
                 <table class="table">
@@ -60,7 +64,7 @@
                         <div class="mb-3">
                             <label for="category" class="form-label">Category*</label>
                             <input type="text" class="form-control" id="category" name="category" required>
-                          </div>
+                        </div>
                         <div class="mb-3">
                             <label for="question" class="form-label">Question*</label>
                             <input type="text" class="form-control" id="question" name="question" required>
@@ -74,30 +78,10 @@
                             <input type="text" class="form-control" id="link" name="link">
                         </div>
                     </form>
-                    <form id="edit-question-form" style="display:none;">
-                        <input type="hidden" id="edit-question-id" name="id" value="">
-                        <div class="mb-3">
-                            <label for="edit-category" class="form-label">Category*</label>
-                            <input type="text" class="form-control" id="edit-category" name="category" required>
-                          </div>
-                        <div class="mb-3">
-                            <label for="edit-question" class="form-label">Question*</label>
-                            <input type="text" class="form-control" id="edit-question" name="question" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-answer" class="form-label">Answer*</label>
-                            <input type="text" class="form-control" id="edit-answer" name="answer" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-link" class="form-label">Link</label>
-                            <input type="text" class="form-control" id="edit-link" name="link">
-                        </div>
-                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button id="saveQuestionBtn" type="button" class="btn btn-primary">Save changes</button>
-
                 </div>
             </div>
         </div>
@@ -108,3 +92,5 @@
     <script src="JS/qaquescrud.js"></script>
 </body>
 </html>
+
+ 
