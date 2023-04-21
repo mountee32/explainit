@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Change the fetch URL to the API endpoint
-    fetch('https://explainit.app/api/qacontentread.php')
+    fetch('https://explainit.app/api/qaquestions.php?action=read')
     .then(response => {
         if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`);

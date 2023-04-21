@@ -3,7 +3,7 @@ import requests
 
 API_QA_URL = "https://explainit.app/api/qaquestions.php"
 API_ST_URL = "https://explainit.app/api/stquestions.php"
-QUICK_ANSWERS_FILE = "import-quick-answers.csv"
+QUICK_ANSWERS_FILE = "extract-quick-answers.csv"
 
 def menu():
     print("Menu:")
@@ -21,7 +21,7 @@ def export_quick_answers():
     response = requests.get(API_QA_URL, params={"action": "read"})
     if response.status_code == 200:
         quick_answers = response.json()
-        with open("export-quick-answers.csv", "w", newline="") as csvfile:
+        with open(QUICK_ANSWERS_FILE , "w", newline="") as csvfile:
             fieldnames = ["ID", "CATEGORY", "QUESTION", "ANSWER", "LINK"]
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
@@ -59,7 +59,7 @@ def import_quick_answers():
                 "answer": row["ANSWER"],
             }
             response = requests.post(API_QA_URL, json=data)
-            if response.status_code == 200:
+            if response.status_code == 201:
                 print(f"Successfully imported Quick Answer: {row['QUESTION']}")
             else:
                 try:
