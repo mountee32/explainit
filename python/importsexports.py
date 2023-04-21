@@ -114,13 +114,13 @@ def import_conversation_starters():
             }
             response = requests.post(API_ST_URL,json=data)
             if response.status_code == 201:
-                print(f"Successfully imported Quick Answer: {row['QUESTION']}")
+                print(f"Successfully imported conversation starters: {row['QUESTION']}")
             else:
                 try:
                     error_message = response.json()['message']
                 except json.JSONDecodeError:
                     error_message = "Server returned an empty response or an invalid JSON."
-                print(f"Failed to import Quick Answer: {row['QUESTION']} - {error_message}")
+                print(f"Failed to import conversation starters: {row['QUESTION']} - {error_message}")
 
 
 

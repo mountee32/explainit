@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     questionButton.setAttribute('data-bs-target', `#question-collapse-${index}-${questionIndex}`);
                     questionButton.setAttribute('aria-expanded', 'false');
                     questionButton.setAttribute('aria-controls', `question-collapse-${index}-${questionIndex}`);
-                    questionButton.textContent = questionData.QUESTION;
+                    questionButton.textContent = questionData.question;
 
                     // Append questionButton to questionHeader
                     questionHeader.appendChild(questionButton);
@@ -86,12 +86,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // Create a p element for the answer text
                     const answerText = document.createElement('p');
-                    answerText.textContent = questionData.ANSWER;
+                    answerText.textContent = questionData.answer;
                     questionBody.appendChild(answerText);
 
                     // Create an a element for the answer link
                     const answerLink = document.createElement('a');
-                    answerLink.href = questionData.LINK;
+                    answerLink.href = questionData.link;
                     answerLink.textContent = 'Read more';
                     questionBody.appendChild(answerLink);
 
