@@ -130,7 +130,16 @@ function displayQuestions(questions) {
     questionTableBody.appendChild(row);
   });
 }
-
+function switchContentType() {
+  if (apiToggle === "quickAnswers") {
+    apiToggle = "conversationStarters";
+    document.title = "Conversation Starters CRUD";
+  } else {
+    apiToggle = "quickAnswers";
+    document.title = "Quick Answers Questions";
+  }
+  loadQuestions();
+}
 function resetFormAndCreateQuestionBehavior() {
   addQuestionForm.style.display = "block";
   editQuestionForm.style.display = "none";
@@ -164,3 +173,10 @@ function saveQuestion() {
     updateQuestion();
   }
 }
+document.getElementById("quickAnswers").addEventListener("change", () => {
+  switchContentType();
+});
+
+document.getElementById("conversationStarters").addEventListener("change", () => {
+  switchContentType();
+});
