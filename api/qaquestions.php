@@ -20,6 +20,7 @@ if ($action === 'create') {
     if (!empty($data['category']) && !empty($data['question']) && !empty($data['answer'])) {
         // Debug information
         file_put_contents($log_file, "{$time_stamp} - api - Category: {$data['category']}, Question: {$data['question']}, Answer: {$data['answer']}, Link: {$data['link']}\n", FILE_APPEND);
+        
         $stmt = $conn->prepare("INSERT INTO qa_questions (id, category, question, answer, link) VALUES (NULL, :category, :question, :answer, :link)");
         $stmt->bindParam(':category', $data['category']);
         $stmt->bindParam(':question', $data['question']);
@@ -37,6 +38,7 @@ if ($action === 'create') {
         echo json_encode(array("message" => "Unable to add question. Data is incomplete."));
     }
 }
+
  elseif ($action === 'delete') {
     if (!empty($data['id'])) {
         $stmt = $conn->prepare("DELETE FROM qa_questions WHERE id = :id");
