@@ -17,8 +17,8 @@ file_put_contents($log_file, "{$time_stamp} - api - Received data: " . json_enco
 $action = isset($data['action']) ? $data['action'] : (isset($_GET['action']) ? $_GET['action'] : null);
 
 if ($action === 'create') {
-    if (!empty($data['category_id']) && !empty($data['question']) && !empty($data['answer'])) {
-        $stmt = $conn->prepare("INSERT INTO qa_questions (id, category, question, answer, link) VALUES (NULL, :category_id, :question, :answer, :link)");
+    if (!empty($data['category']) && !empty($data['question']) && !empty($data['answer'])) {
+        $stmt = $conn->prepare("INSERT INTO qa_questions (id, category, question, answer, link) VALUES (NULL, :category, :question, :answer, :link)");
         $stmt->bindParam(':category', $data['category']);
         $stmt->bindParam(':question', $data['question']);
         $stmt->bindParam(':answer', $data['answer']);
@@ -34,7 +34,8 @@ if ($action === 'create') {
         http_response_code(400);
         echo json_encode(array("message" => "Unable to add question. Data is incomplete."));
     }
-} elseif ($action === 'delete') {
+}
+ elseif ($action === 'delete') {
     if (!empty($data['id'])) {
         $stmt = $conn->prepare("DELETE FROM qa_questions WHERE id = :id");
         $stmt->bindParam(':id', $data['id']);
