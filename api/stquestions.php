@@ -13,13 +13,20 @@ include_once 'config.php';
 $data = json_decode(file_get_contents("php://input"), true);
 file_put_contents($log_file, "{$time_stamp} - api - Raw input data: " . file_get_contents("php://input") . "\n", FILE_APPEND);
 file_put_contents($log_file, "{$time_stamp} - api - Received data: " . json_encode($data) . "\n", FILE_APPEND);
+file_put_contents($log_file, "{$time_stamp} - api - Action: " . (isset($data['action']) ? $data['action'] : (isset($_GET['action']) ? $_GET['action'] : 'None')) . "\n", FILE_APPEND);
 
 $action = isset($data['action']) ? $data['action'] : (isset($_GET['action']) ? $_GET['action'] : null);
 
 if ($action === 'create') {
-    if (!empty($data['category_id']) && !empty($data['question']) && !empty($data['answer'])) {
-        $stmt = $conn->prepare("INSERT INTO st_questions (id, category_id, question, answer, link) VALUES (NULL, :category_id, :question, :answer, :link)");
-        $stmt->bindParam(':category_id', $data['category_id']);
+    file_put_contents($log_file, "{$time_stamp} - api - Entered 'create' action\n", FILE_APPEND);
+    file_put_contents($log_file, "{$time_stamp} - api - Checking if data is complete\n", FILE_APPEND);
+
+    if (!empty($data['category']) && !empty($data['question']) && !empty($data['answer'])) {
+        // Debug information
+        file_put_contents($log_file, "{$time_stamp} - api - Category: {$data['category']}, Question: {$data['question']}, Answer: {$data['answer']}, Link: {$data['link']}\n", FILE_APPEND);
+        
+        $stmt = $conn->prepare("INSERT INTO st_questions (id, category, question, answer, link) VALUES (NULL, :category, :question, :answer, :link)");
+        $stmt->bindParam(':category', $data['category']);
         $stmt->bindParam(':question', $data['question']);
         $stmt->bindParam(':answer', $data['answer']);
         $stmt->bindParam(':link', $data['link']);
@@ -34,7 +41,9 @@ if ($action === 'create') {
         http_response_code(400);
         echo json_encode(array("message" => "Unable to add question. Data is incomplete."));
     }
-} elseif ($action === 'delete') {
+}
+
+ elseif ($action === 'delete') {
     if (!empty($data['id'])) {
         $stmt = $conn->prepare("DELETE FROM st_questions WHERE id = :id");
         $stmt->bindParam(':id', $data['id']);
@@ -50,10 +59,10 @@ if ($action === 'create') {
         echo json_encode(array("message" => "Unable to delete question. ID is missing."));
     }
 } elseif ($action === 'update') {
-    if (!empty($data['id']) && !empty($data['category_id']) && !empty($data['question']) && !empty($data['answer'])) {
-        $stmt = $conn->prepare("UPDATE st_questions SET category_id = :category_id, question = :question, answer = :answer, link = :link WHERE id = :id");
+    if (!empty($data['id']) && !empty($data['category']) && !empty($data['question']) && !empty($data['answer'])) {
+        $stmt = $conn->prepare("UPDATE st_questions SET category = :category, question = :question, answer = :answer, link = :link WHERE id = :id");
         $stmt->bindParam(':id', $data['id']);
-        $stmt->bindParam(':category_id', $data['category_id']);
+        $stmt->bindParam(':category', $data['category']);
         $stmt->bindParam(':question', $data['question']);
         $stmt->bindParam(':answer', $data['answer']);
         $stmt->bindParam(':link', $data['link']);

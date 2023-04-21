@@ -4,6 +4,7 @@ import requests
 API_QA_URL = "https://explainit.app/api/qaquestions.php"
 API_ST_URL = "https://explainit.app/api/stquestions.php"
 QUICK_ANSWERS_FILE = "extract-quick-answers.csv"
+CONVERSATION_STARTERS_FILE = "csv/conversation-starters.csv"
 
 def menu():
     print("Menu:")
@@ -73,7 +74,7 @@ def export_conversation_starters():
     response = requests.get(API_ST_URL, params={"action": "read"})
     if response.status_code == 200:
         conversation_starters = response.json()
-        with open("export-conversation-starters.csv", "w", newline="") as csvfile:
+        with open(CONVERSATION_STARTERS_FILE, "w", newline="") as csvfile:
             fieldnames = ["ID", "CATEGORY", "QUESTION", "ANSWER", "LINK"]
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
@@ -99,22 +100,30 @@ def delete_all_conversation_starters():
     else:
         print("Failed to fetch Conversation Starters.")
 
+
 def import_conversation_starters():
-    with open("import-conversation-starters.csv", "r", newline="") as csvfile:
+    with open(CONVERSATION_STARTERS_FILE, mode="r", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            response = requests.post(API_ST_URL, json={
+            data = {
                 "action": "create",
-                "category_id": row["CATEGORY"],
+                "category": row["CATEGORY"],
                 "question": row["QUESTION"],
+                "link": row["LINK"],
                 "answer": row["ANSWER"],
-                "link": row["LINK"]
-            })
-
+            }
+            response = requests.post(API_ST_URL,json=data)
             if response.status_code == 201:
-                print(f"Successfully imported Conversation Starter: {row['QUESTION']}")
+                print(f"Successfully imported Quick Answer: {row['QUESTION']}")
             else:
-                print(f"Failed to import Conversation Starter: {row['QUESTION']} - {response.json()['message']}")
+                try:
+                    error_message = response.json()['message']
+                except json.JSONDecodeError:
+                    error_message = "Server returned an empty response or an invalid JSON."
+                print(f"Failed to import Quick Answer: {row['QUESTION']} - {error_message}")
+
+
+
 
 if __name__ == "__main__":
     while True:

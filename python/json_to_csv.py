@@ -2,7 +2,7 @@ import json
 import csv
 
 # Read the JSON data
-with open("JSON/quick-answers.json", "r") as json_file:
+with open("JSON/starters.json", "r") as json_file:
     data = json.load(json_file)
 
 # Prepare CSV data
