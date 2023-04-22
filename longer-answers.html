@@ -71,19 +71,23 @@
                 });
 
                 function appendArticle(id, imageUrl, title, content) {
+    const sanitizedTitle = $("<div>").html(title).text();
+    const sanitizedContent = $("<div>").html(content).text();
+
     const articlesContainer = $("#articles-container");
     const articleHtml = `
         <div class="col-md-4 mb-4">
-            <div class="card" data-article-id="${id}" data-article-content="${content}" data-bs-toggle="modal" data-bs-target="#articleModal">
-                <img src="${imageUrl}" class="card-img-top" alt="${title}">
+            <div class="card" data-article-id="${id}" data-article-content="${sanitizedContent}" data-bs-toggle="modal" data-bs-target="#articleModal">
+                <img src="${imageUrl}" class="card-img-top" alt="${sanitizedTitle}">
                 <div class="card-body">
-                    <h5 class="card-title">${title}</h5>
+                    <h5 class="card-title">${sanitizedTitle}</h5>
                 </div>
             </div>
         </div>
     `;
     articlesContainer.append(articleHtml);
 }
+
 
 
             // Display article content in the modal

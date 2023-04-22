@@ -455,8 +455,32 @@ body {
 .category-icon.rotate {
   transform: rotate(90deg);
 }
-<style>
-        .modal-lg {
-            max-width: 90%; /* Adjust this value to set the desired width */
-        }
-    </style>
+
+.modal-lg {
+    max-width: 90%; /* Adjust this value to set the desired width */
+}
+.card {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-title {
+  height: 3.5rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.card-body {
+  flex-grow: 1;
+}
+
+
+    
