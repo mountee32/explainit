@@ -14,8 +14,15 @@ const pageTitle = document.querySelector(".container h1");
 
 // Event listeners
 window.addEventListener("load", loadQuestions);
-addQuestionForm.addEventListener("submit", addQuestion);
-editQuestionForm.addEventListener("submit", updateQuestion);
+addQuestionForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+  if (addQuestionForm.getAttribute("action") === "create") {
+    addQuestion(event);
+  } else {
+    updateQuestion(event);
+  }
+});
+
 saveQuestionBtn.addEventListener("click", saveQuestion);
 
 
@@ -140,21 +147,20 @@ function switchContentType(contentType) {
 
 
 function resetFormAndCreateQuestionBehavior() {
-  addQuestionForm.style.display = "block";
-  editQuestionForm.style.display = "none";
+  addQuestionForm.setAttribute("action", "create");
   addQuestionForm.reset();
 }
 
 function editQuestionBehavior(question) {
-  addQuestionForm.style.display = "none";
-  editQuestionForm.style.display = "block";
-  questionModal.show();
-  editQuestionForm.elements["id"].value = question.id;
-  editQuestionForm.elements["category"].value = question.category_id;
-  editQuestionForm.elements["question"].value = question.question;
-  editQuestionForm.elements["answer"].value = question.answer;
-  editQuestionForm.elements["link"].value = question.link;
+  $('#questionModal').modal('show');
+  addQuestionForm.setAttribute("action", "update");
+  addQuestionForm.elements["id"].value = question.id;
+  addQuestionForm.elements["category"].value = question.category_id;
+  addQuestionForm.elements["question"].value = question.question;
+  addQuestionForm.elements["answer"].value = question.answer;
+  addQuestionForm.elements["link"].value = question.link;
 }
+
 
 function getFormData(form) {
   const formData = new FormData(form);
