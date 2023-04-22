@@ -1,61 +1,154 @@
-// Fetch the starters JSON file
-fetch('JSON/starters.json')
-  .then(response => response.json()) // Convert the response to JSON
-  .then(starters => { // Process the JSON data
-    const categoriesContainer = document.getElementById('categories-container'); // Get the categories container element
+document.addEventListener('DOMContentLoaded', function () {
+  // Change the fetch URL to the new API endpoint
+  fetch('https://explainit.app/api/stquestions.php?action=read')
+  .then(response => {
+      if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+      }
+      return response.json();
+  })
+  .then(data => {
+          const categoriesContainer = document.getElementById('categories-container');
+          const groupedData = {};
 
-    // Sort the starters by "person" alphabetically
-    starters.sort((a, b) => a.person.localeCompare(b.person));
+          // Group the data by category
+          data.forEach(item => {
+              if (!groupedData[item.category]) {
+                  groupedData[item.category] = [];
+              }
+              groupedData[item.category].push(item);
+          });
 
-    // Loop through each category in the starters
-    starters.forEach((category, index) => {
-      const categoryId = `collapse${index}`;
+          Object.entries(groupedData).forEach(([category, questions], index) => {
+              const categoryItem = document.createElement('div');
+              categoryItem.classList.add('accordion-item');
 
-      const accordionItem = document.createElement('div');
-      accordionItem.classList.add('accordion-item');
+              const categoryHeader = document.createElement('h2');
+              categoryHeader.classList.add('accordion-header', 'category-heading');
 
-      const accordionHeader = document.createElement('h2');
-      accordionHeader.classList.add('accordion-header');
+              categoryHeader.setAttribute('id', `category-heading-${index}`);
 
-      const accordionButton = document.createElement('button');
-      accordionButton.classList.add('accordion-button');
-      accordionButton.setAttribute('type', 'button');
-      accordionButton.setAttribute('data-bs-toggle', 'collapse');
-      accordionButton.setAttribute('data-bs-target', `#${categoryId}`);
-      accordionButton.setAttribute('aria-expanded', 'false');
-      accordionButton.setAttribute('aria-controls', categoryId);
-      accordionButton.textContent = category.person;
+              const categoryButton = document.createElement('button');
+              categoryButton.classList.add('accordion-button', 'collapsed');
+              categoryButton.setAttribute('type', 'button');
+              categoryButton.setAttribute('data-bs-toggle', 'collapse');
+              categoryButton.setAttribute('data-bs-target', `#category-collapse-${index}`);
+              categoryButton.setAttribute('aria-expanded', 'false');
+              categoryButton.setAttribute('aria-controls', `category-collapse-${index}`);
+              const categoryIcon = document.createElement('i');
+              categoryIcon.classList.add('bi', 'bi-chevron-right', 'category-icon');
+              
+              categoryButton.style.display = 'flex';
+              categoryButton.style.alignItems = 'center';
+              
+              const categoryTextWrapper = document.createElement('span');
+              categoryTextWrapper.style.display = 'inline-block';
+              categoryTextWrapper.style.marginLeft = '10px';
+              categoryTextWrapper.textContent = category;
+              
+              categoryButton.appendChild(categoryIcon);
+              categoryButton.appendChild(categoryTextWrapper);
+              
 
-      accordionHeader.appendChild(accordionButton);
-      accordionItem.appendChild(accordionHeader);
 
-      const accordionCollapse = document.createElement('div');
-      accordionCollapse.classList.add('accordion-collapse');
-      accordionCollapse.classList.add('collapse');
-      accordionCollapse.id = categoryId;
-      accordionCollapse.setAttribute('data-bs-parent', '#accordionExample');
+              // Append categoryButton to categoryHeader
+              categoryHeader.appendChild(categoryButton);
+              categoryButton.addEventListener('click', (event) => {
+                  if (event.target === categoryButton || event.target === categoryIcon) {
+                    categoryIcon.classList.toggle('rotate');
+                  }
+                });
+                
+                
+              // Create a div for the category-collapse
+              const categoryCollapse = document.createElement('div');
+              categoryCollapse.classList.add('accordion-collapse', 'collapse');
+              categoryCollapse.setAttribute('id', `category-collapse-${index}`);
+              categoryCollapse.setAttribute('data-bs-parent', '#categories-container');
 
-      const accordionBody = document.createElement('div');
-      accordionBody.classList.add('accordion-body');
+              // Create a div for the category-body
+              const categoryBody = document.createElement('div');
+              categoryBody.classList.add('accordion-body');
 
-      // Loop through each question in the category
-      category.questions.forEach(question => {
-        const questionElement = document.createElement('div');
+              // Create a div for the questions accordion
+              const questionsAccordion = document.createElement('div');
+              questionsAccordion.classList.add('accordion');
+              questionsAccordion.setAttribute('id', `questions-accordion-${index}`);
 
-        const questionTitleElement = document.createElement('h4');
-        questionTitleElement.textContent = `${question.title} - `;
-        questionElement.appendChild(questionTitleElement);
+              questions.forEach((questionData, questionIndex) => {
+                  const questionItem = document.createElement('div');
+                  questionItem.classList.add('accordion-item');
 
-        const answerTextElement = document.createElement('span');
-        answerTextElement.textContent = question.answer;
-        questionElement.appendChild(answerTextElement);
+                  const questionHeader = document.createElement('h2');
+                  questionHeader.classList.add('accordion-header', 'question-heading');
 
-        accordionBody.appendChild(questionElement);
+                  questionHeader.setAttribute('id', `question-heading-${index}-${questionIndex}`);
+
+                  const questionButton = document.createElement('button');
+                  questionButton.classList.add('accordion-button', 'collapsed');
+                  questionButton.setAttribute('type', 'button');
+                  questionButton.setAttribute('data-bs-toggle', 'collapse');
+                  questionButton.setAttribute('data-bs-target', `#question-collapse-${index}-${questionIndex}`);
+                  questionButton.setAttribute('aria-expanded', 'false');
+                  questionButton.setAttribute('aria-controls', `question-collapse-${index}-${questionIndex}`);
+                  const questionIcon = document.createElement('i');
+                  questionIcon.classList.add('bi', 'bi-chevron-right', 'category-icon');
+                  questionButton.appendChild(questionIcon);
+                  questionButton.insertAdjacentText('beforeend', questionData.question);
+
+                  // Append questionButton to questionHeader
+                  questionHeader.appendChild(questionButton);
+                  questionButton.addEventListener('click', (event) => {
+                      if (event.target === questionButton || event.target === questionIcon) {
+                        questionIcon.classList.toggle('rotate');
+                      }
+                    });
+                    
+
+                  // Create a div for the question-collapse
+                  const questionCollapse = document.createElement('div');
+                  questionCollapse.classList.add('accordion-collapse', 'collapse');
+                  questionCollapse.setAttribute('id', `question-collapse-${index}-${questionIndex}`);
+                  questionCollapse.setAttribute('data-bs-parent', `#questions-accordion-${index}`);
+
+                  // Create a div for the question-body
+                  const questionBody = document.createElement('div');
+                  questionBody.classList.add('accordion-body');
+
+                  // Create a p element for the answer text
+                  const answerText = document.createElement('p');
+                  answerText.textContent = questionData.answer;
+                  questionBody.appendChild(answerText);
+
+                  // Create an a element for the answer link
+                  const answerLink = document.createElement('a');
+                  answerLink.href = questionData.link;
+                  answerLink.textContent = 'Read more';
+                  questionBody.appendChild(answerLink);
+
+                  // Append questionBody to questionCollapse
+                  questionCollapse.appendChild(questionBody);
+
+                  // Append questionHeader and questionCollapse to questionItem
+                  questionItem.appendChild(questionHeader);
+                  questionItem.appendChild(questionCollapse);
+
+                  // Append questionItem to questionsAccordion
+                  questionsAccordion.appendChild(questionItem);
+              });
+
+              // Append questionsAccordion to categoryBody
+              categoryBody.appendChild(questionsAccordion);
+
+              // Append categoryBody to categoryCollapse
+              categoryCollapse.appendChild(categoryBody);
+
+              // Append categoryHeader and categoryCollapse to categoryItem
+              categoryItem.appendChild(categoryHeader);
+              categoryItem.appendChild(categoryCollapse);
+
+              // Append categoryItem to categories container
+              categoriesContainer.appendChild(categoryItem);
+          });
       });
-
-      accordionCollapse.appendChild(accordionBody);
-      accordionItem.appendChild(accordionCollapse);
-
-      categoriesContainer.appendChild(accordionItem);
-    });
-  });
+});
