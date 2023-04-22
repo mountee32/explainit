@@ -102,7 +102,7 @@ function fetchQuestions() {
         dataType: 'json',
         success: function(data) {
             displayQuestions(data);
-            displayQuestionCount(data); // Make sure this line is present
+            displayQuestionCount(data);
         },
         error: function(err) {
             console.error('Error fetching questions:', err);
@@ -200,10 +200,9 @@ function deleteQuestion(questionId) {
     }
 
     $.ajax({
-        url: 'https://explainit.app/api/quizdelete.php',
-        method: 'DELETE',
-        data: JSON.stringify({ id: questionId }),
-        contentType: 'application/json',
+        url: 'https://explainit.app/api/quiz.php?action=delete',
+        method: 'POST',
+        data: { id: questionId },
         dataType: 'json',
         success: function(data) {
             if (data.message === 'Question deleted successfully.') {
@@ -222,7 +221,7 @@ function deleteQuestion(questionId) {
 function createQuestion(questionData, returnResponse = false) {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: 'https://explainit.app/api/quizcreate.php',
+            url: 'https://explainit.app/api/quiz.php?action=create',
             method: 'POST',
             data: JSON.stringify(questionData),
             contentType: 'application/json',
@@ -282,7 +281,7 @@ function editQuestion(question) {
 
 function updateQuestion(questionData) {
     $.ajax({
-        url: 'https://explainit.app/api/quizupdate.php',
+        url: 'https://explainit.app/api/quiz.php?action=update',
         method: 'PUT',
         data: JSON.stringify(questionData),
         contentType: 'application/json',
