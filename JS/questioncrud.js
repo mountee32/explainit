@@ -113,12 +113,16 @@ function fetchQuestions() {
 
 
 function displayQuestions(questions) {
+    console.log('Received questions:', questions); // Debugging line
+
     const tableBody = $('#questionTableBody');
     tableBody.empty();
 
     const groupedQuestions = groupAndSortQuestions(questions);
 
     groupedQuestions.forEach(function(question) {
+        console.log('Processing question:', question); // Debugging line
+
         const deleteButton = $('<button>')
             .addClass('btn btn-danger btn-sm')
             .text('Delete')
