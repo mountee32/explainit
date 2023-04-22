@@ -238,11 +238,11 @@ function editQuestion(question) {
     form.find('[name="choice2"]').val(question.choices[1]);
     form.find('[name="choice3"]').val(question.choices[2]);
     form.find('[name="choice4"]').val(question.choices[3]);
-    form.find('[name="correct_choice"]').val(question.correct_choice);
-    form.find('[name="explanation1"]').val(question.explanation1);
-    form.find('[name="explanation2"]').val(question.explanation2);
-    form.find('[name="explanation3"]').val(question.explanation3);
-    form.find('[name="explanation4"]').val(question.explanation4);
+    form.find('[name="correct_choice"]').val(question.correct);
+    form.find('[name="explanation1"]').val(question.explanations[0]);
+    form.find('[name="explanation2"]').val(question.explanations[1]);
+    form.find('[name="explanation3"]').val(question.explanations[2]);
+    form.find('[name="explanation4"]').val(question.explanations[3]);
 
     $('#saveQuestionBtn').off('click').on('click', function() {
         const updatedQuestionData = getFormData(form);
@@ -256,6 +256,7 @@ function editQuestion(question) {
 
     $('#questionModal').modal('show');
 }
+
 
 function updateQuestion(questionData) {
     $.ajax({
