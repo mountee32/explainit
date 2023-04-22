@@ -171,14 +171,13 @@ function getFormData(form) {
 
 
 function validateQuestionData(questionData) {
-    console.log('questionData:', questionData); // Add this line
     const invalidFields = [];
 
     if (!questionData.question) invalidFields.push('Question');
     if (!questionData.skill) invalidFields.push('Skill');
-    if (!questionData.choices.every(choice => choice)) invalidFields.push('Choices');
+    if (!questionData.choices || !questionData.choices.every(choice => choice)) invalidFields.push('Choices');
     if (!Number.isInteger(questionData.correct)) invalidFields.push('Correct Choice');
-    if (!questionData.explanations.every(explanation => explanation)) invalidFields.push('Explanations');
+    if (!questionData.explanations || !questionData.explanations.every(explanation => explanation)) invalidFields.push('Explanations');
 
     return invalidFields;
 }
