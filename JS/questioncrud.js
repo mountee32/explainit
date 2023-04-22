@@ -171,6 +171,7 @@ function getFormData(form) {
 
 
 function validateQuestionData(questionData) {
+    console.log('questionData:', questionData); // Add this line
     const invalidFields = [];
 
     if (!questionData.question) invalidFields.push('Question');
