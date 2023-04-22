@@ -157,7 +157,8 @@ function editQuestionBehavior(question) {
   $('#questionModal').modal('show');
   addQuestionForm.setAttribute("action", "update");
   addQuestionForm.elements["id"].value = question.id;
-  addQuestionForm.elements["category"].value = question.category_id;
+  addQuestionForm.elements["category"].value = question.category; // Change this line
+
   addQuestionForm.elements["question"].value = question.question;
   addQuestionForm.elements["answer"].value = question.answer;
   addQuestionForm.elements["link"].value = question.link;
