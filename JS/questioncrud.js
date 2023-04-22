@@ -258,6 +258,7 @@ function editQuestion(question) {
 }
 
 
+
 function updateQuestion(questionData) {
     $.ajax({
         url: `${API_URL}?action=update`,
