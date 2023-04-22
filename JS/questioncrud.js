@@ -224,7 +224,7 @@ function createQuestion(questionData, returnResponse = false) {
         $.ajax({
             url: 'https://explainit.app/api/quiz.php?create',
             method: 'POST',
-            data: JSON.stringify(questionData),
+            data: JSON.stringify({ ...questionData, action: 'create' }),
             contentType: 'application/json',
             dataType: 'json',
             success: function (data, textStatus, jqXHR) {
