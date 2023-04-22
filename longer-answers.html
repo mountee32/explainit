@@ -112,7 +112,7 @@
                             const cardTags = card.data('article-tags');
 
                             // Check if the current tag is included in the card tags
-                            const tagIncluded = cardTags.some(tag => tag.id === selectedTagId);
+                            const tagIncluded = cardTags.includes(selectedTagId);
 
                             if (tagIncluded) {
                                 card.parent().show();
@@ -121,6 +121,7 @@
                             }
                         });
                     }
+                });
                 });
 
                 })
