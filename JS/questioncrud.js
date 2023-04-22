@@ -1,19 +1,6 @@
 const API_URL = 'https://explainit.app/api/quiz.php';
+
 $(document).ready(function() {
-    function fetchQuestions() {
-        $.ajax({
-            url: `${API_URL}?action=read`,
-            method: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                displayQuestions(data);
-                displayQuestionCount(data);
-            },
-            error: function(err) {
-                console.error('Error fetching questions:', err);
-            }
-        });
-    }
     // Add change event listener for the hidden file input element
     $('#importQuestionsFile').on('change', function(event) {
         const file = event.target.files[0];
@@ -26,13 +13,14 @@ $(document).ready(function() {
             reader.readAsText(file);
         }
     });
+
     // Add event listener to reset the form and restore the create question behavior when the modal is closed
     $('#questionModal').on('hidden.bs.modal', function() {
         resetFormAndCreateQuestionBehavior();
     });
+
+    fetchQuestions(); // Add this line to call fetchQuestions
 });
-
-
 async function importQuestions(questions) {
     const invalidQuestions = [];
     const importResults = {
@@ -56,7 +44,6 @@ async function importQuestions(questions) {
         } else {
             try {
                 const { status } = await createQuestion(questionData, true);
-
                 if (status === 201) { // Replace 'response.status' with 'status'
                     importResults.success++;
                 } else {
@@ -78,7 +65,6 @@ async function importQuestions(questions) {
     fetchQuestions(); // Refresh the question list after importing
 }
 
-
 function resetFormAndCreateQuestionBehavior() {
     const form = $('#questionForm');
     form[0].reset();
@@ -95,7 +81,6 @@ function resetFormAndCreateQuestionBehavior() {
     });
 }
 
-
 function fetchQuestions() {
     $.ajax({
         url: 'https://explainit.app/api/quiz.php?action=read',
@@ -111,7 +96,6 @@ function fetchQuestions() {
     });
 }
 
-
 function displayQuestions(questions) {
     console.log('Received questions:', questions); // Debugging line
 
@@ -119,7 +103,6 @@ function displayQuestions(questions) {
     tableBody.empty();
 
     const groupedQuestions = groupAndSortQuestions(questions);
-
     groupedQuestions.forEach(function(question) {
         console.log('Processing question:', question); // Debugging line
 
@@ -150,9 +133,6 @@ function displayQuestions(questions) {
     });
 }
 
-
-
-
 function groupAndSortQuestions(questions) {
     const skillOrder = ['easy', 'medium', 'hard'];
 
@@ -182,10 +162,6 @@ function getFormData(form) {
     };
 }
 
-
-
-
-
 function validateQuestionData(questionData) {
     const invalidFields = [];
 
@@ -197,8 +173,6 @@ function validateQuestionData(questionData) {
 
     return invalidFields;
 }
-
-
 
 function deleteQuestion(questionId) {
     if (!confirm('Are you sure you want to delete this question?')) {
@@ -223,7 +197,6 @@ function deleteQuestion(questionId) {
         }
     });
 }
-
 function createQuestion(questionData, returnResponse = false) {
     return new Promise((resolve, reject) => {
         $.ajax({
@@ -256,7 +229,6 @@ function createQuestion(questionData, returnResponse = false) {
     });
 }
 
-
 function editQuestion(question) {
     const form = $('#questionForm');
     form.find('[name="id"]').val(question.id);
@@ -284,7 +256,6 @@ function editQuestion(question) {
 
     $('#questionModal').modal('show');
 }
-
 
 function updateQuestion(questionData) {
     $.ajax({
