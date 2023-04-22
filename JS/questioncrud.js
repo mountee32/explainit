@@ -1,18 +1,19 @@
+const API_URL = 'https://explainit.app/api/quiz.php';
 $(document).ready(function() {
-    fetchQuestions();
-
-    $('#saveQuestionBtn').on('click', function() {
-        const questionData = getFormData($('#questionForm'));
-        const invalidFields = validateQuestionData(questionData);
-        if (invalidFields.length === 0) {
-            createQuestion(questionData);
-        } else {
-            alert('Please fill in the following required fields: ' + invalidFields.join(', '));
-        }
-    });
-    $('#importQuestionsBtn').on('click', function() {
-        $('#importQuestionsFile').click();
-    });
+    function fetchQuestions() {
+        $.ajax({
+            url: `${API_URL}?action=read`,
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                displayQuestions(data);
+                displayQuestionCount(data);
+            },
+            error: function(err) {
+                console.error('Error fetching questions:', err);
+            }
+        });
+    }
     // Add change event listener for the hidden file input element
     $('#importQuestionsFile').on('change', function(event) {
         const file = event.target.files[0];
@@ -200,7 +201,7 @@ function deleteQuestion(questionId) {
     }
 
     $.ajax({
-        url: 'https://explainit.app/api/quiz.php?action=delete',
+        url: `${API_URL}?action=delete`,
         method: 'POST',
         data: { id: questionId },
         dataType: 'json',
@@ -221,7 +222,7 @@ function deleteQuestion(questionId) {
 function createQuestion(questionData, returnResponse = false) {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: 'https://explainit.app/api/quiz.php?action=create',
+            url: `${API_URL}?action=create`,
             method: 'POST',
             data: JSON.stringify(questionData),
             contentType: 'application/json',
@@ -281,11 +282,12 @@ function editQuestion(question) {
 
 function updateQuestion(questionData) {
     $.ajax({
-        url: 'https://explainit.app/api/quiz.php?action=update',
-        method: 'PUT',
-        data: JSON.stringify(questionData),
-        contentType: 'application/json',
-        dataType: 'json',
+        $.ajax({
+            url: `${API_URL}?action=update`,
+            method: 'PUT',
+            data: JSON.stringify(questionData),
+            contentType: 'application/json',
+            dataType: 'json',
         success: function(data) {
             if (data.message === 'Question updated successfully.') {
                 fetchQuestions();
