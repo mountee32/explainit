@@ -13,7 +13,6 @@
         <div class="d-flex justify-content-center flex-wrap mb-3" id="tag-filters">
         </div>
         
-
         <div class="row" id="articles-container">
         </div>
     </div>
@@ -42,131 +41,106 @@
             const apiUrl = "https://wp.explainit.app/wp-json/wp/v2/posts?categories=1";
             const allTags = new Set();
             fetch(apiUrl)
-    .then(response => response.json())
-    .then(articles => {
-        articles.forEach(article => {
-            const featuredMediaId = article.featured_media;
-            const title = article.title.rendered;
-            const content = article.content.rendered;
-            const id = article.id;
-            const tags = article.tags;
+                .then(response => response.json())
+                .then(articles => {
+                    articles.forEach(article => {
+                        const featuredMediaId = article.featured_media;
+                        const title = article.title.rendered;
+                        const content = article.content.rendered;
+                        const id = article.id;
+                        const tags = article.tags;
 
-            let tagsPromises = tags.map(tagId => {
-                return fetch(`https://wp.explainit.app/wp-json/wp/v2/tags/${tagId}`)
-                    .then(response => response.json());
-            });
+                        let tagsPromises = tags.map(tagId => {
+                            return fetch(`https://wp.explainit.app/wp-json/wp/v2/tags/${tagId}`)
+                                .then(response => response.json());
+                        });
 
-            Promise.all(tagsPromises)
-                .then(tagsData => {
-                    const tagsHtml = tagsData.map(tag => {
-                        return `<span class="badge bg-secondary">${tag.name}</span>`;
-                    }).join(' ');
+                        Promise.all(tagsPromises)
+                            .then(tagsData => {
+                                const tagsHtml = tagsData.map(tag => {
+                                    return `<span class="badge bg-secondary">${tag.name}</span>`;
+                                }).join(' ');
 
-                    if (featuredMediaId) {
-                        fetch(`https://wp.explainit.app/wp-json/wp/v2/media/${featuredMediaId}`)
-                            .then(response => response.json())
-                            .then(media => {
-                                const imageUrl = media.source_url;
-                                appendArticle(id, imageUrl, title, content, tagsHtml);
+                                if (featuredMediaId) {
+                                    fetch(`https://wp.explainit.app/wp-json/wp/v2/media/${featuredMediaId}`)
+                                        .then(response => response.json())
+                                        .then(media => {
+                                            const imageUrl = media.source_url;
+                                            appendArticle(id, imageUrl, title, content, tagsHtml, tags);
+                                        })
+                                        .catch(error => {
+                                            console.error("Error fetching media:", error);
+                                        });
+                                } else {
+                                    appendArticle(id, '', title, content, tagsHtml, tags);
+                                }
                             })
                             .catch(error => {
-                                console.error("Error fetching media:", error);
+                                console.error("Error fetching tags:", error);
                             });
-                    } else {
-                        appendArticle(id, '', title, content, tagsHtml);
-                    }
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching articles:", error);
+                });
+
+                fetch('https://wp.explainit.app/wp-json/wp/v2/tags')
+                .then(response => response.json())
+                .then(tags => {
+                    const tagFiltersContainer = $('#tag-filters');
+
+                    // Add "All tags" filter
+                    tagFiltersContainer.append('<span class="badge bg-primary filter-tag" data-tag-id="all">All tags</span>');
+
+                    tags.forEach(tag => {
+                        const tagHtml = `<span class="badge bg-secondary filter-tag" data-tag-id="${tag.id}">${tag.name}</span>`;
+                        tagFiltersContainer.append(tagHtml);
+                    });
+
+                    // Add click event listener for filter tags
+                    $('.filter-tag').click(function() {
+                        $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
+                        $(this).addClass('bg-primary').removeClass('bg-secondary');
+
+                        const selectedTagId = $(this).data('tag-id');
+
+                        if (selectedTagId === 'all') {
+                            $('.card').parent().show();
+                        } else {
+                            $('.card').each(function() {
+                                const card = $(this);
+                                const cardTags = card.data('article-tags');
+
+                                if (cardTags.includes(selectedTagId)) {
+                                    card.parent().show();
+                                } else {
+                                    card.parent().hide();
+                                }
+                            });
+                        }
+                    });
                 })
                 .catch(error => {
                     console.error("Error fetching tags:", error);
                 });
-        });
-    })
-    .catch(error => {
-        console.error("Error fetching articles:", error);
-    });
 
-    fetch('https://wp.explainit.app/wp-json/wp/v2/tags')
-    .then(response => response.json())
-    .then(tags => {
-        const tagFiltersContainer = $('#tag-filters');
-
-        // Add "All tags" filter
-        tagFiltersContainer.append('<span class="badge bg-primary filter-tag" data-tag-id="all">All tags</span>');
-
-        tags.forEach(tag => {
-            const tagHtml = `<span class="badge bg-secondary filter-tag" data-tag-id="${tag.id}">${tag.name}</span>`;
-            tagFiltersContainer.append(tagHtml);
-        });
-
-        // Add click event listener for filter tags
-        $('.filter-tag').click(function() {
-            $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
-            $(this).addClass('bg-primary').removeClass('bg-secondary');
-
-            const selectedTagId = $(this).data('tag-id');
-
-            if (selectedTagId === 'all') {
-                $('.card').parent().show();
-            } else {
-                $('.card').each(function() {
-                    const card = $(this);
-                    const cardTags = card.data('article-tags');
-
-                    if (cardTags.includes(selectedTagId)) {
-                        card.parent().show();
-                    } else {
-                        card.parent().hide();
-                    }
-                });
+            function appendArticle(id, imageUrl, title, content, tagsHtml, tags) {
+                const cardHtml = `
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100" data-article-id="${id}" data-article-content="${content}" data-article-tags="${tags}" data-bs-toggle="modal" data-bs-target="#articleModal">
+                        <img src="${imageUrl}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">${title}</h5>
+                            <p class="card-text">${content.substring(0, 100)}...</p>
+                        </div>
+                        <div class="card-footer">
+                            ${tagsHtml}
+                        </div>
+                    </div>
+                </div>
+                `;
+                $("#articles-container").append(cardHtml);
             }
-        });
-    })
-    .catch(error => {
-        console.error("Error fetching tags:", error);
-    });
-
-    fetch('https://wp.explainit.app/wp-json/wp/v2/tags')
-    .then(response => response.json())
-    .then(tags => {
-        const tagFiltersContainer = $('#tag-filters');
-
-        // Add "All tags" filter
-        tagFiltersContainer.append('<span class="badge bg-primary filter-tag" data-tag-id="all">All tags</span>');
-
-        tags.forEach(tag => {
-            const tagHtml = `<span class="badge bg-secondary filter-tag" data-tag-id="${tag.id}">${tag.name}</span>`;
-            tagFiltersContainer.append(tagHtml);
-        });
-
-        // Add click event listener for filter tags
-        $('.filter-tag').click(function() {
-            $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
-            $(this).addClass('bg-primary').removeClass('bg-secondary');
-
-            const selectedTagId = $(this).data('tag-id');
-
-            if (selectedTagId === 'all') {
-                $('.card').parent().show();
-            } else {
-                $('.card').each(function() {
-                    const card = $(this);
-                    const cardTags = card.data('article-tags');
-
-                    if (cardTags.includes(selectedTagId)) {
-                        card.parent().show();
-                    } else {
-                        card.parent().hide();
-                    }
-                });
-            }
-        });
-    })
-    .catch(error => {
-        console.error("Error fetching tags:", error);
-    });
-
-
-
 
             // Display article content in the modal
             $('#articleModal').on('show.bs.modal', function (event) {
