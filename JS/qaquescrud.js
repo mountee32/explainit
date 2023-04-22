@@ -65,11 +65,12 @@ async function deleteQuestion(id) {
 
 async function updateQuestion(event) {
   event.preventDefault();
-  const formData = getFormData(editQuestionForm);
+  const formData = getFormData(addQuestionForm); // Change this line
   const response = await callApi('update', formData);
   loadQuestions();
   questionModal.hide();
 }
+
 
 function loadQuestions() {
   getQuestions()
