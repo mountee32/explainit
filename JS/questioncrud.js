@@ -282,12 +282,11 @@ function editQuestion(question) {
 
 function updateQuestion(questionData) {
     $.ajax({
-        $.ajax({
-            url: `${API_URL}?action=update`,
-            method: 'PUT',
-            data: JSON.stringify(questionData),
-            contentType: 'application/json',
-            dataType: 'json',
+        url: `${API_URL}?action=update`,
+        method: 'PUT',
+        data: JSON.stringify(questionData),
+        contentType: 'application/json',
+        dataType: 'json',
         success: function(data) {
             if (data.message === 'Question updated successfully.') {
                 fetchQuestions();
@@ -302,6 +301,7 @@ function updateQuestion(questionData) {
         }
     });
 }
+
 function displayQuestionCount(questions) {
     const questionCount = {
         easy: 0,
