@@ -455,3 +455,8 @@ body {
 .category-icon.rotate {
   transform: rotate(90deg);
 }
+<style>
+        .modal-lg {
+            max-width: 90%; /* Adjust this value to set the desired width */
+        }
+    </style>
