@@ -1,8 +1,8 @@
 import csv
 import requests
 
-API_QA_URL = "https://explainit.app/api/qaquestions.php"
-API_ST_URL = "https://explainit.app/api/stquestions.php"
+API_QA_URL = "https://explainit.app/api/quickanswers.php"
+API_ST_URL = "https://explainit.app/api/conversationstarters.php"
 QUICK_ANSWERS_FILE = "extract-quick-answers.csv"
 CONVERSATION_STARTERS_FILE = "csv/conversation-starters.csv"
 
