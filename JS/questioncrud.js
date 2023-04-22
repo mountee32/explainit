@@ -97,9 +97,8 @@ function resetFormAndCreateQuestionBehavior() {
 
 function fetchQuestions() {
     $.ajax({
-        url: 'https://explainit.app/api/quiz.php',
+        url: 'https://explainit.app/api/quiz.php?action=read',
         method: 'GET',
-        action: 'read',
         dataType: 'json',
         success: function(data) {
             displayQuestions(data);
