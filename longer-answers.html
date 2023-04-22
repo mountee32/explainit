@@ -10,6 +10,12 @@
 </head>
 <body>
     <div class="container mt-5">
+        <!-- Add a dropdown filter for tags -->
+        <div class="d-flex justify-content-center mb-3">
+            <select class="form-select w-50" id="tag-filter" aria-label="Filter by tag">
+                <option selected value="all">All tags</option>
+            </select>
+        </div>
         <div class="row" id="articles-container">
         </div>
     </div>
@@ -35,7 +41,8 @@
 
     <script>
         $(document).ready(function() {
-            const apiUrl = "https://readjw.info/wp-json/wp/v2/posts?categories=48";
+            const apiUrl = "https://wp.explainit.app/wp-json/wp/v2/posts?categories=1";
+            const allTags = new Set();
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(articles => {
@@ -45,7 +52,7 @@
                         const content = article.content.rendered;
                         const id = article.id;
                         if (featuredMediaId) {
-                            fetch(`https://readjw.info/wp-json/wp/v2/media/${featuredMediaId}`)
+                            fetch(`https://wp.explainit.app/wp-json/wp/v2/media/${featuredMediaId}`)
                                 .then(response => response.json())
                                 .then(media => {
                                     const imageUrl = media.source_url;
