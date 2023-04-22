@@ -172,9 +172,9 @@ function getFormData(form) {
 }
 
 function saveQuestion() {
-  if (addQuestionForm.style.display === "block") {
-    addQuestion();
+  if (addQuestionForm.getAttribute("action") === "create") {
+    addQuestion(new Event('submit'));
   } else {
-    updateQuestion();
+    updateQuestion(new Event('submit'));
   }
 }
