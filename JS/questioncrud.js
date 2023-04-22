@@ -126,8 +126,8 @@ function displayQuestions(questions) {
                 deleteQuestion(question.id);
             });
 
-        const editButton = $('<button>') // Add an edit button
-            .addClass('btn btn-primary btn-sm me-2') // Add me-2 class for spacing
+        const editButton = $('<button>')
+            .addClass('btn btn-primary btn-sm me-2')
             .text('Edit')
             .on('click', function() {
                 editQuestion(question);
@@ -140,7 +140,7 @@ function displayQuestions(questions) {
             $('<td>').text(question.date_reviewed),
             $('<td>').text(question.question),
             $('<td>').text(question.skill),
-            $('<td>').append(actionsDiv) // Add the actionsDiv containing the edit and delete buttons
+            $('<td>').append(actionsDiv)
         );
         tableBody.append(row);
     });
@@ -257,10 +257,10 @@ function editQuestion(question) {
     form.find('[name="id"]').val(question.id);
     form.find('[name="question"]').val(question.question);
     form.find('[name="skill"]').val(question.skill);
-    form.find('[name="choice1"]').val(question.choice1);
-    form.find('[name="choice2"]').val(question.choice2);
-    form.find('[name="choice3"]').val(question.choice3);
-    form.find('[name="choice4"]').val(question.choice4);
+    form.find('[name="choice1"]').val(question.choices[0]);
+    form.find('[name="choice2"]').val(question.choices[1]);
+    form.find('[name="choice3"]').val(question.choices[2]);
+    form.find('[name="choice4"]').val(question.choices[3]);
     form.find('[name="correct_choice"]').val(question.correct_choice);
     form.find('[name="explanation1"]').val(question.explanation1);
     form.find('[name="explanation2"]').val(question.explanation2);
@@ -279,6 +279,7 @@ function editQuestion(question) {
 
     $('#questionModal').modal('show');
 }
+
 
 function updateQuestion(questionData) {
     $.ajax({
