@@ -91,8 +91,9 @@ function displayQuestions(questions) {
     row.appendChild(idCell);
 
     const categoryIDCell = document.createElement("td");
-    categoryIDCell.innerHTML = question.category_id;
-    row.appendChild(categoryIDCell);
+categoryIDCell.innerHTML = question.category; // Change this line
+row.appendChild(categoryIDCell);
+
 
     const questionCell = document.createElement("td");
     questionCell.innerHTML = question.question;
