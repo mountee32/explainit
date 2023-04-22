@@ -99,26 +99,30 @@
 
                     // Add click event listener for filter tags
                     $('.filter-tag').click(function() {
-                        $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
-                        $(this).addClass('bg-primary').removeClass('bg-secondary');
+                    $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
+                    $(this).addClass('bg-primary').removeClass('bg-secondary');
 
-                        const selectedTagId = $(this).data('tag-id');
+                    const selectedTagId = $(this).data('tag-id');
 
-                        if (selectedTagId === 'all') {
-                            $('.card').parent().show();
-                        } else {
-                            $('.card').each(function() {
-                                const card = $(this);
-                                const cardTags = card.data('article-tags');
+                    if (selectedTagId === 'all') {
+                        $('.card').parent().show();
+                    } else {
+                        $('.card').each(function() {
+                            const card = $(this);
+                            const cardTags = card.data('article-tags');
 
-                                if (cardTags.includes(selectedTagId)) {
-                                    card.parent().show();
-                                } else {
-                                    card.parent().hide();
-                                }
-                            });
-                        }
-                    });
+                            // Check if the current tag is included in the card tags
+                            const tagIncluded = cardTags.some(tag => tag.id === selectedTagId);
+
+                            if (tagIncluded) {
+                                card.parent().show();
+                            } else {
+                                card.parent().hide();
+                            }
+                        });
+                    }
+                });
+
                 })
                 .catch(error => {
                     console.error("Error fetching tags:", error);
