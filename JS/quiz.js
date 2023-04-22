@@ -152,7 +152,8 @@ document.addEventListener("DOMContentLoaded", () => {
       icon = '<i class="fas fa-times-circle animated-icon wrong"></i>';
     }
   
-    explanation.innerHTML = `${icon} ${question[`explanation${answerIndex+1}`]}`;
+    explanation.innerHTML = `${icon} ${question[`explanation${correctIndex+1}`]}`;
+
     explanation.style.display = "block";
   
     const nextButton = document.getElementById("next-question");
