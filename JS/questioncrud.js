@@ -1,6 +1,18 @@
-const API_URL = 'https://explainit.app/api/quiz.php';
-
 $(document).ready(function() {
+    fetchQuestions();
+
+    $('#saveQuestionBtn').on('click', function() {
+        const questionData = getFormData($('#questionForm'));
+        const invalidFields = validateQuestionData(questionData);
+        if (invalidFields.length === 0) {
+            createQuestion(questionData);
+        } else {
+            alert('Please fill in the following required fields: ' + invalidFields.join(', '));
+        }
+    });
+    $('#importQuestionsBtn').on('click', function() {
+        $('#importQuestionsFile').click();
+    });
     // Add change event listener for the hidden file input element
     $('#importQuestionsFile').on('change', function(event) {
         const file = event.target.files[0];
@@ -13,14 +25,13 @@ $(document).ready(function() {
             reader.readAsText(file);
         }
     });
-
     // Add event listener to reset the form and restore the create question behavior when the modal is closed
     $('#questionModal').on('hidden.bs.modal', function() {
         resetFormAndCreateQuestionBehavior();
     });
-
-    fetchQuestions(); // Add this line to call fetchQuestions
 });
+
+
 async function importQuestions(questions) {
     const invalidQuestions = [];
     const importResults = {
@@ -44,6 +55,7 @@ async function importQuestions(questions) {
         } else {
             try {
                 const { status } = await createQuestion(questionData, true);
+
                 if (status === 201) { // Replace 'response.status' with 'status'
                     importResults.success++;
                 } else {
@@ -65,6 +77,7 @@ async function importQuestions(questions) {
     fetchQuestions(); // Refresh the question list after importing
 }
 
+
 function resetFormAndCreateQuestionBehavior() {
     const form = $('#questionForm');
     form[0].reset();
@@ -81,14 +94,15 @@ function resetFormAndCreateQuestionBehavior() {
     });
 }
 
+
 function fetchQuestions() {
     $.ajax({
-        url: 'https://explainit.app/api/quiz.php?action=read',
+        url: 'https://explainit.app/api/read.php',
         method: 'GET',
         dataType: 'json',
         success: function(data) {
             displayQuestions(data);
-            displayQuestionCount(data);
+            displayQuestionCount(data); // Make sure this line is present
         },
         error: function(err) {
             console.error('Error fetching questions:', err);
@@ -96,16 +110,14 @@ function fetchQuestions() {
     });
 }
 
-function displayQuestions(questions) {
-    console.log('Received questions:', questions); // Debugging line
 
+function displayQuestions(questions) {
     const tableBody = $('#questionTableBody');
     tableBody.empty();
 
     const groupedQuestions = groupAndSortQuestions(questions);
-    groupedQuestions.forEach(function(question) {
-        console.log('Processing question:', question); // Debugging line
 
+    groupedQuestions.forEach(function(question) {
         const deleteButton = $('<button>')
             .addClass('btn btn-danger btn-sm')
             .text('Delete')
@@ -113,8 +125,8 @@ function displayQuestions(questions) {
                 deleteQuestion(question.id);
             });
 
-        const editButton = $('<button>')
-            .addClass('btn btn-primary btn-sm me-2')
+        const editButton = $('<button>') // Add an edit button
+            .addClass('btn btn-primary btn-sm me-2') // Add me-2 class for spacing
             .text('Edit')
             .on('click', function() {
                 editQuestion(question);
@@ -127,11 +139,13 @@ function displayQuestions(questions) {
             $('<td>').text(question.date_reviewed),
             $('<td>').text(question.question),
             $('<td>').text(question.skill),
-            $('<td>').append(actionsDiv)
+            $('<td>').append(actionsDiv) // Add the actionsDiv containing the edit and delete buttons
         );
         tableBody.append(row);
     });
 }
+
+
 
 function groupAndSortQuestions(questions) {
     const skillOrder = ['easy', 'medium', 'hard'];
@@ -162,6 +176,10 @@ function getFormData(form) {
     };
 }
 
+
+
+
+
 function validateQuestionData(questionData) {
     const invalidFields = [];
 
@@ -174,15 +192,18 @@ function validateQuestionData(questionData) {
     return invalidFields;
 }
 
+
+
 function deleteQuestion(questionId) {
     if (!confirm('Are you sure you want to delete this question?')) {
         return;
     }
 
     $.ajax({
-        url: `${API_URL}?action=delete`,
-        method: 'POST',
-        data: { id: questionId },
+        url: 'https://explainit.app/api/delete.php',
+        method: 'DELETE',
+        data: JSON.stringify({ id: questionId }),
+        contentType: 'application/json',
         dataType: 'json',
         success: function(data) {
             if (data.message === 'Question deleted successfully.') {
@@ -197,10 +218,11 @@ function deleteQuestion(questionId) {
         }
     });
 }
+
 function createQuestion(questionData, returnResponse = false) {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: `${API_URL}?action=create`,
+            url: 'https://explainit.app/api/create.php',
             method: 'POST',
             data: JSON.stringify(questionData),
             contentType: 'application/json',
@@ -229,20 +251,21 @@ function createQuestion(questionData, returnResponse = false) {
     });
 }
 
+
 function editQuestion(question) {
     const form = $('#questionForm');
     form.find('[name="id"]').val(question.id);
     form.find('[name="question"]').val(question.question);
     form.find('[name="skill"]').val(question.skill);
-    form.find('[name="choice1"]').val(question.choices[0]);
-    form.find('[name="choice2"]').val(question.choices[1]);
-    form.find('[name="choice3"]').val(question.choices[2]);
-    form.find('[name="choice4"]').val(question.choices[3]);
-    form.find('[name="correct_choice"]').val(question.correct);
-    form.find('[name="explanation1"]').val(question.explanations[0]);
-    form.find('[name="explanation2"]').val(question.explanations[1]);
-    form.find('[name="explanation3"]').val(question.explanations[2]);
-    form.find('[name="explanation4"]').val(question.explanations[3]);
+    form.find('[name="choice1"]').val(question.choice1);
+    form.find('[name="choice2"]').val(question.choice2);
+    form.find('[name="choice3"]').val(question.choice3);
+    form.find('[name="choice4"]').val(question.choice4);
+    form.find('[name="correct_choice"]').val(question.correct_choice);
+    form.find('[name="explanation1"]').val(question.explanation1);
+    form.find('[name="explanation2"]').val(question.explanation2);
+    form.find('[name="explanation3"]').val(question.explanation3);
+    form.find('[name="explanation4"]').val(question.explanation4);
 
     $('#saveQuestionBtn').off('click').on('click', function() {
         const updatedQuestionData = getFormData(form);
@@ -257,11 +280,9 @@ function editQuestion(question) {
     $('#questionModal').modal('show');
 }
 
-
-
 function updateQuestion(questionData) {
     $.ajax({
-        url: `${API_URL}?action=update`,
+        url: 'https://explainit.app/api/update.php',
         method: 'PUT',
         data: JSON.stringify(questionData),
         contentType: 'application/json',
@@ -280,7 +301,6 @@ function updateQuestion(questionData) {
         }
     });
 }
-
 function displayQuestionCount(questions) {
     const questionCount = {
         easy: 0,
