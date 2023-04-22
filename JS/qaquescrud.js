@@ -136,16 +136,19 @@ function switchContentType(contentType) {
   if (contentType === "quickAnswers") {
     apiUrl = quickAnswersApiUrl;
     pageTitle.textContent = "Quick Answers Questions";
-    document.getElementById("quickAnswersBtn").classList.add("active");
+    document.getElementById("quickAnswersBtn").classList.remove("active");
     document.getElementById("conversationStartersBtn").classList.remove("active");
+    document.getElementById("quickAnswersBtn").classList.add("active");
   } else {
     apiUrl = conversationStartersApiUrl;
     pageTitle.textContent = "Conversation Starters Questions";
     document.getElementById("quickAnswersBtn").classList.remove("active");
+    document.getElementById("conversationStartersBtn").classList.remove("active");
     document.getElementById("conversationStartersBtn").classList.add("active");
   }
   loadQuestions();
 }
+
 
 
 function resetFormAndCreateQuestionBehavior() {
