@@ -40,14 +40,7 @@ async function importQuestions(questions) {
     };
 
     for (const [index, question] of questions.entries()) {
-        const questionData = {
-            question: question.question,
-            skill: question.skill,
-            choices: question.choices,
-            correct: question.correct,
-            explanations: question.explanations
-        };
-
+        const questionData = question;   
         const invalidFields = validateQuestionData(questionData);
         if (invalidFields.length > 0) {
             invalidQuestions.push({ index, invalidFields });
@@ -160,21 +153,18 @@ function getFormData(form) {
         id: form.find('[name="id"]').val(),
         question: form.find('[name="question"]').val(),
         skill: form.find('[name="skill"]').val(),
-        choices: [
-            form.find('[name="choice1"]').val(),
-            form.find('[name="choice2"]').val(),
-            form.find('[name="choice3"]').val(),
-            form.find('[name="choice4"]').val()
-        ],
-        correct: parseInt(form.find('[name="correct_choice"]').val(), 10),
-        explanations: [
-            form.find('[name="explanation1"]').val(),
-            form.find('[name="explanation2"]').val(),
-            form.find('[name="explanation3"]').val(),
-            form.find('[name="explanation4"]').val()
-        ]
+        choice1: form.find('[name="choice1"]').val(),
+        choice2: form.find('[name="choice2"]').val(),
+        choice3: form.find('[name="choice3"]').val(),
+        choice4: form.find('[name="choice4"]').val(),
+        correct_choice: parseInt(form.find('[name="correct_choice"]').val(), 10),
+        explanation1: form.find('[name="explanation1"]').val(),
+        explanation2: form.find('[name="explanation2"]').val(),
+        explanation3: form.find('[name="explanation3"]').val(),
+        explanation4: form.find('[name="explanation4"]').val()
     };
 }
+
 
 
 
