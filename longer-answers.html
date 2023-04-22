@@ -44,33 +44,51 @@
             const apiUrl = "https://wp.explainit.app/wp-json/wp/v2/posts?categories=1";
             const allTags = new Set();
             fetch(apiUrl)
-                .then(response => response.json())
-                .then(articles => {
-                    articles.forEach(article => {
-                        const featuredMediaId = article.featured_media;
-                        const title = article.title.rendered;
-                        const content = article.content.rendered;
-                        const id = article.id;
-                        if (featuredMediaId) {
-                            fetch(`https://wp.explainit.app/wp-json/wp/v2/media/${featuredMediaId}`)
-                                .then(response => response.json())
-                                .then(media => {
-                                    const imageUrl = media.source_url;
-                                    appendArticle(id, imageUrl, title, content);
-                                })
-                                .catch(error => {
-                                    console.error("Error fetching media:", error);
-                                });
-                        } else {
-                            appendArticle(id, '', title, content);
-                        }
-                    });
+    .then(response => response.json())
+    .then(articles => {
+        articles.forEach(article => {
+            const featuredMediaId = article.featured_media;
+            const title = article.title.rendered;
+            const content = article.content.rendered;
+            const id = article.id;
+            const tags = article.tags;
+
+            let tagsPromises = tags.map(tagId => {
+                return fetch(`https://wp.explainit.app/wp-json/wp/v2/tags/${tagId}`)
+                    .then(response => response.json());
+            });
+
+            Promise.all(tagsPromises)
+                .then(tagsData => {
+                    const tagsHtml = tagsData.map(tag => {
+                        return `<span class="badge bg-secondary">${tag.name}</span>`;
+                    }).join(' ');
+
+                    if (featuredMediaId) {
+                        fetch(`https://wp.explainit.app/wp-json/wp/v2/media/${featuredMediaId}`)
+                            .then(response => response.json())
+                            .then(media => {
+                                const imageUrl = media.source_url;
+                                appendArticle(id, imageUrl, title, content, tagsHtml);
+                            })
+                            .catch(error => {
+                                console.error("Error fetching media:", error);
+                            });
+                    } else {
+                        appendArticle(id, '', title, content, tagsHtml);
+                    }
                 })
                 .catch(error => {
-                    console.error("Error fetching articles:", error);
+                    console.error("Error fetching tags:", error);
                 });
+        });
+    })
+    .catch(error => {
+        console.error("Error fetching articles:", error);
+    });
 
-                function appendArticle(id, imageUrl, title, content) {
+
+    function appendArticle(id, imageUrl, title, content, tagsHtml) {
     const sanitizedTitle = $("<div>").html(title).text();
     const sanitizedContent = $("<div>").html(content).text();
 
@@ -82,11 +100,15 @@
                 <div class="card-body">
                     <h5 class="card-title">${sanitizedTitle}</h5>
                 </div>
+                <div class="card-footer">
+                    ${tagsHtml}
+                </div>
             </div>
         </div>
     `;
     articlesContainer.append(articleHtml);
 }
+
 
 
 
