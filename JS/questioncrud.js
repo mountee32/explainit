@@ -222,7 +222,7 @@ function deleteQuestion(questionId) {
 function createQuestion(questionData, returnResponse = false) {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: 'https://explainit.app/api/create.php?create',
+            url: 'https://explainit.app/api/quiz.php?create',
             method: 'POST',
             data: JSON.stringify(questionData),
             contentType: 'application/json',
