@@ -1,11 +1,11 @@
-$host = getenv('DB_HOST');
-$db_name = getenv('DB_NAME');
-$username = getenv('DB_USERNAME');
-$password = getenv('DB_PASSWORD');
+<?php
+$host = 'localhost';
+$db_name = 'u383132761_explaint';
+$username = 'u383132761_GG78';
+$password = 'Jump6565%True';
 $log_file = 'api-log.txt';
 date_default_timezone_set('UTC');
 $time_stamp = date('Y-m-d H:i:s');
-
 // Set the response headers
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
