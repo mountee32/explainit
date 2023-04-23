@@ -15,6 +15,10 @@ password = os.getenv("WORDPRESS_APP_PASSWORD")
 website = os.getenv("WORDPRESS_URL")
 csv_file = 'csv/uploadposts.csv'
 openai_api_key = os.getenv("OPENAI_API_KEY")
+myengine = os.getenv("ENGINE")
+mytokens = os.getenv("MAX_TOKENS")
+
+
 
 headers = {
     "Authorization": f"Basic {base64.b64encode(f'{username}:{password}'.encode()).decode()}",
@@ -29,18 +33,23 @@ def list_current_questions():
     return existing_titles
 
 def gpt_generate_questions(existing_titles):
-    prompt = f"Using your knowledge and understanding of Christianity as a Christian theologian and teacher, please identify 5 additional popular questions that are often asked of Christians about their faith and worldview that are not already covered in the following list:\n\n"
+    prompt = f"Using your knowledge and understanding of Christianity as a Christian theologian and teacher, please identify 5 additional popular questions that are often asked of Christians about their faith and worldview that are not already covered in the following list and please do not prefix them with numbers:\n\n"
     prompt += "\n".join(existing_titles)
     prompt += "\n\nPlease list the 5 questions."
 
     response = openai.Completion.create(
-        engine="text-davinci-002",
+        engine=myengine,
         prompt=prompt,
-        max_tokens=150,
+        max_tokens=int(mytokens),
         n=1,
         stop=None,
         temperature=0.8,
     )
+
+    generated_questions = response.choices[0].text.strip().split("\n")
+    generated_questions = [question.split('. ')[1] if '. ' in question else question for question in generated_questions]
+    return generated_questions
+
 
     generated_questions = response.choices[0].text.strip().split("\n")
     return generated_questions
@@ -79,12 +88,12 @@ def post_article(title, content, category):
 def create_and_upload_articles(questions):
     for question in questions:
         # Generate the article content
-        prompt = f"Please write an article about the following question related to Christianity: '{question}'. The article should be between 250 and 500 words."
+        prompt = f"Please write an article about the following question related to Christianity: '{question}'. The article should be between 500 and 1000 words."
 
         response = openai.Completion.create(
-            engine="text-davinci-002",
+            engine="text-davinci-003",
             prompt=prompt,
-            max_tokens=800,
+            max_tokens=2049,
             n=1,
             stop=None,
             temperature=0.8,
@@ -106,7 +115,7 @@ while True:
     print("1. List current questions")
     print("2. Import CSV Posts")
     print("3. Exit")
-    print("4. Request GPT-4 to generate and upload 5 new questions")
+    print("4. Request GPT-3 to generate and upload 5 new questions")
     choice = input("Enter your choice (1-4): ")
 
     if choice == '1':
