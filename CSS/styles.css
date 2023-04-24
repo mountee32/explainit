@@ -486,4 +486,9 @@ body {
   margin-right: 5px;
   margin-bottom: 5px;
 }
-    
+  /* Add this to your styles.css file */
+#articleModalImage {
+  max-width: 100%; /* Ensure the image doesn't exceed the container width */
+  max-height: 300px; /* Set a maximum height for the image */
+  object-fit: cover; /* Crop the image if it doesn't fit the given dimensions */
+}
