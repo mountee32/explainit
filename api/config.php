@@ -1,18 +1,12 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-$host = $_ENV['HOST'];
-$db_name = $_ENV['DB_NAME'];
-$username = $_ENV['USERNAME'];
-$password = $_ENV['PASSWORD'];
-$log_file = $_ENV['LOG_FILE'];
-
+$host = 'localhost';
+$db_name = 'u383132761_explaint';
+$username = 'u383132761_GG78';
+$password = 'Jump6565%True';
+$log_file = 'api-log.txt';
 date_default_timezone_set('UTC');
 $time_stamp = date('Y-m-d H:i:s');
-
+// Set the response headers - updated
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
@@ -25,8 +19,12 @@ try {
     echo "Connection error: " . $exception->getMessage();
 }
 
+
 if (!is_null($conn) && $conn instanceof PDO) {
+    // Connection is valid
     file_put_contents($log_file, "config.php - Database connection valid.\n", FILE_APPEND);
+  
 } else {
+    // Connection is invalid
     file_put_contents($log_file, "config.php - Database connection invalid.\n", FILE_APPEND);
 }
