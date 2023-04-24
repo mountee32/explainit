@@ -84,7 +84,7 @@
                     console.error("Error fetching articles:", error);
                 });
 
-                .then(() => {
+                Promise.all(tagsPromises).then(() => {
                     const tags = Array.from(allTags);
                     const tagFiltersContainer = $('#tag-filters');
 
