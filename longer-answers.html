@@ -35,86 +35,88 @@
         </div>
     </div>
     <script>
-        $(document).ready(function() {
-            const apiUrl = "https://wp.explainit.app/wp-json/wp/v2/posts?categories=1";
-            const allTags = new Set();
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(articles => {
-                    let allArticlePromises = articles.map(article => {
-                        const featuredMediaId = article.featured_media;
-                        const title = article.title.rendered;
-                        const content = article.content.rendered;
-                        const id = article.id;
-                        const tags = article.tags;
+ $(document).ready(function() {
+    const apiUrl = "https://wp.explainit.app/wp-json/wp/v2/posts?categories=1";
+    const allTags = [];
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(articles => {
+            let allArticlePromises = articles.map(article => {
+                const featuredMediaId = article.featured_media;
+                const title = article.title.rendered;
+                const content = article.content.rendered;
+                const id = article.id;
+                const tags = article.tags;
 
-                        let tagsPromises = tags.map(tagId => {
-                            return fetch(`https://wp.explainit.app/wp-json/wp/v2/tags/${tagId}`)
-                                .then(response => response.json());
-                        });
+                let tagsPromises = tags.map(tagId => {
+                    return fetch(`https://wp.explainit.app/wp-json/wp/v2/tags/${tagId}`)
+                        .then(response => response.json());
+                });
 
-                        return Promise.all(tagsPromises)
-                            .then(tagsData => {
-                                const tagsHtml = tagsData.map(tag => {
-                                    allTags.add(tag);
-                                    return `<span class="badge bg-secondary">${tag.name}</span>`;
-                                }).join(' ');
+                return Promise.all(tagsPromises)
+                    .then(tagsData => {
+                        const tagsHtml = tagsData.map(tag => {
+                            const tagName = tag.name;
+                            if (!allTags.includes(tagName)) {
+                                allTags.push(tagName);
+                            }
+                            return `<span class="badge bg-secondary filter-tag" data-tag-name="${tagName}">${tagName}</span>`;
+                        }).join(' ');
 
-                                if (featuredMediaId) {
-                                    return fetch(`https://wp.explainit.app/wp-json/wp/v2/media/${featuredMediaId}`)
-                                        .then(response => response.json())
-                                        .then(media => {
-                                            const imageUrl = media.source_url;
-                                            appendArticle(id, imageUrl, title, content, tagsHtml, tags);
-                                        });
-                                } else {
-                                    appendArticle(id, '', title, content, tagsHtml, tags);
-                                }
-                            });
-                        });
+                        if (featuredMediaId) {
+                            return fetch(`https://wp.explainit.app/wp-json/wp/v2/media/${featuredMediaId}`)
+                                .then(response => response.json())
+                                .then(media => {
+                                    const imageUrl = media.source_url;
+                                    appendArticle(id, imageUrl, title, content, tagsHtml, tags);
+                                });
+                        } else {
+                            appendArticle(id, '', title, content, tagsHtml, tags);
+                        }
+                    });
+            });
 
-return Promise.all(allArticlePromises);
-})
-.then(() => {
-const tags = Array.from(allTags);
-const tagFiltersContainer = $('#tag-filters');
+            return Promise.all(allArticlePromises);
+        })
+        .then(() => {
+            const tagFiltersContainer = $('#tag-filters');
 
-// Add "All tags" filter
-tagFiltersContainer.append('<span class="badge bg-primary filter-tag" data-tag-id="all">All tags</span>');
+            // Add "All tags" filter
+            tagFiltersContainer.append('<span class="badge bg-primary filter-tag" data-tag-name="all">All tags</span>');
 
-tags.forEach(tag => {
-    const tagHtml = `<span class="badge bg-secondary filter-tag" data-tag-id="${tag.id}">${tag.name}</span>`;
-    tagFiltersContainer.append(tagHtml);
-});
+            allTags.forEach(tagName => {
+                const tagHtml = `<span class="badge bg-secondary filter-tag" data-tag-name="${tagName}">${tagName}</span>`;
+                tagFiltersContainer.append(tagHtml);
+            });
 
-// Add click event listener for filter tags
-$('.filter-tag').click(function() {
-    $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
-    $(this).addClass('bg-primary').removeClass('bg-secondary');
-    const selectedTagId = $(this).data('tag-id');
+            // Add click event listener for filter tags
+            $('.filter-tag').click(function() {
+                $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
+                $(this).addClass('bg-primary').removeClass('bg-secondary');
+                const selectedTagName = $(this).data('tag-name');
 
-    if (selectedTagId === 'all') {
-        $('.card').parent().show();
-    } else {
-        $('.card').each(function() {
-            const card = $(this);
-            const cardTags = card.data('article-tags');
+                if (selectedTagName === 'all') {
+                    $('.card').parent().show();
+                } else {
+                    $('.card').each(function() {
+                        const card = $(this);
+                        const cardTags = card.data('article-tags');
+                        const tagIncluded = cardTags.find(tag => tag.name === selectedTagName);
 
-            // Check if the current tag is included in the card tags
-            const tagIncluded = cardTags.includes(selectedTagId);
-
-            if (tagIncluded) {
-                card.parent().show();
-            } else {
-                card.parent().hide();
-            }
+                        if (tagIncluded) {
+                            card.parent().show();
+                        } else {
+                            card.parent().hide();
+                        }
+                    });
+                }
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching articles:", error);
         });
-    }
 });
-})
-.catch(error => {
-console.error("Error fetching articles:", error);
-});
+
 
 function appendArticle(id, imageUrl, title, content, tagsHtml, tags) {
     const encodedContent = encodeURIComponent(content);
