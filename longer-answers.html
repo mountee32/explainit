@@ -117,23 +117,46 @@ console.error("Error fetching articles:", error);
 });
 
 function appendArticle(id, imageUrl, title, content, tagsHtml, tags) {
-const cardHtml = `
-<div class="col-md-4 mb-3">
-<div class="card h-100" data-article-id="${id}" data-article-content="${content}" data-article-tags="${tags}" data-bs-toggle="modal" data-bs-target="#articleModal">
-    <img src="${imageUrl}" class="card-img-top" alt="...">
-    <div class="card-body">
-        <h5 class="card-title">${title}</h5>
-        <p class="card-text">${content.substring(0, 100)}...</p>
+    const cardHtml = `
+    <div class="col-md-4 mb-3">
+        <div class="card h-100" data-article-id="${id}" data-article-content="${content}" data-article-tags='${JSON.stringify(tags)}' data-bs-toggle="modal" data-bs-target="#articleModal">
+            <img src="${imageUrl}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">${title}</h5>
+                <p class="card-text">${content.substring(0, 100)}...</p>
+            </div>
+            <div class="card-footer">
+                ${tagsHtml}
+            </div>
+        </div>
     </div>
-    <div class="card-footer">
-        ${tagsHtml}
-    </div>
-</div>
-</div>
-`;
-$("#articles-container").append(cardHtml);
+    `;
+    $("#articles-container").append(cardHtml);
 }
+// Add click event listener for filter tags
+$('.filter-tag').click(function() {
+    $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
+    $(this).addClass('bg-primary').removeClass('bg-secondary');
+    const selectedTagId = parseInt($(this).data('tag-id'));
 
+    if (selectedTagId === 'all') {
+        $('.card').parent().show();
+    } else {
+        $('.card').each(function() {
+            const card = $(this);
+            const cardTags = card.data('article-tags');
+
+            // Check if the current tag is included in the card tags
+            const tagIncluded = cardTags.includes(selectedTagId);
+
+            if (tagIncluded) {
+                card.parent().show();
+            } else {
+                card.parent().hide();
+            }
+        });
+    }
+});
 // Display article content in the modal
 $('#articleModal').on('show.bs.modal', function (event) {
 const articleCard = $(event.relatedTarget); // Card element that triggered the modal
