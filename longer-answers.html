@@ -37,7 +37,7 @@
     <script>
         $(document).ready(function() {
             const apiUrl = "https://wp.explainit.app/wp-json/wp/v2/posts?categories=1";
-            const allTags = new Set();
+            const allTags = new Map();
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(articles => {
@@ -54,9 +54,9 @@
                         });
 
                         return Promise.all(tagsPromises)
-                            .then(tagsData => {
+                        .then(tagsData => {
                                 tagsData.forEach(tag => {
-                                    allTags.add({id: tag.id, name: tag.name});
+                                    allTags.set(tag.id, tag.name);
                                 });
 
                                 const tagsHtml = tagsData.map(tag => {
@@ -76,111 +76,112 @@
                             });
                         });
 
-return Promise.all(allArticlePromises);
-})
-.then(() => {
-    const uniqueTags = Array.from(allTags);
+                    return Promise.all(allArticlePromises);
+                })
+                .then(() => {
+                    const uniqueTags = Array.from(allTags.entries()).map(([id, name]) => ({ id, name }));
 
-const tagFiltersContainer = $('#tag-filters');
+                    const tagFiltersContainer = $('#tag-filters');
 
-// Add "All tags" filter
-tagFiltersContainer.append('<span class="badge bg-primary filter-tag" data-tag-id="all">All tags</span>');
+                    // Add "All tags" filter
+                    tagFiltersContainer.append('<span class="badge bg-primary filter-tag" data-tag-id="all">All tags</span>');
 
-uniqueTags.forEach(tag => {
-    const tagHtml = `<span class="badge bg-secondary filter-tag" data-tag-id="${tag.id}">${tag.name}</span>`;
-    tagFiltersContainer.append(tagHtml);
-});
+                    uniqueTags.forEach(tag => {
+                        const tagHtml = `<span class="badge bg-secondary filter-tag" data-tag-id="${tag.id}">${tag.name}</span>`;
+                        tagFiltersContainer.append(tagHtml);
+                    });
 
-// Add click event listener for filter tags
-$('.filter-tag').click(function() {
-    $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
-    $(this).addClass('bg-primary').removeClass('bg-secondary');
-    const selectedTagId = $(this).data('tag-id');
+                    // Add click event listener for filter tags
+                    $('.filter-tag').click(function() {
+                        $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
+                        $(this).addClass('bg-primary').removeClass('bg-secondary');
+                        const selectedTagId = $(this).data('tag-id');
 
-    if (selectedTagId === 'all') {
-        $('.card').parent().show();
-    } else {
-        $('.card').each(function() {
-            const card = $(this);
-            const cardTags = card.data('article-tags');
+                        if (selectedTagId === 'all') {
+                            $('.card').parent().show();
+                        } else {
+                            $('.card').each(function() {
+                                const card = $(this);
+                                const cardTags = card.data('article-tags');
 
-            // Check if the current tag is included in the card tags
-            const tagIncluded = cardTags.includes(selectedTagId);
+                                // Check if the current tag is included in the card tags
+                                const tagIncluded = cardTags.includes(selectedTagId);
 
-            if (tagIncluded) {
-                card.parent().show();
-            } else {
-                card.parent().hide();
+                                if (tagIncluded) {
+                                    card.parent().show();
+                                } else {
+                                    card.parent().hide();
+                                }
+                            });
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching articles:", error);
+                });
+
+            function appendArticle(id, imageUrl, title, content, tagsHtml, tags) {
+                const encodedContent = encodeURIComponent(content);
+                const cardHtml = `
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100" data-article-id="${id}" data-article-content="${encodedContent}" data-article-tags='${JSON.stringify(tags)}' data-bs-toggle="modal" data-bs-target="#articleModal">
+                        <img src="${imageUrl}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">${title}</h5>
+                            <p class="card-text">${content.substring(0, 100)}...</p>
+                        </div>
+                        <div class="card-footer">
+                            ${tagsHtml}
+                        </div>
+                    </div>
+                </div>
+                `;
+                $("#articles-container").append(cardHtml);
             }
+
+            // Add click event listener for filter tags
+            $('.filter-tag').click(function() {
+                $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
+                $(this).addClass('bg-primary').removeClass('bg-secondary');
+                const selectedTagId = parseInt($(this).data('tag-id'));
+
+                if (selectedTagId === 'all') {
+                    $('.card').parent().show();
+                } else {
+                    $('.card').each(function() {
+                        const card = $(this);
+                        const cardTags = card.data('article-tags');
+
+                        // Check if the current tag is included in the card tags
+                        const tagIncluded = cardTags.includes(selectedTagId);
+
+                        if (tagIncluded) {
+                            card.parent().show();
+                        } else {
+                            card.parent().hide();
+                        }
+                    });
+                }
+            });
+            // Display article content in the modal
+            $('#articleModal').on('show.bs.modal', function (event) {
+                const articleCard = $(event.relatedTarget);
+                const id = articleCard.data('article-id');
+                const imageUrl = articleCard.find('.card-img-top').attr('src');
+                const title = articleCard.find('.card-title').text();
+                const encodedContent = articleCard.data('article-content');
+                const content = decodeURIComponent(encodedContent);
+
+                const modal = $(this);
+                modal.find('.modal-title').text(title);
+                modal.find('#articleModalImage').attr('src', imageUrl);
+                modal.find('#articleContent').html(content);
+            });
+
         });
-    }
-});
-})
-.catch(error => {
-console.error("Error fetching articles:", error);
-});
+    </script>
 
-function appendArticle(id, imageUrl, title, content, tagsHtml, tags) {
-    const encodedContent = encodeURIComponent(content);
-    const cardHtml = `
-    <div class="col-md-4 mb-3">
-        <div class="card h-100" data-article-id="${id}" data-article-content="${encodedContent}" data-article-tags='${JSON.stringify(tags)}' data-bs-toggle="modal" data-bs-target="#articleModal">
-            <img src="${imageUrl}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">${title}</h5>
-                <<p class="card-text">${content.substring(0, 100)}...</p>
-            </div>
-            <div class="card-footer">
-                ${tagsHtml}
-            </div>
-        </div>
-    </div>
-    `;
-    $("#articles-container").append(cardHtml);
-}
-// Add click event listener for filter tags
-$('.filter-tag').click(function() {
-    $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
-    $(this).addClass('bg-primary').removeClass('bg-secondary');
-    const selectedTagId = parseInt($(this).data('tag-id'));
-
-    if (selectedTagId === 'all') {
-        $('.card').parent().show();
-    } else {
-        $('.card').each(function() {
-            const card = $(this);
-            const cardTags = card.data('article-tags');
-
-            // Check if the current tag is included in the card tags
-            const tagIncluded = cardTags.includes(selectedTagId);
-
-            if (tagIncluded) {
-                card.parent().show();
-            } else {
-                card.parent().hide();
-            }
-        });
-    }
-});
-// Display article content in the modal
-$('#articleModal').on('show.bs.modal', function (event) {
-    const articleCard = $(event.relatedTarget);
-    const id = articleCard.data('article-id');
-    const imageUrl = articleCard.find('.card-img-top').attr('src');
-    const title = articleCard.find('.card-title').text();
-    const encodedContent = articleCard.data('article-content');
-    const content = decodeURIComponent(encodedContent);
-
-    const modal = $(this);
-    modal.find('.modal-title').text(title);
-    modal.find('#articleModalImage').attr('src', imageUrl);
-    modal.find('#articleContent').html(content);
-});
-
-});
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
