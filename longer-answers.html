@@ -56,7 +56,7 @@
                         return Promise.all(tagsPromises)
                             .then(tagsData => {
                                 const tagsHtml = tagsData.map(tag => {
-                                    allTags.add(tag);
+                                    allTags.add({id: tag.id, name: tag.name});
                                     return `<span class="badge bg-secondary">${tag.name}</span>`;
                                 }).join(' ');
 
@@ -76,13 +76,14 @@
 return Promise.all(allArticlePromises);
 })
 .then(() => {
-const tags = Array.from(allTags);
+    const uniqueTags = Array.from(allTags);
+
 const tagFiltersContainer = $('#tag-filters');
 
 // Add "All tags" filter
 tagFiltersContainer.append('<span class="badge bg-primary filter-tag" data-tag-id="all">All tags</span>');
 
-tags.forEach(tag => {
+uniqueTags.forEach(tag => {
     const tagHtml = `<span class="badge bg-secondary filter-tag" data-tag-id="${tag.id}">${tag.name}</span>`;
     tagFiltersContainer.append(tagHtml);
 });

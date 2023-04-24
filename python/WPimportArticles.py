@@ -8,11 +8,12 @@ from html import unescape
 # Load environment variables from .env file
 load_dotenv()
 
-# Retrieve the username and password from environment variables
+# Retrieve the credentials and API keys from environment variables
 username = os.getenv("WORDPRESS_USERNAME")
 password = os.getenv("WORDPRESS_APP_PASSWORD")
 website = os.getenv("WORDPRESS_URL")
 openai_api_key = os.getenv("OPENAI_API_KEY")
+pexels_api_key = os.getenv("PEXELS")
 myengine = os.getenv("ENGINE")
 mytokens = os.getenv("MAX_TOKENS")
 
@@ -21,6 +22,12 @@ headers = {
 }
 
 openai.api_key = openai_api_key
+
+def get_existing_media():
+    response = requests.get(f"{website}/wp-json/wp/v2/media?per_page=100", headers=headers)
+    media_items = response.json()
+    existing_media = {media_item['title']['rendered']: media_item['id'] for media_item in media_items}
+    return existing_media
 
 def get_existing_tags():
     response = requests.get(f"{website}/wp-json/wp/v2/tags?per_page=100", headers=headers)
@@ -81,7 +88,57 @@ def request_and_confirm_questions(tag_name):
             print("Invalid input. Please enter 'Yes', 'Retry', or 'Cancel'.")
 
 
-def post_article(title, content, category, tag_id):
+def search_image(tag_name, title):
+    headers = {
+        "Authorization": pexels_api_key
+    }
+    query = f"{tag_name} {title}"
+    response = requests.get(f"https://api.pexels.com/v1/search?query={query}&per_page=1", headers=headers)
+    data = response.json()
+
+    if data['total_results'] > 0:
+        return data['photos'][0]['src']['large']
+    else:
+        return None
+
+def upload_image_to_wordpress(image_url):
+    # Download the image
+    response = requests.get(image_url)
+    image_data = response.content
+    image_filename = image_url.split("/")[-1].split("?")[0]  # Remove query parameters from the filename
+
+    # Check if the image already exists in the WordPress media library
+    existing_media = get_existing_media()
+    if image_filename in existing_media:
+        print(f"Image '{image_filename}' already exists in the WordPress media library.")
+        return existing_media[image_filename]
+
+    # Prepare headers
+    auth_str = f"{username}:{password}"
+    auth_str_encoded = base64.b64encode(auth_str.encode()).decode()
+    headers = {
+        "Authorization": f"Basic {auth_str_encoded}",
+        "Content-Disposition": f"attachment; filename={image_filename}",
+        "Content-Type": response.headers["Content-Type"],
+    }
+
+    # Upload the image to WordPress
+    upload_url = f"{website}/wp-json/wp/v2/media"
+    response = requests.post(upload_url, headers=headers, data=image_data)
+
+    if response.status_code == 201:
+        return response.json()["id"]
+    else:
+        print(f"Error uploading image to WordPress: {response.status_code} {response.reason}")
+        print(f"Image URL: {image_url}")
+        print(f"Image filename: {image_filename}")
+        print(f"Headers: {headers}")
+        print(f"Response content: {response.content.decode('utf-8')}")
+        return None
+
+
+
+def post_article(title, content, category, tag_id, featured_image):
     headers = {
         "Authorization": f"Basic {base64.b64encode(f'{username}:{password}'.encode()).decode()}",
     }
@@ -91,6 +148,7 @@ def post_article(title, content, category, tag_id):
         "status": "publish",
         "categories": category,
         "tags": [tag_id],
+        "featured_media": featured_image,
     }
     response = requests.post(f"{website}/wp-json/wp/v2/posts", headers=headers, data=data)
     return response.status_code
@@ -125,7 +183,7 @@ def main():
 
             if generated_questions:
                 for question in generated_questions:
-                    prompt = f"Please write an article about the following question related to Christianity: '{question}'. The article should be between 500 and 1000 words. Include a link to an external article or resource for further reading."
+                    prompt = f"Please write an article about the following question related to Christianity: '{question}'. The article should be between 750 and 1000 words. "
 
                     response = openai.Completion.create(
                         engine="text-davinci-003",
@@ -144,17 +202,29 @@ def main():
                     hyperlink = f'<a href="{link_url}" target="_blank" rel="noopener noreferrer">{link_text}</a>'
                     content = content.replace(link_url, hyperlink)
 
-                    post_article(question, content, 1, tag_id)
-                    print(f"\nArticle '{question}' created with tag '{tag_name}'.")
+                    # Search for an image using the tag_name and question title
+                    image_url = search_image(tag_name, question)
+                    if image_url:
+                        # Upload the image to WordPress and get the image ID
+                        featured_image_id = upload_image_to_wordpress(image_url)
+
+                        # Post the article with the featured image ID
+                        status_code = post_article(question, content, 1, tag_id, featured_image_id)
+
+                        if status_code == 201:
+                            print(f"\nArticle '{question}' created with tag '{tag_name}' and featured image.")
+                        else:
+                            print(f"\nError creating article '{question}' with tag '{tag_name}' and featured image.")
+                    else:
+                        print(f"\nNo suitable image found for '{question}'. Creating the article without a featured image.")
+                        status_code = post_article(question, content, 1, tag_id, None)
+
+                        if status_code == 201:
+                            print(f"\nArticle '{question}' created with tag '{tag_name}' but without a featured image.")
+                        else:
+                            print(f"\nError creating article '{question}' with tag '{tag_name}' and no featured image.")
+
                 input("\nPress Enter to return to the main menu...")
-
-
-        elif option == '0':
-            print("\nExiting the program. Goodbye!")
-            break
-        else:
-            print("\nInvalid option. Please try again.")
-            input("Press Enter to return to the main menu...")
 
 if __name__ == "__main__":
     main()
