@@ -1,3 +1,5 @@
+# Bugs (1) no longer creates wordpress images (2) toggles on articles not working (3) not sure this is the 3.5 fast model
+
 import os
 import base64
 import requests
@@ -23,12 +25,103 @@ headers = {
 
 openai.api_key = openai_api_key
 
+def search_image(tag, title):
+    query = f"{tag} {title}"
+    url = f"https://api.pexels.com/v1/search?query={query}&per_page=1"
+
+    headers = {
+        "Authorization": pexels_api_key
+    }
+
+    response = requests.get(url, headers=headers)
+    data = response.json()
+
+    if data['total_results'] > 0:
+        return data['photos'][0]['src']['large']
+    else:
+        return None
+
+def gpt_generate_article_content(title):
+    prompt = f"Please write a 750 to 1000-word article about the following topic related to Christianity: '{title}'."
+    response = openai.Completion.create(
+        engine=myengine,
+        prompt=prompt,
+        max_tokens=int(mytokens),
+        n=1,
+        stop=None,
+        temperature=0.8,
+    )
+    content = response.choices[0].text.strip()
+    return content
+
+def search_image(tag, title):
+    query = f"{tag} {title}"
+    url = f"https://api.pexels.com/v1/search?query={query}&per_page=1&page=1"
+    headers = {
+        "Authorization": pexels_api_key,
+    }
+    response = requests.get(url, headers=headers)
+    data = response.json()
+    if data['total_results'] > 0:
+        return data['photos'][0]['src']['large']
+    else:
+        return None
+
+def upload_image_to_wordpress(image_url):
+    image_data = requests.get(image_url).content
+    file_name = os.path.basename(image_url)
+    media = {
+        "file": (file_name, image_data, "image/jpeg")
+    }
+    response = requests.post(f"{website}/wp-json/wp/v2/media", headers=headers, files=media)
+    if response.status_code == 201:
+        return response.json()['id']
+    else:
+        return None
+
+def post_article(title, content, category_id, tag_id, featured_image_id=None):
+    post_data = {
+        "title": title,
+        "content": content,
+        "status": "publish",
+        "categories": [category_id],
+        "tags": [tag_id],
+    }
+
+    if featured_image_id:
+        post_data["featured_media"] = featured_image_id
+
+    response = requests.post(f"{website}/wp-json/wp/v2/posts", headers=headers, json=post_data)
+
+    return response.status_code
+
+def upload_image_to_wordpress(image_url):
+    response = requests.get(image_url)
+    image_data = response.content
+
+    file_name = image_url.split("/")[-1]
+    file_type = file_name.split(".")[-1]
+
+    media_headers = {
+        "Authorization": f"Basic {base64.b64encode(f'{username}:{password}'.encode()).decode()}",
+        "Content-Type": f"image/{file_type}",
+        "Content-Disposition": f'attachment; filename="{file_name}"',
+    }
+
+    response = requests.post(f"{website}/wp-json/wp/v2/media", headers=media_headers, data=image_data)
+
+    if response.status_code == 201:
+        media_item = response.json()
+        return media_item['id']
+    else:
+        return None
+
+
 def get_existing_media():
     response = requests.get(f"{website}/wp-json/wp/v2/media?per_page=100", headers=headers)
     media_items = response.json()
     existing_media = {media_item['title']['rendered']: media_item['id'] for media_item in media_items}
     return existing_media
-
 def get_existing_tags():
     response = requests.get(f"{website}/wp-json/wp/v2/tags?per_page=100", headers=headers)
     tags = response.json()
@@ -54,7 +147,7 @@ def gpt_generate_questions(existing_titles, tag_name):
     prompt = f"Using your knowledge and understanding of Christianity as a Christian theologian and teacher, please identify 5 additional popular questions that are often asked of Christians about their faith and worldview related to the tag '{tag_name}' and that are not already covered in the following list. Please do not prefix them with numbers:\n\n"
     prompt += "\n".join(existing_titles)
     prompt += "\n\nPlease list the 5 questions."
-
+    
     response = openai.Completion.create(
         engine=myengine,
         prompt=prompt,
@@ -63,10 +156,8 @@ def gpt_generate_questions(existing_titles, tag_name):
         stop=None,
         temperature=0.8,
     )
-
-    generated_questions = response.choices[0].text.strip().split("\n")
-    generated_questions = [question.split('. ')[1] if '. ' in question else question for question in generated_questions]
-    return generated_questions
+    questions = response.choices[0].text.strip().split("\n")
+    return questions
 
 def request_and_confirm_questions(tag_name):
     existing_titles = list_current_questions()
@@ -87,72 +178,57 @@ def request_and_confirm_questions(tag_name):
         else:
             print("Invalid input. Please enter 'Yes', 'Retry', or 'Cancel'.")
 
+def request_custom_article():
+    title = input("Enter the title of the article: ")
 
-def search_image(tag_name, title):
-    headers = {
-        "Authorization": pexels_api_key
-    }
-    query = f"{tag_name} {title}"
-    response = requests.get(f"https://api.pexels.com/v1/search?query={query}&per_page=1", headers=headers)
-    data = response.json()
+    prompt = f"Please write a 750 to 1000-word article about the following topic related to Christianity: '{title}'."
+    response = openai.Completion.create(
+        engine=myengine,
+        prompt=prompt,
+        max_tokens=int(mytokens),
+        n=1,
+        stop=None,
+        temperature=0.8,
+    )
+    content = response.choices[0].text.strip()
 
-    if data['total_results'] > 0:
-        return data['photos'][0]['src']['large']
-    else:
-        return None
+    return title, content
+def confirm_custom_article(title, content):
+    print(f"\nTitle: {title}\n")
+    print(f"Content:\n{content}\n")
+    action = input("Enter 'Yes' to save this article, or 'No' to discard it: ")
 
-def upload_image_to_wordpress(image_url):
-    # Download the image
-    response = requests.get(image_url)
-    image_data = response.content
-    image_filename = image_url.split("/")[-1].split("?")[0]  # Remove query parameters from the filename
+    return action.lower() == 'yes'
+def gpt_generate_article_content(title):
+    prompt = f"Please write a 750 to 1000-word article about the following topic related to Christianity: '{title}'."
+    response = openai.Completion.create(
+        engine=myengine,
+        prompt=prompt,
+        max_tokens=int(mytokens),
+        n=1,
+        stop=None,
+        temperature=0.8,
+    )
+    content = response.choices[0].text.strip()
+    return content
 
-    # Check if the image already exists in the WordPress media library
-    existing_media = get_existing_media()
-    if image_filename in existing_media:
-        print(f"Image '{image_filename}' already exists in the WordPress media library.")
-        return existing_media[image_filename]
+def select_tag(existing_tags):
+    print("\nAvailable tags:")
+    for i, (tag_name, _) in enumerate(existing_tags.items()):
+        print(f"{i + 1}. {tag_name}")
 
-    # Prepare headers
-    auth_str = f"{username}:{password}"
-    auth_str_encoded = base64.b64encode(auth_str.encode()).decode()
-    headers = {
-        "Authorization": f"Basic {auth_str_encoded}",
-        "Content-Disposition": f"attachment; filename={image_filename}",
-        "Content-Type": response.headers["Content-Type"],
-    }
+    tag_option = int(input("\nSelect a tag to apply to the article: ")) - 1
+    tag_name, tag_id = list(existing_tags.items())[tag_option]
+    return tag_name, tag_id
 
-    # Upload the image to WordPress
-    upload_url = f"{website}/wp-json/wp/v2/media"
-    response = requests.post(upload_url, headers=headers, data=image_data)
-
-    if response.status_code == 201:
-        return response.json()["id"]
-    else:
-        print(f"Error uploading image to WordPress: {response.status_code} {response.reason}")
-        print(f"Image URL: {image_url}")
-        print(f"Image filename: {image_filename}")
-        print(f"Headers: {headers}")
-        print(f"Response content: {response.content.decode('utf-8')}")
-        return None
-
-
-
-def post_article(title, content, category, tag_id, featured_image):
-    headers = {
-        "Authorization": f"Basic {base64.b64encode(f'{username}:{password}'.encode()).decode()}",
-    }
-    data = {
-        "title": title,
-        "content": content,
-        "status": "publish",
-        "categories": category,
-        "tags": [tag_id],
-        "featured_media": featured_image,
-    }
-    response = requests.post(f"{website}/wp-json/wp/v2/posts", headers=headers, data=data)
-    return response.status_code
-
+def toggle_questions_to_save(generated_questions):
+    questions_to_save = []
+    for i, question in enumerate(generated_questions):
+        print(f"{i + 1}. {question}")
+        action = input("Enter 'Yes' to save this question or 'No' to discard it (default is 'Yes'): ")
+        if action.lower() in ['', 'yes']:
+            questions_to_save.append(question)
+    return questions_to_save
 def main():
     existing_tags = get_existing_tags()
 
@@ -160,6 +236,7 @@ def main():
         clear_console()
         print("Menu Options:")
         print("1. List current questions")
+        print("2. Create a custom post")
         print("3. Generate new questions")
         print("0. Exit the program")
 
@@ -172,6 +249,22 @@ def main():
                 print(title)
             input("\nPress Enter to return to the main menu...")
 
+        elif option == '2':
+            title = input("\nEnter the title of the article: ")
+            content = gpt_generate_article_content(title) 
+            if confirm_custom_article(title, content):
+                tag_name, tag_id = select_tag(existing_tags)
+                image_url = search_image(tag_name, title)
+                if image_url:
+                    featured_image_id = upload_image_to_wordpress(image_url)
+                else:
+                    featured_image_id = None
+                status_code = post_article(title, content, 1, tag_id, featured_image_id)
+                if status_code == 201:
+                    print(f"\nArticle '{title}' created with tag '{tag_name}' and featured image.")
+                else:
+                    print(f"\nError creating article '{title}' with tag '{tag_name}' and featured image.")
+            input("\nPress Enter to return to the main menu...")
         elif option == '3':
             print("\nAvailable tags:")
             for i, (tag_name, _) in enumerate(existing_tags.items()):
@@ -182,49 +275,28 @@ def main():
             generated_questions = request_and_confirm_questions(tag_name)
 
             if generated_questions:
-                for question in generated_questions:
-                    prompt = f"Please write an article about the following question related to Christianity: '{question}'. The article should be between 750 and 1000 words. "
+                selected_questions = toggle_questions_to_save(generated_questions)
 
-                    response = openai.Completion.create(
-                        engine="text-davinci-003",
-                        prompt=prompt,
-                        max_tokens=2049,
-                        n=1,
-                        stop=None,
-                        temperature=0.8,
-                    )
-
-                    content = response.choices[0].text.strip()
-
-                    # Add the link as a formatted HTML hyperlink
-                    link_text = "Read more here"
-                    link_url = content.split()[-1]
-                    hyperlink = f'<a href="{link_url}" target="_blank" rel="noopener noreferrer">{link_text}</a>'
-                    content = content.replace(link_url, hyperlink)
-
-                    # Search for an image using the tag_name and question title
+                for question in selected_questions:
+                    content = gpt_generate_article_content(question)
                     image_url = search_image(tag_name, question)
                     if image_url:
-                        # Upload the image to WordPress and get the image ID
                         featured_image_id = upload_image_to_wordpress(image_url)
-
-                        # Post the article with the featured image ID
-                        status_code = post_article(question, content, 1, tag_id, featured_image_id)
-
-                        if status_code == 201:
-                            print(f"\nArticle '{question}' created with tag '{tag_name}' and featured image.")
-                        else:
-                            print(f"\nError creating article '{question}' with tag '{tag_name}' and featured image.")
                     else:
-                        print(f"\nNo suitable image found for '{question}'. Creating the article without a featured image.")
-                        status_code = post_article(question, content, 1, tag_id, None)
-
-                        if status_code == 201:
-                            print(f"\nArticle '{question}' created with tag '{tag_name}' but without a featured image.")
-                        else:
-                            print(f"\nError creating article '{question}' with tag '{tag_name}' and no featured image.")
-
+                        featured_image_id = None
+                    status_code = post_article(question, content, 1, tag_id, featured_image_id)
+                    if status_code == 201:
+                        print(f"\nArticle '{question}' created with tag '{tag_name}' and featured image.")
+                    else:
+                        print(f"\nError creating article '{question}' with tag '{tag_name}' and featured image.")
                 input("\nPress Enter to return to the main menu...")
+
+        elif option == '0':
+            print("\nExiting the program.")
+            break
+        else:
+            print("\nInvalid option. Please enter a valid option number.")
+            input("\nPress Enter to return to the main menu...")
 
 if __name__ == "__main__":
     main()
