@@ -117,13 +117,14 @@ console.error("Error fetching articles:", error);
 });
 
 function appendArticle(id, imageUrl, title, content, tagsHtml, tags) {
+    const encodedContent = encodeURIComponent(content);
     const cardHtml = `
     <div class="col-md-4 mb-3">
-        <div class="card h-100" data-article-id="${id}" data-article-content="${content}" data-article-tags='${JSON.stringify(tags)}' data-bs-toggle="modal" data-bs-target="#articleModal">
+        <div class="card h-100" data-article-id="${id}" data-article-content="${encodedContent}" data-article-tags='${JSON.stringify(tags)}' data-bs-toggle="modal" data-bs-target="#articleModal">
             <img src="${imageUrl}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">${title}</h5>
-                <p class="card-text">${content.substring(0, 100)}...</p>
+                <<p class="card-text">${content.substring(0, 100)}...</p>
             </div>
             <div class="card-footer">
                 ${tagsHtml}
@@ -159,17 +160,19 @@ $('.filter-tag').click(function() {
 });
 // Display article content in the modal
 $('#articleModal').on('show.bs.modal', function (event) {
-const articleCard = $(event.relatedTarget); // Card element that triggered the modal
-const id = articleCard.data('article-id'); // Extract the article ID from the card
-const imageUrl = articleCard.find('.card-img-top').attr('src');
-const title = articleCard.find('.card-title').text();
-const content = articleCard.data('article-content');
+    const articleCard = $(event.relatedTarget);
+    const id = articleCard.data('article-id');
+    const imageUrl = articleCard.find('.card-img-top').attr('src');
+    const title = articleCard.find('.card-title').text();
+    const encodedContent = articleCard.data('article-content');
+    const content = decodeURIComponent(encodedContent);
 
-const modal = $(this);
-modal.find('.modal-title').text(title);
-modal.find('#articleModalImage').attr('src', imageUrl);
-modal.find('#articleContent').html(content);
+    const modal = $(this);
+    modal.find('.modal-title').text(title);
+    modal.find('#articleModalImage').attr('src', imageUrl);
+    modal.find('#articleContent').html(content);
 });
+
 });
 </script>
 
