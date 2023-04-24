@@ -16,7 +16,6 @@
         <div class="row" id="articles-container">
         </div>
     </div>
-
     <!-- Modal -->
     <div class="modal fade" id="articleModal" tabindex="-1" aria-labelledby="articleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg"> <!-- Use the modal-lg class here -->
@@ -35,7 +34,6 @@
             </div>
         </div>
     </div>
-
     <script>
         $(document).ready(function() {
             const apiUrl = "https://wp.explainit.app/wp-json/wp/v2/posts?categories=1";
@@ -61,6 +59,8 @@
                                     return `<span class="badge bg-secondary">${tag.name}</span>`;
                                 }).join(' ');
 
+                                tagsData.forEach(tag => allTags.add(tag));
+
                                 if (featuredMediaId) {
                                     fetch(`https://wp.explainit.app/wp-json/wp/v2/media/${featuredMediaId}`)
                                         .then(response => response.json())
@@ -84,14 +84,12 @@
                     console.error("Error fetching articles:", error);
                 });
 
-                fetch('https://wp.explainit.app/wp-json/wp/v2/tags')
-                .then(response => response.json())
-                .then(tags => {
+                .then(() => {
+                    const tags = Array.from(allTags);
                     const tagFiltersContainer = $('#tag-filters');
 
                     // Add "All tags" filter
                     tagFiltersContainer.append('<span class="badge bg-primary filter-tag" data-tag-id="all">All tags</span>');
-
                     tags.forEach(tag => {
                         const tagHtml = `<span class="badge bg-secondary filter-tag" data-tag-id="${tag.id}">${tag.name}</span>`;
                         tagFiltersContainer.append(tagHtml);
@@ -99,31 +97,28 @@
 
                     // Add click event listener for filter tags
                     $('.filter-tag').click(function() {
-                    $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
-                    $(this).addClass('bg-primary').removeClass('bg-secondary');
+                        $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
+                        $(this).addClass('bg-primary').removeClass('bg-secondary');
 
-                    const selectedTagId = $(this).data('tag-id');
+                        const selectedTagId = $(this).data('tag-id');
 
-                    if (selectedTagId === 'all') {
-                        $('.card').parent().show();
-                    } else {
-                        $('.card').each(function() {
-                            const card = $(this);
-                            const cardTags = card.data('article-tags');
+                        if (selectedTagId === 'all') {
+                            $('.card').parent().show();
+                        } else {
+                            $('.card').each(function() {
+                                const card = $(this);
+                                const cardTags = card.data('article-tags');
+                                // Check if the current tag is included in the card tags
+                                const tagIncluded = cardTags.includes(selectedTagId);
 
-                            // Check if the current tag is included in the card tags
-                            const tagIncluded = cardTags.includes(selectedTagId);
-
-                            if (tagIncluded) {
-                                card.parent().show();
-                            } else {
-                                card.parent().hide();
-                            }
-                        });
-                    }
-
-                });
-
+                                if (tagIncluded) {
+                                    card.parent().show();
+                                } else {
+                                    card.parent().hide();
+                                }
+                            });
+                        }
+                    });
                 })
                 .catch(error => {
                     console.error("Error fetching tags:", error);
