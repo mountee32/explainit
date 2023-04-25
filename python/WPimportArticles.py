@@ -1,4 +1,4 @@
-# Bugs (1) no longer creates wordpress images (2) toggles on articles not working (3) not sure this is the 3.5 fast model
+# Bugs (2) toggles on articles not working (3) not sure this is the 3.5 fast model
 
 import os
 import base64
@@ -6,6 +6,9 @@ import requests
 import openai
 from dotenv import load_dotenv
 from html import unescape
+from PIL import Image
+from io import BytesIO
+import mimetypes
 
 # Load environment variables from .env file
 load_dotenv()
@@ -68,16 +71,28 @@ def search_image(tag, title):
         return None
 
 def upload_image_to_wordpress(image_url):
-    image_data = requests.get(image_url).content
-    file_name = os.path.basename(image_url)
-    media = {
-        "file": (file_name, image_data, "image/jpeg")
+    response = requests.get(image_url)
+    image_data = response.content
+
+    file_name = image_url.split("/")[-1]
+    file_type = mimetypes.guess_type(image_url)[0]
+
+    media_headers = {
+        "Authorization": f"Basic {base64.b64encode(f'{username}:{password}'.encode()).decode()}",
+        "Content-Disposition": f'attachment; filename="{file_name}"',
+        "Content-Type": file_type,
     }
-    response = requests.post(f"{website}/wp-json/wp/v2/media", headers=headers, files=media)
+
+    response = requests.post(f"{website}/wp-json/wp/v2/media", headers=media_headers, data=image_data)
+
     if response.status_code == 201:
-        return response.json()['id']
+        media_item = response.json()
+        return media_item['id']
     else:
+        print(f"Error uploading image '{file_name}': {response.status_code} {response.reason}")
+        print(f"Response content: {response.content}")
         return None
+
 
 def post_article(title, content, category_id, tag_id, featured_image_id=None):
     post_data = {
@@ -95,33 +110,77 @@ def post_article(title, content, category_id, tag_id, featured_image_id=None):
 
     return response.status_code
 
-def upload_image_to_wordpress(image_url):
-    response = requests.get(image_url)
-    image_data = response.content
-
-    file_name = image_url.split("/")[-1]
-    file_type = file_name.split(".")[-1]
-
-    media_headers = {
-        "Authorization": f"Basic {base64.b64encode(f'{username}:{password}'.encode()).decode()}",
-        "Content-Type": f"image/{file_type}",
-        "Content-Disposition": f'attachment; filename="{file_name}"',
-    }
-
-    response = requests.post(f"{website}/wp-json/wp/v2/media", headers=media_headers, data=image_data)
-
-    if response.status_code == 201:
-        media_item = response.json()
-        return media_item['id']
-    else:
-        return None
-
-
 def get_existing_media():
     response = requests.get(f"{website}/wp-json/wp/v2/media?per_page=100", headers=headers)
     media_items = response.json()
-    existing_media = {media_item['title']['rendered']: media_item['id'] for media_item in media_items}
+    existing_media = {media_item['source_url'].split("?")[0]: media_item['id'] for media_item in media_items}
     return existing_media
+
+
+def upload_image_to_wordpress(image_url):
+    # Remove query parameters from the image URL
+    clean_image_url = image_url.split("?")[0]
+    print(f"Processing image URL: {clean_image_url}")
+
+    response = requests.get(clean_image_url)
+    image_data = response.content
+
+    file_name = clean_image_url.split("/")[-1]
+    file_type = mimetypes.guess_type(clean_image_url)[0]
+
+    existing_media = get_existing_media()
+    print(f"Checking if '{file_name}' exists in WordPress media...")
+    print("Existing WordPress media filenames:")
+    for existing_filename in existing_media:
+        print(f" - {existing_filename}")
+
+    if file_name in existing_media:
+        print(f"Image '{file_name}' already exists in WordPress media.")
+        return existing_media[file_name]
+    else:
+        print(f"Image '{file_name}' not found in WordPress media. Uploading...")
+        media_headers = {
+            "Authorization": f"Basic {base64.b64encode(f'{username}:{password}'.encode()).decode()}",
+            "Content-Disposition": f'attachment; filename="{file_name}"',
+            "Content-Type": file_type,
+        }
+
+        response = requests.post(f"{website}/wp-json/wp/v2/media", headers=media_headers, data=image_data)
+
+        if response.status_code == 201:
+            media_item = response.json()
+            return media_item['id']
+        else:
+            print(f"Error uploading image '{file_name}': {response.status_code} {response.reason}")
+            print(f"Response content: {response.content}")
+            return None
+
+
+
+def get_existing_media():
+    media_headers = {
+        "Authorization": f"Basic {base64.b64encode(f'{username}:{password}'.encode()).decode()}",
+    }
+
+    response = requests.get(f"{website}/wp-json/wp/v2/media", headers=media_headers)
+    if response.status_code == 200:
+        media_items = response.json()
+        existing_media = {}
+
+        for media_item in media_items:
+            file_url = media_item['source_url']
+            file_name = file_url.split("/")[-1]
+            # Remove the '-scaled' suffix if present
+            file_name = file_name.replace('-scaled', '')
+            existing_media[file_name] = media_item['id']
+
+        return existing_media
+    else:
+        print(f"Error retrieving media: {response.status_code} {response.reason}")
+        print(f"Response content: {response.content}")
+        return {}
+
+
 def get_existing_tags():
     response = requests.get(f"{website}/wp-json/wp/v2/tags?per_page=100", headers=headers)
     tags = response.json()
