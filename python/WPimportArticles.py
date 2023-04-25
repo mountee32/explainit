@@ -1,4 +1,4 @@
-# Bugs (2) toggles on articles not working (3) not sure this is the 3.5 fast model
+# Bugs (1) toggles on articles not working (2) not sure this is the 3.5 fast model
 
 import os
 import base64
@@ -284,9 +284,11 @@ def toggle_questions_to_save(generated_questions):
     for i, question in enumerate(generated_questions):
         print(f"{i + 1}. {question}")
         action = input("Enter 'Yes' to save this question or 'No' to discard it (default is 'Yes'): ")
-        if action.lower() in ['', 'yes']:
+        if action.lower() not in ['no']:
             questions_to_save.append(question)
     return questions_to_save
+
+
 def main():
     existing_tags = get_existing_tags()
 
