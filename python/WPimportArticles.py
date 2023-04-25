@@ -30,19 +30,18 @@ openai.api_key = openai_api_key
 
 def search_image(tag, title):
     query = f"{tag} {title}"
-    url = f"https://api.pexels.com/v1/search?query={query}&per_page=1"
-
+    url = f"https://api.pexels.com/v1/search?query={query}&per_page=1&page=1"
     headers = {
-        "Authorization": pexels_api_key
+        "Authorization": pexels_api_key,
     }
-
     response = requests.get(url, headers=headers)
     data = response.json()
-
     if data['total_results'] > 0:
-        return data['photos'][0]['src']['large']
+        # Change the size from 'large' to 'medium' or 'small' depending on your requirements
+        return data['photos'][0]['src']['medium']
     else:
         return None
+
 
 def gpt_generate_article_content(title):
     prompt = f"Please write a 750 to 1000-word article about the following topic related to Christianity: '{title}'."
