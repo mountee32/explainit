@@ -212,7 +212,7 @@ def list_current_questions():
 
 def gpt_generate_questions(existing_titles, tag_name):
     # global total_tokens  # Use the global variable total_tokens
-
+    total_tokens = 0
     prompt = f"Using your knowledge and understanding of Christianity as a Christian theologian and teacher, please identify 5 additional popular questions that are often asked of Christians about their faith and worldview related to the tag '{tag_name}' and that are not already covered in the following list. Please do not prefix them with numbers:\n\n"
     prompt += "\n".join(existing_titles)
     prompt += "\n\nPlease list the 5 questions."
