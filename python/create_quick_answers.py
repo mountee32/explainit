@@ -44,11 +44,17 @@ def generate_quick_answers():
                     else:
                         link = ''
 
+                    # Write new row to output file
                     writer.writerow([category, question, answer.replace('\n', CUSTOM_NEWLINE_SEQ), link])
 
+                    # Print the new row to the console
                     print([category, question, answer.replace('\n', CUSTOM_NEWLINE_SEQ), link])
                 else:
+                    # Write the existing row to output file
                     writer.writerow(row)
+
+                    # Print the already answered question to the console
+                    print(f"Question '{question}' is already answered.")
             else:
                 print("Skipping an empty or incomplete row")
 
