@@ -53,13 +53,16 @@ def delete_all_quick_answers():
 
 def import_quick_answers():
     df = pd.read_csv(QUICK_ANSWERS_FILE, encoding='utf-8', engine='python')
+    print("Column names in the DataFrame:", df.columns)  # Add this line
+
     for _, row in df.iterrows():
         data = {
             "action": "create",
             "category": row["CATEGORY"],
             "question": row["QUESTION"],
-            "link": row["LINK"],
             "answer": row["ANSWER"],
+            "link": row["LINK"]
+            ,
         }
         response = requests.post(API_QA_URL, json=data)
         if response.status_code == 201:

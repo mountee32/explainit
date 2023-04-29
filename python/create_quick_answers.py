@@ -24,9 +24,12 @@ def generate_quick_answers():
         if existing_rows and existing_rows[0] == ["CATEGORY", "QUESTION", "ANSWER", "LINK"]:
             existing_rows = existing_rows[1:]
 
+        # Create a list of answered questions
+        answered_questions = [row[1] for row in existing_rows]
+
         for row in reader:
-            if row not in existing_rows:
-                category, question = row
+            category, question = row
+            if question not in answered_questions:
                 answer_prompt = f"Answer the question: {question}"
                 answer, _ = askgpt(answer_prompt)
                 link_prompt = f"Provide a link for further reading on this topic: {question}"
