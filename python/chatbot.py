@@ -10,7 +10,7 @@ def askgpt(question, chat_log=None):
     if chat_log is None:
         chat_log = [{
             'role': 'system',
-            'content': 'You are a helpful, upbeat and funny assistant.',
+            'content': 'You are a Christian Apologetics Expert.',
         }]
     chat_log.append({'role': 'user', 'content': question})
     response = completion.create(model='gpt-3.5-turbo', messages=chat_log)

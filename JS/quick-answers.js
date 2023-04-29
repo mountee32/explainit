@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // Create a p element for the answer text
                     const answerText = document.createElement('p');
-                    answerText.textContent = questionData.answer;
+                    answerText.textContent = questionData.answer.replace(/---/g, '<br/><br/>');
                     questionBody.appendChild(answerText);
 
                     // Create an a element for the answer link

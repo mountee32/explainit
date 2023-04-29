@@ -1,9 +1,10 @@
 import csv
 import requests
+import pandas as pd
 
 API_QA_URL = "https://explainit.app/api/quickanswers.php"
 API_ST_URL = "https://explainit.app/api/conversationstarters.php"
-QUICK_ANSWERS_FILE = "extract-quick-answers.csv"
+QUICK_ANSWERS_FILE = "csv/quick_answers.csv"
 CONVERSATION_STARTERS_FILE = "csv/conversation-starters.csv"
 
 def menu():
@@ -48,26 +49,28 @@ def delete_all_quick_answers():
     else:
         print("Failed to fetch Quick Answers.")
 
+
+
 def import_quick_answers():
-    with open(QUICK_ANSWERS_FILE, mode="r", encoding="utf-8") as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            data = {
-                "action": "create",
-                "category": row["CATEGORY"],
-                "question": row["QUESTION"],
-                "link": row["LINK"],
-                "answer": row["ANSWER"],
-            }
-            response = requests.post(API_QA_URL, json=data)
-            if response.status_code == 201:
-                print(f"Successfully imported Quick Answer: {row['QUESTION']}")
-            else:
-                try:
-                    error_message = response.json()['message']
-                except json.JSONDecodeError:
-                    error_message = "Server returned an empty response or an invalid JSON."
-                print(f"Failed to import Quick Answer: {row['QUESTION']} - {error_message}")
+    df = pd.read_csv(QUICK_ANSWERS_FILE, encoding='utf-8', engine='python')
+    for _, row in df.iterrows():
+        data = {
+            "action": "create",
+            "category": row["CATEGORY"],
+            "question": row["QUESTION"],
+            "link": row["LINK"],
+            "answer": row["ANSWER"],
+        }
+        response = requests.post(API_QA_URL, json=data)
+        if response.status_code == 201:
+            print(f"Successfully imported Quick Answer: {row['QUESTION']}")
+        else:
+            try:
+                error_message = response.json()['message']
+            except json.JSONDecodeError:
+                error_message = "Server returned an empty response or an invalid JSON."
+            print(f"Failed to import Quick Answer: {row['QUESTION']} - {error_message}")
+
 
 
 def export_conversation_starters():
