@@ -28,25 +28,28 @@ def generate_quick_answers():
         answered_questions = [row[1] for row in existing_rows]
 
         for row in reader:
-            category, question = row
-            if question not in answered_questions:
-                answer_prompt = f"Answer the question: {question}"
-                answer, _ = askgpt(answer_prompt)
-                link_prompt = f"Provide a link for further reading on this topic: {question}"
-                link_input, _ = askgpt(link_prompt)
+            if len(row) >= 2:
+                category, question = row
+                if question not in answered_questions:
+                    answer_prompt = f"Answer the question: {question}"
+                    answer, _ = askgpt(answer_prompt)
+                    link_prompt = f"Provide a link for further reading on this topic: {question}"
+                    link_input, _ = askgpt(link_prompt)
 
-                # Use regex to extract URL from link_input
-                url_regex = r'(https?://\S+)'
-                match = re.search(url_regex, link_input)
-                if match:
-                    link = match.group(1)
+                    # Use regex to extract URL from link_input
+                    url_regex = r'(https?://\S+)'
+                    match = re.search(url_regex, link_input)
+                    if match:
+                        link = match.group(1)
+                    else:
+                        link = ''
+
+                    writer.writerow([category, question, answer.replace('\n', CUSTOM_NEWLINE_SEQ), link])
+
+                    print([category, question, answer.replace('\n', CUSTOM_NEWLINE_SEQ), link])
                 else:
-                    link = ''
-
-                writer.writerow([category, question, answer.replace('\n', CUSTOM_NEWLINE_SEQ), link])
-
-                print([category, question, answer.replace('\n', CUSTOM_NEWLINE_SEQ), link])
+                    writer.writerow(row)
             else:
-                writer.writerow(row)
+                print("Skipping an empty or incomplete row")
 
 generate_quick_answers()
