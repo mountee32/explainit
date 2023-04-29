@@ -95,16 +95,26 @@ document.addEventListener('DOMContentLoaded', function () {
                     questionIcon.classList.add('bi', 'bi-chevron-right', 'category-icon');
                     questionButton.appendChild(questionIcon);
                     questionButton.insertAdjacentText('beforeend', questionData.question);
-
+                    
+                    // Add this event listener
+                    questionButton.addEventListener('click', (event) => {
+                        const currentCollapse = document.querySelector(`#question-collapse-${index}-${questionIndex}`);
+                        questions.forEach((_, innerQuestionIndex) => {
+                            if (innerQuestionIndex !== questionIndex) {
+                                const otherCollapse = document.querySelector(`#question-collapse-${index}-${innerQuestionIndex}`);
+                                otherCollapse.collapse('hide');
+                            }
+                        });
+                    });
+                    
                     // Append questionButton to questionHeader
                     questionHeader.appendChild(questionButton);
                     questionButton.addEventListener('click', (event) => {
                         if (event.target === questionButton || event.target === questionIcon) {
                           questionIcon.classList.toggle('rotate');
                         }
-                      });
-                      
-
+                    });
+                    
                     // Create a div for the question-collapse
                     const questionCollapse = document.createElement('div');
                     questionCollapse.classList.add('accordion-collapse', 'collapse');
