@@ -106,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             }
                         });
                     });
+
                     
                     // Append questionButton to questionHeader
                     questionHeader.appendChild(questionButton);
