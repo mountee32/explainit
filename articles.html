@@ -183,7 +183,7 @@
 
                 const modal = $(this);
                 modal.find('.modal-title').text(title);
-                modal.find('#articleModalImage').attr('src', imageUrl);
+                modal.find('#articleModalImage').css('background-image', `url(${imageUrl})`);
                 modal.find('#articleContent').html(content);
             });
 
