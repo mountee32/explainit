@@ -1,3 +1,15 @@
+function typeText(element, text, delay = 50) {
+    let index = 0;
+    function type() {
+        if (index < text.length) {
+            element.textContent += text.charAt(index);
+            index++;
+            setTimeout(type, delay);
+        }
+    }
+    type();
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     // Change the fetch URL to the new API endpoint
     fetch('https://explainit.app/api/quickanswers.php?action=read')
