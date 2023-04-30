@@ -118,7 +118,14 @@ document.addEventListener('DOMContentLoaded', function () {
                                 otherCollapseInstance.hide();
                             }
                         });
+                    
+                        // Clear and type the answer text when the question is clicked
+                        if (!currentCollapse.classList.contains('show')) {
+                            answerText.textContent = '';
+                            typeText(answerText, questionData.answer.replace(/---/g, '\n'));
+                        }
                     });
+                    
 
 
                     
