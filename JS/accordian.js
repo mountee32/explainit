@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', function () {
+window.onload = function () {
+
     const scriptTag = document.querySelector('script[src="accordion.js"]');
     const page = scriptTag.getAttribute('data-page');
   
@@ -360,4 +361,4 @@ document.addEventListener('DOMContentLoaded', function () {
                 categoriesContainer.appendChild(categoryItem);
             });
         });
-});
+    };
