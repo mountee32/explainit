@@ -46,6 +46,9 @@ h2 {
 .modal-title {
   margin-bottom: 1rem;
 }
+.modal-body {
+  min-height: 60vh; /* Adjust the value as desired */
+}
 
 .modal-content-container {
   position: relative;
