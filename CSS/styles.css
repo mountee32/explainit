@@ -37,8 +37,6 @@ h2 {
 #articleModalContent {
   position: relative;
   overflow: hidden;
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
 .modal-image-overlay {
@@ -54,15 +52,23 @@ h2 {
 }
 
 .modal-text-container {
+  position: relative; /* Change from absolute to relative */
+  padding: 1rem;
+  color: white;
+  z-index: 1;
+}
+
+#articleContent {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   padding: 1rem;
-  color: white;
-  z-index: 1;
-  background: rgba(0, 0, 0, 0.5); /* Add a background with opacity to the text container */
+  z-index: 0;
 }
 
 #articleModalImage {
