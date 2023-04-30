@@ -1,4 +1,4 @@
-function typeText(element, text, delay = 50) {
+function typeText(element, text, delay = 200) {
     let index = 0;
     function type() {
         if (index < text.length) {
