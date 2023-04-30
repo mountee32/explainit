@@ -3,9 +3,7 @@ import os
 import re
 from chatbot import askgpt
 
-def generate_quick_answers():
-    input_file = "csv/quick_answers_topics_and_questions.csv"
-    output_file = "csv/quick_answers.csv"
+def generate_content(input_file, output_file, conversation_starter=False):
     CUSTOM_NEWLINE_SEQ = "---"
 
     with open(input_file, "r", newline="", encoding="utf-8") as infile, open(output_file, "r+", newline="", encoding="utf-8") as outfile:
@@ -31,7 +29,10 @@ def generate_quick_answers():
             if len(row) >= 2:
                 category, question = row
                 if question not in answered_questions:
-                    answer_prompt = f"Answer the question: {question}"
+                    if conversation_starter:
+                        answer_prompt = f"After a christian having a respectful conversation poses this question to a non-christian, how might they follow on in the conversation with the ultimate goal of sharing the gospel and please do not respond starting with the words as a {question}"
+                    else:
+                        answer_prompt = f"Answer the question: {question}"
                     answer, _ = askgpt(answer_prompt)
                     link_prompt = f"Provide a link for further reading on this topic: {question}"
                     link_input, _ = askgpt(link_prompt)
@@ -58,4 +59,22 @@ def generate_quick_answers():
             else:
                 print("Skipping an empty or incomplete row")
 
-generate_quick_answers()
+def main():
+    while True:
+        choice = input("Choose an option:\n(a) Quick Answers\n(b) Conversation Starters\n(q) Quit\n")
+        if choice.lower() == 'a':
+            input_file = "csv/quick_answers_topics_and_questions.csv"
+            output_file = "csv/quick_answers.csv"
+            generate_content(input_file, output_file, conversation_starter=False)
+        elif choice.lower() == 'b':
+            input_file = "csv/conversation_starters_topics_and_questions.csv"
+            output_file = "csv/conversation_starters.csv"
+            generate_content(input_file, output_file, conversation_starter=True)
+        elif choice.lower() == 'q':
+            break
+        else:
+            print("Invalid choice. Please enter 'a', 'b', or 'q'.")
+
+if __name__ == "__main__":
+    main()
+
