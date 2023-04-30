@@ -66,19 +66,26 @@ def generate_content(input_file, output_file, conversation_starter=False):
 
 def main():
     while True:
-        choice = input("Choose an option:\n(a) Quick Answers\n(b) Conversation Starters\n(q) Quit\n")
-        if choice.lower() == 'a':
+        choice = input("Choose an option:\n(1) Quick Answers\n(2) Conversation Starters\n(3) Both\n(0) Quit\n")
+        if choice == '1':
             input_file = "csv/quick_answers_topics_and_questions.csv"
             output_file = "csv/quick_answers.csv"
             generate_content(input_file, output_file, conversation_starter=False)
-        elif choice.lower() == 'b':
+        elif choice == '2':
             input_file = "csv/conversation_starters_topics_and_questions.csv"
             output_file = "csv/conversation_starters.csv"
             generate_content(input_file, output_file, conversation_starter=True)
-        elif choice.lower() == 'q':
+        elif choice == '3':
+            input_file_qa = "csv/quick_answers_topics_and_questions.csv"
+            output_file_qa = "csv/quick_answers.csv"
+            generate_content(input_file_qa, output_file_qa, conversation_starter=False)
+            input_file_cs = "csv/conversation_starters_topics_and_questions.csv"
+            output_file_cs = "csv/conversation_starters.csv"
+            generate_content(input_file_cs, output_file_cs, conversation_starter=True)
+        elif choice == '0':
             break
         else:
-            print("Invalid choice. Please enter 'a', 'b', or 'q'.")
+            print("Invalid choice. Please enter '1', '2', '3', or '0'.")
 
 if __name__ == "__main__":
     main()
