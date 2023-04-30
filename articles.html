@@ -30,9 +30,9 @@
                 <div class="modal-body" id="articleModalContent">
                     <div class="modal-image-overlay"></div>
                     <div class="modal-content-container">
-                        <img src="" class="img-fluid mb-3" id="articleModalImage" alt="Article Image">
+
                         <div class="modal-text-container">
-                            <!-- Remove the duplicate modal title element from here -->
+
                             <div id="articleContent"></div>
                         </div>
                     </div>
@@ -183,7 +183,7 @@
 
                 const modal = $(this);
                 modal.find('.modal-title').text(title);
-                modal.find('#articleModalImage').css('background-image', `url(${imageUrl})`);
+                modal.find('#articleModalContent').css('background-image', `url(${imageUrl})`);
                 modal.find('#articleContent').html(content);
             });
 
