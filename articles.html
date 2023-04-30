@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,17 +32,21 @@
                     <div class="modal-content-container">
                         <img src="" class="img-fluid mb-3" id="articleModalImage" alt="Article Image">
                         <div class="modal-text-container">
-                            <h5 class="modal-title" id="articleModalLabel">Article Title</h5>
+                            <!-- Remove the duplicate modal title element from here -->
                             <div id="articleContent"></div>
                         </div>
                     </div>
                 </div>
-                                                <div class="modal-footer">
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
+    <!-- The rest of your code -->
+</body>
+</html>
+
     <script>
         $(document).ready(function() {
             const apiUrl = "https://wp.explainit.app/wp-json/wp/v2/posts?categories=1";
