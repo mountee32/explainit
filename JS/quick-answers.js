@@ -1,15 +1,3 @@
-function typeText(element, text, delay = 200) {
-    let index = 0;
-    function type() {
-        if (index < text.length) {
-            element.textContent += text.charAt(index);
-            index++;
-            setTimeout(type, delay);
-        }
-    }
-    type();
-}
-
 document.addEventListener('DOMContentLoaded', function () {
     // Change the fetch URL to the new API endpoint
     fetch('https://explainit.app/api/quickanswers.php?action=read')
@@ -118,14 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 otherCollapseInstance.hide();
                             }
                         });
-                    
-                        // Clear and type the answer text when the question is clicked
-                        if (!currentCollapse.classList.contains('show')) {
-                            answerText.textContent = '';
-                            typeText(answerText, questionData.answer.replace(/---/g, '\n'));
-                        }
                     });
-                    
 
 
                     
