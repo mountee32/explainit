@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // Create a span element for the answer link
                     const answerLinkWrapper = document.createElement('span');
-                    answerLinkWrapper.style.marginLeft = '50px';
+                    answerLinkWrapper.style.marginLeft = '20px';
 
                     // Create an a element for the answer link
                     const answerLink = document.createElement('a');
