@@ -130,11 +130,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     answerText.innerHTML = questionData.answer.replace(/---/g, '<br>');
                     questionBody.appendChild(answerText);
 
+                    // Create a span element for the answer link
+                    const answerLinkWrapper = document.createElement('span');
+                    answerLinkWrapper.style.marginLeft = '10px';
+
                     // Create an a element for the answer link
                     const answerLink = document.createElement('a');
                     answerLink.href = questionData.link;
                     answerLink.textContent = 'Read more';
-                    questionBody.appendChild(answerLink);
+
+                    // Append answerLink to answerLinkWrapper
+                    answerLinkWrapper.appendChild(answerLink);
+
+                    // Append answerText and answerLinkWrapper to questionBody
+                    questionBody.appendChild(answerText);
+                    questionBody.appendChild(answerLinkWrapper);
 
                     // Append questionBody to questionCollapse
                     questionCollapse.appendChild(questionBody);
