@@ -110,6 +110,11 @@
 
                     //  "All tags" filter
                     tagFiltersContainer.append('<span class="badge bg-primary filter-tag" data-tag-id="all"><i class="fas fa-tags"></i> All tags</span>');
+                    tagFiltersContainer.append('<span class="ms-3">Sort by:</span>');
+                    tagFiltersContainer.append('<button class="btn btn-sm btn-outline-primary ms-2 sort-button" data-sort-type="title-asc">Title A-Z</button>');
+                    tagFiltersContainer.append('<button class="btn btn-sm btn-outline-primary ms-2 sort-button" data-sort-type="title-desc">Title Z-A</button>');
+                    tagFiltersContainer.append('<button class="btn btn-sm btn-outline-primary ms-2 sort-button" data-sort-type="date-asc">Date Ascending</button>');
+                    tagFiltersContainer.append('<button class="btn btn-sm btn-outline-primary ms-2 sort-button" data-sort-type="date-desc">Date Descending</button>');
 
                     uniqueTags.forEach(tag => {
                         const tagHtml = `<span class="badge bg-secondary filter-tag" data-tag-id="${tag.id}"><i class="fas fa-tag"></i> ${tag.name}</span>`;
@@ -143,6 +148,38 @@
 
             // Add click event listener for filter tags
             $('.filter-tag').click(applyTagFilter);
+            // Add click event listener for sort buttons
+            $('.sort-button').click(function () {
+                const sortType = $(this).data('sort-type');
+                const cards = $('.col-md-4.mb-3').toArray();
+
+                cards.sort((a, b) => {
+                    const cardA = $(a).find('.card');
+                    const cardB = $(b).find('.card');
+                    const titleA = cardA.find('.card-title').text();
+                    const titleB = cardB.find('.card-title').text();
+                    const publishedDateA = new Date(cardA.data('article-published-date'));
+                    const publishedDateB = new Date(cardB.data('article-published-date'));
+
+                    switch (sortType) {
+                        case 'title-asc':
+                            return titleA.localeCompare(titleB);
+                        case 'title-desc':
+                            return titleB.localeCompare(titleA);
+                        case 'date-asc':
+                            return publishedDateA - publishedDateB;
+                        case 'date-desc':
+                            return publishedDateB - publishedDateA;
+                        default:
+                            return 0;
+                    }
+                });
+
+                $('#articles-container').empty();
+                cards.forEach(card => {
+                    $('#articles-container').append(card);
+                });
+            });
 
             // Display article content in the modal
             $('#articleModal').on('show.bs.modal', function (event) {
