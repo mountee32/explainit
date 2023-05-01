@@ -61,7 +61,7 @@
     </div>
     <script>
         $(document).ready(function() {
-            const apiUrl = "https://wp.explainit.app/wp-json/wp/v2/posts?categories=1";
+            const apiUrl = "https://wp.explainit.app/wp-json/wp/v2/posts?categories=1&per_page=100";
             const allTags = new Map();
             fetch(apiUrl)
                 .then(response => response.json())

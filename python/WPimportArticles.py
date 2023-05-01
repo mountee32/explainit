@@ -3,12 +3,12 @@
 import os
 import base64
 import requests
-import openai
 from dotenv import load_dotenv
 from html import unescape
 from PIL import Image
 from io import BytesIO
 import mimetypes
+from chatbot import askgpt
 
 # Load environment variables from .env file
 load_dotenv()
@@ -17,9 +17,9 @@ load_dotenv()
 username = os.getenv("WORDPRESS_USERNAME")
 password = os.getenv("WORDPRESS_APP_PASSWORD")
 website = os.getenv("WORDPRESS_URL")
-openai_api_key = os.getenv("OPENAI_API_KEY")
+
 pexels_api_key = os.getenv("PEXELS")
-myengine = os.getenv("ENGINE")
+
 mytokens = os.getenv("MAX_TOKENS")
 total_tokens = 0
 
@@ -27,7 +27,6 @@ headers = {
     "Authorization": f"Basic {base64.b64encode(f'{username}:{password}'.encode()).decode()}",
 }
 
-openai.api_key = openai_api_key
 
 def search_image(tag, title):
     query = f"{tag} {title}"
@@ -45,24 +44,9 @@ def search_image(tag, title):
 
 
 def gpt_generate_article_content(title):
-    # global total_tokens  # Use the global variable total_tokens
-
     prompt = f"Please write a 750 to 1000-word article about the following topic related to Christianity: '{title}'."
-    response = openai.Completion.create(
-        engine=myengine,
-        prompt=prompt,
-        max_tokens=int(mytokens),
-        n=1,
-        stop=None,
-        temperature=0.8,
-    )
-    content = response.choices[0].text.strip()
-
-    tokens_used = response['usage']['total_tokens']  # Get the tokens used for this API call
-    total_tokens += tokens_used  # Update the total_tokens variable
-    print(f"\nTokens used for this request: {tokens_used}")  # Print the tokens used in this request
-    print(f"Total tokens used so far: {total_tokens}")  # Print the total tokens used so far
-
+    response, chat_log = askgpt(prompt)
+    content = response.strip()
     return content
 
 def search_image(tag, title):
@@ -211,27 +195,11 @@ def list_current_questions():
     return existing_titles
 
 def gpt_generate_questions(existing_titles, tag_name):
-    # global total_tokens  # Use the global variable total_tokens
-    total_tokens = 0
     prompt = f"Using your knowledge and understanding of Christianity as a Christian theologian and teacher, please identify 5 additional popular questions that are often asked of Christians about their faith and worldview related to the tag '{tag_name}' and that are not already covered in the following list. Please do not prefix them with numbers:\n\n"
     prompt += "\n".join(existing_titles)
-    prompt += "\n\nPlease list the 5 questions."
-    
-    response = openai.Completion.create(
-        engine=myengine,
-        prompt=prompt,
-        max_tokens=int(mytokens),
-        n=1,
-        stop=None,
-        temperature=0.8,
-    )
-    questions = response.choices[0].text.strip().split("\n")
-
-    tokens_used = response['usage']['total_tokens']  # Get the tokens used for this API call
-    total_tokens += tokens_used  # Update the total_tokens variable
-    print(f"\nTokens used for this request: {tokens_used}")  # Print the tokens used in this request
-    print(f"Total tokens used so far: {total_tokens}")  # Print the total tokens used so far
-
+    prompt += "\n\nPlease list the 5 questions but do not prefix them with numbers"
+    response, chat_log = askgpt(prompt)
+    questions = response.strip().split("\n")
     return questions
 
 def request_and_confirm_questions(tag_name):
@@ -254,29 +222,11 @@ def request_and_confirm_questions(tag_name):
             print("Invalid input. Please enter 'Yes', 'Retry', or 'Cancel'.")
 
 def request_custom_article():
-    global total_tokens_used  # This line is necessary to modify the global variable
     title = input("Enter the title of the article: ")
-
     prompt = f"Please write a 750 to 1000-word article about the following topic related to Christianity: '{title}'."
-    response = openai.Completion.create(
-        engine=myengine,
-        prompt=prompt,
-        max_tokens=int(mytokens),
-        n=1,
-        stop=None,
-        temperature=0.8,
-    )
-    content = response.choices[0].text.strip()
-    
-    tokens_used = response.choices[0]['usage']['total_tokens']
-    total_tokens_used += tokens_used  # Update the total tokens used
-    print(f"Tokens used for this request: {tokens_used}")
-    print(f"Total tokens used so far: {total_tokens_used}")
-    
+    response, chat_log = askgpt(prompt)
+    content = response.strip()
     return content
-
-
-
 
 def confirm_custom_article(title, content):
     print(f"\nTitle: {title}\n")
@@ -284,17 +234,11 @@ def confirm_custom_article(title, content):
     action = input("Enter 'Yes' to save this article, or 'No' to discard it: ")
 
     return action.lower() == 'yes'
+
 def gpt_generate_article_content(title):
     prompt = f"Please write a 750 to 1000-word article about the following topic related to Christianity: '{title}'."
-    response = openai.Completion.create(
-        engine=myengine,
-        prompt=prompt,
-        max_tokens=int(mytokens),
-        n=1,
-        stop=None,
-        temperature=0.8,
-    )
-    content = response.choices[0].text.strip()
+    response, chat_log = askgpt(prompt)
+    content = response.strip()
     return content
 
 def select_tag(existing_tags):
@@ -325,7 +269,7 @@ def main():
         print("Menu Options:")
         print("1. List current questions")
         print("2. Create a custom post")
-        print("3. Generate new questions")
+        print("3. Generate new articles / questions")
         print("0. Exit the program")
 
         option = input("\nSelect an option: ")
