@@ -72,7 +72,6 @@
                         const content = article.content.rendered;
                         const id = article.id;
                         const tags = article.tags;
-                        const publishedDate = new Date(article.date).toLocaleDateString();
 
                         let tagsPromises = tags.map(tagId => {
                             return fetch(`https://wp.explainit.app/wp-json/wp/v2/tags/${tagId}`)
@@ -94,14 +93,15 @@
                                         .then(response => response.json())
                                         .then(media => {
                                             const imageUrl = media.source_url;
-                                            appendArticle(id, imageUrl, title, content, tagsHtml, tags, publishedDate);
+                                            appendArticle(id, imageUrl, title, content, tagsHtml, tags);
                                         });
                                 } else {
-                                    appendArticle(id, '', title, content, tagsHtml, tags, publishedDate);
+                                    appendArticle(id, '', title, content, tagsHtml, tags);
                                 }
                             });
                         });
-                        return Promise.all(allArticlePromises);
+
+                    return Promise.all(allArticlePromises);
                 })
                 .then(() => {
                     const uniqueTags = Array.from(allTags.entries()).map(([id, name]) => ({ id, name }));
@@ -110,23 +110,58 @@
 
                     //  "All tags" filter
                     tagFiltersContainer.append('<span class="badge bg-primary filter-tag" data-tag-id="all"><i class="fas fa-tags"></i> All tags</span>');
-                    tagFiltersContainer.append('<span class="ms-3">Sort by:</span>');
-                    tagFiltersContainer.append('<button class="btn btn-sm btn-outline-primary ms-2 sort-button" data-sort-type="title-asc">Title A-Z</button>');
-                    tagFiltersContainer.append('<button class="btn btn-sm btn-outline-primary ms-2 sort-button" data-sort-type="title-desc">Title Z-A</button>');
-                    tagFiltersContainer.append('<button class="btn btn-sm btn-outline-primary ms-2 sort-button" data-sort-type="date-asc">Date Ascending</button>');
-                    tagFiltersContainer.append('<button class="btn btn-sm btn-outline-primary ms-2 sort-button" data-sort-type="date-desc">Date Descending</button>');
 
                     uniqueTags.forEach(tag => {
                         const tagHtml = `<span class="badge bg-secondary filter-tag" data-tag-id="${tag.id}"><i class="fas fa-tag"></i> ${tag.name}</span>`;
                         tagFiltersContainer.append(tagHtml);
                     });
                     $('.filter-tag').click(applyTagFilter);
+                    // Set the initial filter based on the URL parameter
+                    const initialFilter = getUrlParameter('filter');
+                    if (initialFilter) {
+                        const initialFilterTag = $('.filter-tag').filter(function() {
+                            return $(this).text().trim() === initialFilter;
+                        });
+
+                        if (initialFilterTag.length) {
+                            initialFilterTag.click();
+                        }
+                    }
+
                 })
                 .catch(error => {
                     console.error("Error fetching articles:", error);
                 });
 
-            function appendArticle(id, imageUrl, title, content, tagsHtml, tags, publishedDate) {
+                function getUrlParameter(name) {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    return urlParams.get(name);
+                }
+                function applyTagFilter() {
+                    $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
+                    $(this).addClass('bg-primary').removeClass('bg-secondary');
+                    const selectedTagId = $(this).data('tag-id');
+
+                    if (selectedTagId === 'all') {
+                        $('.card').parent().show();
+                    } else {
+                        $('.card').each(function() {
+                            const card = $(this);
+                            const cardTags = card.data('article-tags');
+
+                            // Check if the current tag is included in the card tags
+                            const tagIncluded = cardTags.includes(selectedTagId);
+
+                            if (tagIncluded) {
+                                card.parent().show();
+                            } else {
+                                card.parent().hide();
+                            }
+                        });
+                    }
+                }
+
+            function appendArticle(id, imageUrl, title, content, tagsHtml, tags) {
                 const encodedContent = encodeURIComponent(content);
                 const cardHtml = `
                 <div class="col-md-4 mb-3">
@@ -138,7 +173,6 @@
                         </div>
                         <div class="card-footer">
                             ${tagsHtml}
-                            <span class="text-muted ms-2">Published: ${publishedDate}</span>
                         </div>
                     </div>
                 </div>
@@ -147,42 +181,31 @@
             }
 
             // Add click event listener for filter tags
-            $('.filter-tag').click(applyTagFilter);
-            // Add click event listener for sort buttons
-            $('.sort-button').click(function () {
-                const sortType = $(this).data('sort-type');
-                const cards = $('.col-md-4.mb-3').toArray();
+            $('.filter-tag').click(function() {
+                $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
+                $(this).addClass('bg-primary').removeClass('bg-secondary');
+                const selectedTagId = parseInt($(this).data('tag-id'));
 
-                cards.sort((a, b) => {
-                    const cardA = $(a).find('.card');
-                    const cardB = $(b).find('.card');
-                    const titleA = cardA.find('.card-title').text();
-                    const titleB = cardB.find('.card-title').text();
-                    const publishedDateA = new Date(cardA.data('article-published-date'));
-                    const publishedDateB = new Date(cardB.data('article-published-date'));
+                if (selectedTagId === 'all') {
+                    $('.card').parent().show();
+                } else {
+                    $('.card').each(function() {
+                        const card = $(this);
+                        const cardTags = card.data('article-tags');
 
-                    switch (sortType) {
-                        case 'title-asc':
-                            return titleA.localeCompare(titleB);
-                        case 'title-desc':
-                            return titleB.localeCompare(titleA);
-                        case 'date-asc':
-                            return publishedDateA - publishedDateB;
-                        case 'date-desc':
-                            return publishedDateB - publishedDateA;
-                        default:
-                            return 0;
-                    }
-                });
+                        // Check if the current tag is included in the card tags
+                        const tagIncluded = cardTags.includes(selectedTagId);
 
-                $('#articles-container').empty();
-                cards.forEach(card => {
-                    $('#articles-container').append(card);
-                });
+                        if (tagIncluded) {
+                            card.parent().show();
+                        } else {
+                            card.parent().hide();
+                        }
+                    });
+                }
             });
-
-            // Display article content in the modal
-            $('#articleModal').on('show.bs.modal', function (event) {
+             // Display article content in the modal
+             $('#articleModal').on('show.bs.modal', function (event) {
                 const articleCard = $(event.relatedTarget);
                 const id = articleCard.data('article-id');
                 const imageUrl = articleCard.find('.card-img-top').attr('src');
@@ -203,4 +226,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
-
