@@ -267,7 +267,7 @@ def main():
         clear_console()
         print(f"Total tokens used so far: {total_tokens}")  # Print the total tokens used so far
         print("Menu Options:")
-        print("1. List current questions")
+        print("1. List current articles / questions")
         print("2. Create a custom post")
         print("3. Generate new articles / questions")
         print("0. Exit the program")

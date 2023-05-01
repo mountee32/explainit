@@ -2,8 +2,8 @@ import requests
 import json
 import logging
 import random
-import test_create_question
-import test_update_question
+import python.old.test_create_question as test_create_question
+import python.old.test_update_question as test_update_question
 
 
 # Set up logging to both console and file
