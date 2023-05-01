@@ -145,15 +145,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   
     let icon;
+    let answerText;
     if (answerIndex === correctIndex) {
       totalScore++;
       icon = '<i class="fas fa-check-circle animated-icon correct"></i>';
+      answerText = "";
+       answerText = "Correct,";
     } else {
       icon = '<i class="fas fa-times-circle animated-icon wrong"></i>';
+      answerText = "";
+       answerText = "Wrong, ";
     }
   
-    explanation.innerHTML = `${icon} ${question[`explanation${correctIndex+1}`]}`;
-
+    explanation.innerHTML = `${icon} ${answerText} ${question[`explanation${correctIndex + 1}`]}`;
+  
     explanation.style.display = "block";
   
     const nextButton = document.getElementById("next-question");
@@ -168,6 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+  
   
 
 function displayResults() {

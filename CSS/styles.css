@@ -57,7 +57,7 @@ h2 {
 .modal-text-container {
   position: relative; /* Change from absolute to relative */
   padding: 1rem;
-  color: white;
+  color: rgb(43, 41, 41);
   z-index: 1;
 }
 
