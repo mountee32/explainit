@@ -72,7 +72,7 @@
                         const content = article.content.rendered;
                         const id = article.id;
                         const tags = article.tags;
-
+                        const date = article.date;
                         let tagsPromises = tags.map(tagId => {
                             return fetch(`https://wp.explainit.app/wp-json/wp/v2/tags/${tagId}`)
                                 .then(response => response.json());
@@ -93,10 +93,10 @@
                                         .then(response => response.json())
                                         .then(media => {
                                             const imageUrl = media.source_url;
-                                            appendArticle(id, imageUrl, title, content, tagsHtml, tags);
+                                            appendArticle(id, imageUrl, title, content, tagsHtml, tags,date);
                                         });
                                 } else {
-                                    appendArticle(id, '', title, content, tagsHtml, tags);
+                                    appendArticle(id, '', title, content, tagsHtml, tags, date);
                                 }
                             });
                         });
@@ -161,24 +161,32 @@
                     }
                 }
 
-            function appendArticle(id, imageUrl, title, content, tagsHtml, tags) {
-                const encodedContent = encodeURIComponent(content);
-                const cardHtml = `
-                <div class="col-md-4 mb-3">
-                    <div class="card h-100" data-article-id="${id}" data-article-content="${encodedContent}" data-article-tags='${JSON.stringify(tags)}' data-bs-toggle="modal" data-bs-target="#articleModal">
-                        <img src="${imageUrl}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">${title}</h5>
-                            <p class="card-text">${content.substring(0, 100)}...</p>
-                        </div>
-                        <div class="card-footer">
-                            ${tagsHtml}
+                function appendArticle(id, imageUrl, title, content, tagsHtml, tags, date) {
+                    const publishedDate = new Date(date);
+                    const formattedDate = publishedDate.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+
+                    const cardHtml = `
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100" data-article-id="${id}" data-article-content="${encodedContent}" data-article-tags='${JSON.stringify(tags)}' data-bs-toggle="modal" data-bs-target="#articleModal">
+                            <img src="${imageUrl}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">${title}</h5>
+                                <p class="card-text">${content.substring(0, 100)}...</p>
+                            </div>
+                            <div class="card-footer">
+                                ${tagsHtml}
+                                <span class="text-muted">${formattedDate}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                `;
-                $("#articles-container").append(cardHtml);
-            }
+                    `;
+                    $("#articles-container").append(cardHtml);
+                }
+
 
             // Add click event listener for filter tags
             $('.filter-tag').click(function() {
