@@ -6,6 +6,16 @@ html {
   font-family: 'Poppins', sans-serif;
   background-image: linear-gradient(45deg, #222, #00adb5);
 }
+.carousel-item {
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1rem;
+}
 
 .filter-tag {
   font-size: 1.2rem;
