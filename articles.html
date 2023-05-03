@@ -36,10 +36,6 @@
     <div class="modal fade" id="articleModal" tabindex="-1" aria-labelledby="articleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="articleModalLabel">Article Title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
                 <div class="modal-body" id="articleModalContent">
                     <div class="modal-image-container position-relative">
                         <img src="" class="img-fluid w-100" id="articleModalImage" alt="Article Image">
@@ -73,12 +69,12 @@
         const content = decodeURIComponent(encodedContent);
 
         const modal = $(this);
-        modal.find('#articleModalLabel').text(title);
+        modal.find('.modal-image-overlay #articleModalLabel').text(title);
         modal.find('#articleModalImage').attr('src', imageUrl);
         modal.find('#articleContent').html(content);
         modal.find('#articleModalDate').text(date);
         modal.find('#articleModalTags').html(tagsHtml);
-        });
+       });
 
         $(document).ready(function() {
             const apiUrl = "https://wp.explainit.app/wp-json/wp/v2/posts?categories=1&per_page=100";
