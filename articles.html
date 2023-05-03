@@ -57,6 +57,20 @@
         </div>
     </div>
     <script>
+        $('#articleModal').on('show.bs.modal', function (event) {
+        const articleCard = $(event.relatedTarget);
+        const id = articleCard.data('article-id');
+        const imageUrl = articleCard.find('.card-img-top').attr('src');
+        const title = articleCard.find('.card-title').text();
+        const encodedContent = articleCard.data('article-content');
+        const content = decodeURIComponent(encodedContent);
+
+        const modal = $(this);
+        modal.find('.modal-title').text(title);
+        modal.find('#articleModalImage').attr('src', imageUrl);
+        modal.find('#articleContent').html(content);
+    });
+
         $(document).ready(function() {
             const apiUrl = "https://wp.explainit.app/wp-json/wp/v2/posts?categories=1&per_page=100";
             const allTags = new Map();
