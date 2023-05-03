@@ -34,28 +34,35 @@
     </div>
 
     <div class="modal fade" id="articleModal" tabindex="-1" aria-labelledby="articleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg"> 
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="articleModalLabel">Article Title</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="articleModalContent">
-                    <div class="modal-image-overlay"></div>
-                    <div class="modal-content-container">
-                        <img src="" class="img-fluid mb-3" id="articleModalImage" alt="Article Image">
-
-                        <div class="modal-text-container">
-                            <div id="articleContent"></div>
+                    <div class="modal-image-container position-relative">
+                        <img src="" class="img-fluid w-100" id="articleModalImage" alt="Article Image">
+                        <div class="modal-image-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                            <h2 class="modal-title text-white mb-0" id="articleModalLabel">Article Title</h2>
                         </div>
                     </div>
+                    <div class="modal-text-container mt-3">
+                        <div class="d-flex justify-content-between">
+                            <div id="articleModalTags" class="d-flex flex-wrap gap-2"></div>
+                            <div class="text-muted" id="articleModalDate"></div>
+                        </div>
+                        <div id="articleContent" class="mt-3"></div>
+                    </div>
                 </div>
+    
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
+    
     <script>
         $('#articleModal').on('show.bs.modal', function (event) {
         const articleCard = $(event.relatedTarget);
@@ -66,10 +73,12 @@
         const content = decodeURIComponent(encodedContent);
 
         const modal = $(this);
-        modal.find('.modal-title').text(title);
+        modal.find('#articleModalLabel').text(title);
         modal.find('#articleModalImage').attr('src', imageUrl);
         modal.find('#articleContent').html(content);
-    });
+        modal.find('#articleModalDate').text(date);
+        modal.find('#articleModalTags').html(tagsHtml);
+        });
 
         $(document).ready(function() {
             const apiUrl = "https://wp.explainit.app/wp-json/wp/v2/posts?categories=1&per_page=100";
