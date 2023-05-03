@@ -69,7 +69,7 @@
         const tagsHtml = articleCard.find('.card-footer').html();
         const date = articleCard.find('.text-muted').text();
         const modal = $(this);
-        modal.find('.modal-image-overlay #articleModalLabel').text(title);
+        modal.find('#articleModalLabel').text(title);
         modal.find('#articleModalImage').attr('src', imageUrl);
         modal.find('#articleContent').html(content);
         modal.find('#articleModalDate').text(date);
