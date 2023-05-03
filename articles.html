@@ -21,7 +21,7 @@
             <h1>Articles</h1>
         </div>
     </div>
-<!-- Add the hero area -->
+
 <div class="hero">
     <h2>Tips on starting a conversation with various types of people<h2>
   </div>
@@ -34,9 +34,9 @@
         <div class="row" id="articles-container">
         </div>
     </div>
-    <!-- Modal -->
+
     <div class="modal fade" id="articleModal" tabindex="-1" aria-labelledby="articleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg"> <!-- Use the modal-lg class here -->
+        <div class="modal-dialog modal-lg"> 
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="articleModalLabel">Article Title</h5>
@@ -108,7 +108,7 @@
 
                     const tagFiltersContainer = $('#tag-filters');
 
-                    //  "All tags" filter
+
                     tagFiltersContainer.append('<span class="badge bg-primary filter-tag" data-tag-id="all"><i class="fas fa-tags"></i> All tags</span>');
 
                     uniqueTags.forEach(tag => {
@@ -116,7 +116,7 @@
                         tagFiltersContainer.append(tagHtml);
                     });
                     $('.filter-tag').click(applyTagFilter);
-                    // Set the initial filter based on the URL parameter
+
                     const initialFilter = getUrlParameter('filter');
                     if (initialFilter) {
                         const initialFilterTag = $('.filter-tag').filter(function() {
@@ -149,7 +149,7 @@
                             const card = $(this);
                             const cardTags = card.data('article-tags');
 
-                            // Check if the current tag is included in the card tags
+ 
                             const tagIncluded = cardTags.includes(selectedTagId);
 
                             if (tagIncluded) {
@@ -180,7 +180,7 @@
                 $("#articles-container").append(cardHtml);
             }
 
-            // Add click event listener for filter tags
+
             $('.filter-tag').click(function() {
                 $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
                 $(this).addClass('bg-primary').removeClass('bg-secondary');
@@ -204,7 +204,7 @@
                     });
                 }
             });
-             // Display article content in the modal
+
              $('#articleModal').on('show.bs.modal', function (event) {
                 const articleCard = $(event.relatedTarget);
                 const id = articleCard.data('article-id');
