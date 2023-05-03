@@ -70,7 +70,7 @@ h2 {
 }
 .modal-body {
   min-height: 60vh; /* Adjust the value as desired */
-  max-height: calc(100% - 120px);
+  max-height: calc(100vh - 200px);
   overflow-y: auto;
   flex: 1 1 auto;
 }
@@ -89,7 +89,10 @@ h2 {
 }
 
 .modal-text-container {
+  position: relative;
+  z-index: 1;
   padding: 20px;
+  background-color: #fff;
 }
 .modal-date-tags {
   display: flex;
