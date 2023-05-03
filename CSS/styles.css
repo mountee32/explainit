@@ -62,7 +62,9 @@ h2 {
   color: white;
   font-size: 1.5rem;
   font-weight: bold;
-  visibility: hidden;
+  text-shadow: 2px 2px #000;
+  text-align: center;
+
 }
 
 .modal-title {
@@ -113,7 +115,14 @@ h2 {
   padding: 1rem;
   z-index: 0;
 }
-
+.modal-image-container {
+  position: relative;
+  height: 50vh;
+}
+.modal-image-container img {
+  object-fit: cover;
+  height: 100%;
+}
 /* Style the container */
 .container-home-page {
   background-color: white;
