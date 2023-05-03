@@ -93,6 +93,7 @@ h2 {
   z-index: 1;
   padding: 20px;
   background-color: #fff;
+  overflow: hidden;
 }
 .modal-date-tags {
   display: flex;
@@ -101,7 +102,7 @@ h2 {
   margin-bottom: 10px;
 }
 #articleContent {
-  position: absolute;
+  position: static;
   top: 0;
   left: 0;
   width: 100%;
