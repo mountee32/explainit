@@ -195,9 +195,9 @@ def list_current_questions():
     return existing_titles
 
 def gpt_generate_questions(existing_titles, tag_name):
-    prompt = f"Using your knowledge and understanding of Christianity as a Christian theologian and teacher, please identify 5 additional popular questions that are often asked of Christians about their faith and worldview related to the tag '{tag_name}' and that are not already covered in the following list. Please do not prefix them with numbers:\n\n"
+    prompt = f"Using your knowledge and understanding of Christianity as a Christian theologian and teacher, please identify 5 additional popular questions that are often asked of Christians about their faith and worldview related to the tag '{tag_name}' and that are not already covered in the following list. Please do NOT prefix them with numbers and a dot like in a numbered list:\n\n"
     prompt += "\n".join(existing_titles)
-    prompt += "\n\nPlease list the 5 questions but do not prefix them with numbers"
+    prompt += "\n\nPlease list the 5 questions but do not prefix them with numbers and a dot"
     response, chat_log = askgpt(prompt)
     questions = response.strip().split("\n")
     return questions
@@ -223,7 +223,7 @@ def request_and_confirm_questions(tag_name):
 
 def request_custom_article():
     title = input("Enter the title of the article: ")
-    prompt = f"Please write a 750 to 1000-word article about the following topic related to Christianity: '{title}'."
+    prompt = f"Please write a 1500 to 2000-word article about the following topic related to Christianity: '{title}'."
     response, chat_log = askgpt(prompt)
     content = response.strip()
     return content

@@ -58,8 +58,12 @@ h2 {
 }
 .modal-body {
   min-height: 60vh; /* Adjust the value as desired */
+  max-height: calc(100% - 120px);
+  overflow-y: auto;
 }
-
+.modal-dialog {
+  max-height: 90vh;
+}
 .modal-content-container {
   position: relative;
 }
