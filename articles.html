@@ -61,13 +61,15 @@
     
     <script>
         $('#articleModal').on('show.bs.modal', function (event) {
-        const articleCard = $(event.relatedTarget);
+        const articleCard = $(event.relatedTarget.closest('.card'));
+
         const id = articleCard.data('article-id');
         const imageUrl = articleCard.find('.card-img-top').attr('src');
         const title = articleCard.find('.card-title').text();
         const encodedContent = articleCard.data('article-content');
         const content = decodeURIComponent(encodedContent);
-
+        const tagsHtml = articleCard.find('.card-footer').html();
+        const date = articleCard.find('.text-muted').text();
         const modal = $(this);
         modal.find('.modal-image-overlay #articleModalLabel').text(title);
         modal.find('#articleModalImage').attr('src', imageUrl);
