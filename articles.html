@@ -21,16 +21,14 @@
             <h1>Articles</h1>
         </div>
     </div>
-
-<div class="hero">
-    <h2>Tips on starting a conversation with various types of people<h2>
-  </div>
-    
+    <div class="hero">
+        <h2>Tips on starting a conversation with various types of people<h2>
     </div>
+
     <div class="container mt-5">
         <div class="d-flex justify-content-center flex-wrap mb-3" id="tag-filters">
         </div>
-        
+
         <div class="row" id="articles-container">
         </div>
     </div>
@@ -48,7 +46,6 @@
                         <img src="" class="img-fluid mb-3" id="articleModalImage" alt="Article Image">
 
                         <div class="modal-text-container">
-
                             <div id="articleContent"></div>
                         </div>
                     </div>
@@ -72,12 +69,12 @@
                         const content = article.content.rendered;
                         const id = article.id;
                         const tags = article.tags;
+                        const date = new Date(article.date).toLocaleDateString();
 
                         let tagsPromises = tags.map(tagId => {
                             return fetch(`https://wp.explainit.app/wp-json/wp/v2/tags/${tagId}`)
                                 .then(response => response.json());
                         });
-
                         return Promise.all(tagsPromises)
                         .then(tagsData => {
                                 tagsData.forEach(tag => {
@@ -93,10 +90,10 @@
                                         .then(response => response.json())
                                         .then(media => {
                                             const imageUrl = media.source_url;
-                                            appendArticle(id, imageUrl, title, content, tagsHtml, tags);
+                                            appendArticle(id, imageUrl, title, content, tagsHtml, tags, date);
                                         });
                                 } else {
-                                    appendArticle(id, '', title, content, tagsHtml, tags);
+                                    appendArticle(id, '', title, content, tagsHtml, tags, date);
                                 }
                             });
                         });
@@ -107,8 +104,6 @@
                     const uniqueTags = Array.from(allTags.entries()).map(([id, name]) => ({ id, name }));
 
                     const tagFiltersContainer = $('#tag-filters');
-
-
                     tagFiltersContainer.append('<span class="badge bg-primary filter-tag" data-tag-id="all"><i class="fas fa-tags"></i> All tags</span>');
 
                     uniqueTags.forEach(tag => {
@@ -161,7 +156,7 @@
                     }
                 }
 
-            function appendArticle(id, imageUrl, title, content, tagsHtml, tags) {
+            function appendArticle(id, imageUrl, title, content, tagsHtml, tags, date) {
                 const encodedContent = encodeURIComponent(content);
                 const cardHtml = `
                 <div class="col-md-4 mb-3">
@@ -173,51 +168,13 @@
                         </div>
                         <div class="card-footer">
                             ${tagsHtml}
+                            <span class="text-muted ms-2">${date}</span>
                         </div>
                     </div>
                 </div>
                 `;
                 $("#articles-container").append(cardHtml);
             }
-
-
-            $('.filter-tag').click(function() {
-                $('.filter-tag').removeClass('bg-primary').addClass('bg-secondary');
-                $(this).addClass('bg-primary').removeClass('bg-secondary');
-                const selectedTagId = parseInt($(this).data('tag-id'));
-
-                if (selectedTagId === 'all') {
-                    $('.card').parent().show();
-                } else {
-                    $('.card').each(function() {
-                        const card = $(this);
-                        const cardTags = card.data('article-tags');
-
-                        // Check if the current tag is included in the card tags
-                        const tagIncluded = cardTags.includes(selectedTagId);
-
-                        if (tagIncluded) {
-                            card.parent().show();
-                        } else {
-                            card.parent().hide();
-                        }
-                    });
-                }
-            });
-
-             $('#articleModal').on('show.bs.modal', function (event) {
-                const articleCard = $(event.relatedTarget);
-                const id = articleCard.data('article-id');
-                const imageUrl = articleCard.find('.card-img-top').attr('src');
-                const title = articleCard.find('.card-title').text();
-                const encodedContent = articleCard.data('article-content');
-                const content = decodeURIComponent(encodedContent);
-
-                const modal = $(this);
-                modal.find('.modal-title').text(title);
-                modal.find('#articleContent').css('background-image', `url(${imageUrl})`);
-                modal.find('#articleContent').html(content);
-            });
 
         });
     </script>
