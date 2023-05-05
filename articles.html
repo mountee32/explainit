@@ -41,7 +41,7 @@
                         <img src="" class="img-fluid w-100" id="articleModalImage" alt="Article Image">
                         <h2 class="modal-title text-white mb-0 position-absolute top-50 start-50 translate-middle" id="articleModalLabel">Article Title</h2>
                     </div>
-                    <div class="modal-text-container mt-3">
+                    <div class="modal-text-container mt-2"> <!-- Change this line -->
                         <div class="d-flex justify-content-between">
                             <div id="articleModalTags" class="d-flex flex-wrap gap-2"></div>
                             <div class="text-muted" id="articleModalDate"></div>
@@ -55,8 +55,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    
+    </div>   
     <script>
         $('#articleModal').on('show.bs.modal', function (event) {
         const articleCard = $(event.relatedTarget.closest('.card'));
