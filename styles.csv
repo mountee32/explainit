@@ -1,0 +1,104 @@
+File,Style,Line
+./CSS/styles.css,.carousel-item,8
+./CSS/styles.css,.carousel-caption,13
+./CSS/styles.css,.filter-tag,18
+./CSS/styles.css,.filter-tag:hover,26
+./CSS/styles.css,"h1, h2",31
+./CSS/styles.css,h2,41
+./CSS/styles.css,#articleModalContent,46
+./CSS/styles.css,.modal-image-overlay,50
+./CSS/styles.css,.modal-title,68
+./CSS/styles.css,.modal-body,72
+./CSS/styles.css,.modal-dialog,78
+./CSS/styles.css,.modal-content-container,83
+./CSS/styles.css,.modal-content,86
+./CSS/styles.css,.modal-text-container,91
+./CSS/styles.css,.modal-date-tags,99
+./CSS/styles.css,#articleContent,105
+./CSS/styles.css,.modal-image-container,117
+./CSS/styles.css,.modal-image-container img,121
+./CSS/styles.css,.container-home-page,125
+./CSS/styles.css,#categories-container,137
+./CSS/styles.css,.category h3,146
+./CSS/styles.css,.questions-container,151
+./CSS/styles.css,.question h4,159
+./CSS/styles.css,.answer,167
+./CSS/styles.css,.explanation,176
+./CSS/styles.css,.answer a,180
+./CSS/styles.css,.answer a:hover,187
+./CSS/styles.css,#header,192
+./CSS/styles.css,.header-content,205
+./CSS/styles.css,#header h1,212
+./CSS/styles.css,.animated-icon,219
+./CSS/styles.css,.correct,227
+./CSS/styles.css,.wrong,233
+./CSS/styles.css,keyframes correct-animation,240
+./CSS/styles.css,keyframes wrong-animation,249
+./CSS/styles.css,body,256
+./CSS/styles.css,.header-title,272
+./CSS/styles.css,.tiles-grid,284
+./CSS/styles.css,.tile,297
+./CSS/styles.css,.bigtile,312
+./CSS/styles.css,.tile:hover,332
+./CSS/styles.css,.tile-icon,336
+./CSS/styles.css,.tile-title,342
+./CSS/styles.css,.tile-subtitle,348
+./CSS/styles.css,#header .back-btn,353
+./CSS/styles.css,#header .back-btn:hover,363
+./CSS/styles.css,.header-content,367
+./CSS/styles.css,.container,373
+./CSS/styles.css,.explanation,382
+./CSS/styles.css,.card-container,388
+./CSS/styles.css,.hero,394
+./CSS/styles.css,.hero h1,409
+./CSS/styles.css,.question h4:hover,416
+./CSS/styles.css,.tile:hover,422
+./CSS/styles.css,.choices,432
+./CSS/styles.css,.choices button,438
+./CSS/styles.css,.quiz-container,448
+./CSS/styles.css,.quiz-question,473
+./CSS/styles.css,.quiz-tile,478
+./CSS/styles.css,#quiz,491
+./CSS/styles.css,.question-number,495
+./CSS/styles.css,.accordian-container,498
+./CSS/styles.css,.category-heading .accordion-button,519
+./CSS/styles.css,.category-heading .accordion-button.collapsed,528
+./CSS/styles.css,.question-heading .accordion-button,536
+./CSS/styles.css,.question-heading .accordion-button.collapsed,546
+./CSS/styles.css,.accordion-body p,554
+./CSS/styles.css,.accordion-body a,562
+./CSS/styles.css,.category-icon,572
+./CSS/styles.css,.category-icon.rotate,581
+./CSS/styles.css,.modal-lg,585
+./CSS/styles.css,.card,589
+./CSS/styles.css,.card-img-top,594
+./CSS/styles.css,.card-title,599
+./CSS/styles.css,.card-body,607
+./CSS/styles.css,.badge,611
+./CSS/styles.css,#articleModalImage,616
+./CSS/questioncrud.css,.container,10
+./CSS/questioncrud.css,"h1, h2, h3, h4, h5, h6",19
+./CSS/questioncrud.css,"p, ul, ol",26
+./CSS/questioncrud.css,#questionForm .form-group,31
+./CSS/questioncrud.css,"input, select, textarea, button",35
+./CSS/questioncrud.css,button,39
+./CSS/questioncrud.css,.btn,43
+./CSS/questioncrud.css,.btn-primary,49
+./CSS/questioncrud.css,.btn-primary:hover,55
+./CSS/questioncrud.css,.btn-danger,60
+./CSS/questioncrud.css,.btn-danger:hover,66
+./CSS/questioncrud.css,.btn-sm,71
+./CSS/questioncrud.css,.table,76
+./CSS/questioncrud.css,.table thead th,82
+./CSS/questioncrud.css,.table tbody + tbody,88
+./CSS/questioncrud.css,".table td, .table th",92
+./CSS/questioncrud.css,.table-striped tbody tr:nth-of-type(odd),98
+./CSS/starters.css,"body, html",1
+./CSS/starters.css,body,5
+./CSS/starters.css,"h1, h2",14
+./CSS/starters.css,.container,19
+./CSS/starters.css,.category,31
+./CSS/starters.css,#categories-container,34
+./CSS/starters.css,.category h3,43
+./CSS/starters.css,.questions-container,48
+./CSS/starters.css,.answer p,56
