@@ -1,0 +1,622 @@
+/* Add this line to import the Google font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Update the font-family */
+html {
+  font-family: 'Poppins', sans-serif;
+  background-image: linear-gradient(45deg, #222, #00adb5);
+}
+.carousel-item {
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1rem;
+}
+
+.filter-tag {
+  font-size: 1.2rem;
+  padding: 8px 12px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filter-tag:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+
+/* Style the main headings */
+h1, h2{
+  color: #eeeeee;
+
+  font-size: 2.2rem;
+  margin-left: 50px;
+  
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin-left: 20px;
+}
+#articleModalContent {
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-image-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 2px 2px #000;
+  text-align: center;
+
+}
+
+.modal-title {
+  margin-bottom: 1rem;
+}
+.modal-body {
+  min-height: 60vh; /* Adjust the value as desired */
+  max-height: calc(100% - 120px);
+  overflow-y: auto;
+  flex: 1 1 auto;
+}
+.modal-dialog {
+  max-width: 90%;
+  max-height: 90vh;
+  margin: 1.75rem auto;
+}
+.modal-content-container {
+  position: relative;
+}
+.modal-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-text-container {
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+  background-color: #fff;
+  overflow: hidden;
+}
+.modal-date-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+#articleContent {
+  position: static;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  padding: 1rem;
+  z-index: 0;
+}
+.modal-image-container {
+  position: relative;
+  height: 50vh;
+}
+.modal-image-container img {
+  object-fit: cover;
+  height: 100%;
+}
+/* Style the container */
+.container-home-page {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 960px; /* or any other preferred maximum width */
+}
+
+/* Style the categories container */
+#categories-container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Style the category titles */
+.category h3 {
+  color: #222;
+}
+
+/* Style the questions container */
+.questions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  display: none; /* Initially hidden */
+}
+
+/* Style the question titles */
+.question h4 {
+  color: #00adb5;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-left: 20px;
+}
+
+/* Style the answer container and text */
+.answer {
+  display: none; /* Initially hidden */
+  font-size: 1.1rem;
+  margin-left: 40px;
+  color: #00adb5;
+  margin-bottom: 2px;
+}
+
+  .explanation {
+    font-size: 20px;
+  }
+
+
+/* Style the answer link */
+.answer a {
+  color: #6dd5ed; /* Light blue */
+  text-decoration: none;
+}
+
+/* Style the answer link on hover */
+.answer a:hover {
+  text-decoration: underline;
+}
+
+/* Style the header */
+#header {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1); /* Adjust the opacity value */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  position: top;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Style the header icon and text container */
+.header-content {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+}
+
+/* Style the header text */
+#header h1 {
+  color: whitesmoke;
+  margin: 0;
+  padding-left: 10px;
+}
+
+/* Style the animated icons */
+.animated-icon {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  font-size: 1.5rem;
+  margin-right: 8px;
+}
+
+/* Style the correct and wrong answer text */
+.correct {
+  color: green;
+  animation-name: correct-animation;
+}
+
+.wrong {
+  color: red;
+  animation-name: wrong-animation;
+}
+
+@keyframes correct-animation {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+}
+
+@keyframes wrong-animation {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+}
+
+
+/* Style the body background */
+body {
+  background-image: linear-gradient(149deg,
+   rgba(85, 85, 85, 0.05) 0%, rgba(85, 85, 85, 0.05) 25%,rgba(11, 11, 11, 0.05) 25%,
+    rgba(11, 11, 11, 0.05) 50%,rgba(182, 182, 182, 0.05) 50%, rgba(182, 182, 182, 0.05) 75%,
+    rgba(28, 28, 28, 0.05) 75%, rgba(28, 28, 28, 0.05) 100%),linear-gradient(232deg,
+     rgba(145, 145, 145, 0.05) 0%, rgba(145, 145, 145, 0.05) 25%,rgba(165, 165, 165, 0.05) 25%,
+      rgba(165, 165, 165, 0.05) 50%,rgba(84, 84, 84, 0.05) 50%, rgba(84, 84, 84, 0.05) 75%,
+      rgba(131, 131, 131, 0.05) 75%, rgba(131, 131, 131, 0.05) 100%),linear-gradient(321deg, 
+      rgba(254, 254, 254, 0.05) 0%, rgba(254, 254, 254, 0.05) 25%,rgba(249, 249, 249, 0.05) 25%,
+       rgba(249, 249, 249, 0.05) 50%,rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.05) 75%,
+       rgba(104, 104, 104, 0.05) 75%, rgba(104, 104, 104, 0.05) 100%),linear-gradient(90deg, rgb(21, 8, 116),rgb(111, 197, 250)); 
+  min-height: 100vh;
+}
+
+/* Style the header title */
+.header-title {
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: auto;
+  max-width: 800px; /* Adjust this value based on the desired maximum width */
+}
+
+/* Style the tile section */
+.tiles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  justify-items: center;
+  align-items: center;
+  border-radius: 40px;
+  display: grid;
+  grid-gap: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.tile {
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  width: 350px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  background-color: white;
+}
+.bigtile {
+
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 90%; /* Adjust this value to control the maximum width of the white tile box */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 20px;
+}
+.tile:hover {
+  transform: scale(1.05);
+  text-decoration: none;
+}
+
+.tile-icon {
+  font-size: 48px;
+  color: #6dd5ed;
+  margin-right: 10px;
+}
+
+.tile-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.tile-subtitle {
+  font-size: 14px;
+  color: #777;
+}
+
+/* Style the back button */
+#header .back-btn {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  transition: background-color 0.2s ease-in-out;
+}
+/* Add a hover effect for back button */
+#header .back-btn:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.header-content {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: 100%; /* Add this line to make the container take up full width of the header */
+}
+.container {
+  padding: 0;
+  margin: 2rem auto; /* Adjust the '2rem' value to control the vertical spacing */
+  max-width: 90%; /* Use 100% to make it full width, or a specific value like '1200px' to control the maximum width */
+  margin-left: auto;
+  margin-right: auto;
+ 
+
+}
+
+
+
+  .explanation {
+    font-size: 32px;
+  }
+
+.card-container {
+  padding: 50px;
+  border-left: none
+  border-right: none
+}
+
+
+
+/* Add these new styles for the hero area */
+.hero {
+  background-image: url('/imgs/index-hero.jpg'); /* Replace with your desired hero image */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 30vh; /* Adjust this value to control the height of the hero area */
+  margin-bottom:3px;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  color: #ffffff;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* -------------------- Quiz Section ----------------------------- */
+/* Add a hover effect for the question titles */
+.question h4:hover {
+  color: #008a93;
+}
+
+/* Add a hover effect for the answer link */
+/* .answer a:hover { */
+  /* color: #008a93; */
+/* } */
+
+/* Add a hover effect for the tile */
+.tile:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9);
+}
+.choices {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  font-size: 32px;
+}
+.choices button {
+  font-size: 24px;
+  background-color: #01165a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  transition: background-color 0.2s ease-in-out;
+  margin: 5px; /* Adjust this value for the desired gap size */
+}
+/* .choices button:hover { */
+  /* background-color: #008a93; */
+/* } */
+
+.quiz-container {
+
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Add this line to center the content horizontally */
+  flex-direction: column; /* Add this line to stack the elements vertically */
+  text-decoration: none;
+  background-color: white;
+  margin: auto;
+  max-width: 90%; /* Adjust this value to control the maximum width of the white tile box */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 20px;
+}
+.quiz-question {
+  color: #222;
+  font-size: 2.2rem;
+  margin-left: 0px;
+}
+
+/* Style the container */
+.quiz-tile {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 960px; /* or any other preferred maximum width */
+}
+
+#quiz {
+  margin-top: 0em;
+}
+.question-number {
+  color: #333;
+}
+.accordian-container {
+
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  align-items: left;
+  justify-content: left; /* Add this line to center the content horizontally */
+  flex-direction: column; /* Add this line to stack the elements vertically */
+  text-decoration: none;
+  background-color: white;
+  margin: auto;
+  max-width: 90%; /* Adjust this value to control the maximum width of the white tile box */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 20px;
+}
+/* Category heading styles */
+.category-heading .accordion-button {
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  background-color: transparent;
+  padding-left: 5px;
+  text-align: left;
+}
+
+.category-heading .accordion-button.collapsed {
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  background-color: transparent;
+  padding-left: 5px;
+}
+
+/* Question heading styles */
+.question-heading .accordion-button {
+  font-size: 18px;
+  font-weight: normal;
+  border: none;
+  background-color: transparent;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.question-heading .accordion-button.collapsed {
+  font-size: 18px;
+  font-weight: normal;
+  border: none;
+  background-color: transparent;
+  padding-left: 20px;
+}
+.accordion-body p {
+  /* Add your styles here */
+  font-size: 14px;
+  font-weight: none;
+  border: none;
+  background-color: transparent;
+  padding-left: 40px; /* Increase the value to indent the text more */
+}
+
+.accordion-body a {
+  /* Add your styles here */
+  font-size: 14px;
+  font-weight: none;
+  border: none;
+  background-color: transparent;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+
+.category-icon {
+  font-size: 24px;
+  margin-right: 10px;
+  transition: transform 0.3s ease;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.category-icon.rotate {
+  transform: rotate(90deg);
+}
+
+.modal-lg {
+    max-width: 90%; /* Adjust this value to set the desired width */
+}
+.card {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-title {
+  height: 3.5rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.card-body {
+  flex-grow: 1;
+}
+
+.badge {
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+  /* Add this to your styles.css file */
+#articleModalImage {
+  max-width: 100%; /* Ensure the image doesn't exceed the container width */
+  max-height: 300px; /* Set a maximum height for the image */
+  object-fit: cover; /* Crop the image if it doesn't fit the given dimensions */
+}
