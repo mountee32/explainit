@@ -5,7 +5,7 @@
     $time_stamp = date('Y-m-d H:i:s');
     include_once 'config.php';
     echo "Hello, step 2";
-    file_put_contents($log_file, "{$time_stamp} - chat.php - starting: " . json_encode($data) . "\n", FILE_APPEND);
+    file_put_contents($log_file, "{$time_stamp} - chat.php - starting: " . $json . "\n", FILE_APPEND);
     echo "Hello, step 2.5";  
     require 'vendor/autoload.php';
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
