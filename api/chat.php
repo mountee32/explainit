@@ -1,4 +1,7 @@
 <?php
+    $log_file = 'api-log.txt';
+    date_default_timezone_set('UTC');
+    $time_stamp = date('Y-m-d H:i:s');
     include_once 'config.php';
     require 'vendor/autoload.php';
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
