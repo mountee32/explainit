@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WordPress Posts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+        .post {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        .post-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .post-content {
+            font-size: 16px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Latest Articles</h1>
+    <div id="posts"></div>
+
+    <script>
+        fetch('https://wp.explainit.app/wp-json/wp/v2/posts?categories=1&per_page=100')
+            .then(response => response.json())
+            .then(posts => {
+                let postsDiv = document.getElementById('posts');
+                for (let post of posts) {
+                    let postDiv = document.createElement('div');
+                    postDiv.classList.add('post');
+
+                    let postTitle = document.createElement('h2');
+                    postTitle.classList.add('post-title');
+                    postTitle.textContent = post.title.rendered;
+                    postDiv.appendChild(postTitle);
+
+                    let postContent = document.createElement('div');
+                    postContent.classList.add('post-content');
+                    postContent.innerHTML = post.content.rendered;
+                    postDiv.appendChild(postContent);
+
+                    postsDiv.appendChild(postDiv);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
