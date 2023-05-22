@@ -3,11 +3,17 @@
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
     include_once 'config.php';
-    $message = $_POST['message'];
-    $chat_log = $_POST['chat_log'];
-    
+
+    // Capture POST data
+    $json = file_get_contents('php://input');
+    $obj = json_decode($json, true);
+    $message = $obj['message'];
+    $chat_log = $obj['chat_log'];
+
+    file_put_contents($log_file, "{$time_stamp} - chat.php - Raw input data: " . $json . "\n", FILE_APPEND);
+
     $url = 'https://api.openai.com/v1/engines/davinci-codex/chat/completions';
-    file_put_contents($log_file, "{$time_stamp} - chat.php - Raw input data: " . file_get_contents("php://input") . "\n", FILE_APPEND);
+
     if ($chat_log == null) {
         $chat_log = array(
             array('role' => 'system', 'content' => 'You are a Christian Apologetics Expert.')
@@ -19,6 +25,8 @@
     $data = array(
         'messages' => $chat_log
     );
+
+    file_put_contents($log_file, "{$time_stamp} - chat.php - Data to be sent to API: " . json_encode($data) . "\n", FILE_APPEND);
 
     $options = array(
         'http' => array(
@@ -33,9 +41,13 @@
 
     if ($result === FALSE) { 
         /* Handle error */
+        file_put_contents($log_file, "{$time_stamp} - chat.php - API call failed.\n", FILE_APPEND);
     } else {
         $result = json_decode($result);
         $answer = $result->choices[0]->message->content;
+
+        file_put_contents($log_file, "{$time_stamp} - chat.php - API call succeeded, received answer: {$answer}\n", FILE_APPEND);
+
         array_push($chat_log, array('role' => 'assistant', 'content' => $answer));
         $response = array(
             'answer' => $answer,
