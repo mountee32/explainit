@@ -9,7 +9,7 @@
     require 'vendor/autoload.php';
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
-
+    echo "Hello, step 3";
 
     // Capture POST data
     $json = file_get_contents('php://input');
@@ -18,7 +18,7 @@
     $chat_log = $obj['chat_log'];
 
     file_put_contents($log_file, "{$time_stamp} - chat.php - Raw input data: " . $json . "\n", FILE_APPEND);
-
+    echo "Hello, step 4";
     $url = 'https://api.openai.com/v1/engines/davinci-codex/chat/completions';
 
     if ($chat_log == null) {
