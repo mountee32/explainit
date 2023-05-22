@@ -3,6 +3,7 @@
     date_default_timezone_set('UTC');
     $time_stamp = date('Y-m-d H:i:s');
     include_once 'config.php';
+    file_put_contents($log_file, "{$time_stamp} - chat.php - starting: " . json_encode($data) . "\n", FILE_APPEND);
     require 'vendor/autoload.php';
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
