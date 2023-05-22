@@ -1,8 +1,10 @@
 <?php
+    echo "Hello, step 1";
     $log_file = 'api-log.txt';
     date_default_timezone_set('UTC');
     $time_stamp = date('Y-m-d H:i:s');
     include_once 'config.php';
+    echo "Hello, step 2";
     file_put_contents($log_file, "{$time_stamp} - chat.php - starting: " . json_encode($data) . "\n", FILE_APPEND);
     require 'vendor/autoload.php';
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
