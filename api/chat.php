@@ -2,12 +2,12 @@
     require 'vendor/autoload.php';
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
-
+    include_once 'config.php';
     $message = $_POST['message'];
     $chat_log = $_POST['chat_log'];
     
     $url = 'https://api.openai.com/v1/engines/davinci-codex/chat/completions';
-
+    file_put_contents($log_file, "{$time_stamp} - chat.php - Raw input data: " . file_get_contents("php://input") . "\n", FILE_APPEND);
     if ($chat_log == null) {
         $chat_log = array(
             array('role' => 'system', 'content' => 'You are a Christian Apologetics Expert.')
