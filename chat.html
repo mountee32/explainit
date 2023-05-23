@@ -81,7 +81,7 @@
                     success: function(response) {
                         // Update the chat UI with the response
                         var assistantMessage = response.answer;
-                        appendMessage("user", message);
+                        // appendMessage("user", message);
                         appendMessage("assistant", assistantMessage);
                     },
                     error: function(xhr, status, error) {
