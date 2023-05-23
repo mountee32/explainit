@@ -27,8 +27,13 @@
                 transform: rotate(360deg);
             }
         }
+        #thinking-icon {
+            display: none;
+        }
+
     </style>
 </head>
+
 <body>
     
     <div id="header">
@@ -65,8 +70,9 @@
                     <div class="card-footer">
                         <input type="text" class="form-control" placeholder="Type your message..." id="user-message">
                         <button class="btn btn-primary mt-3" id="send-btn">
-                            <i id="thinking-icon" class="bi bi-hourglass-split"></i> Send
+                            <i id="thinking-icon" class="bi bi-arrow-repeat"></i> Send
                         </button>
+                        
                     </div>
                 </div>
             </div>
@@ -82,7 +88,7 @@
             // Function to send a message and update the chat
             function sendMessage(message) {
                 // Show the thinking icon
-                $("#thinking-icon").addClass("animate-spin");
+                $("#thinking-icon").css("display", "inline-block").addClass("animate-spin");
 
                 // Prepare the data to be sent in the API request
                 var requestData = {
@@ -120,8 +126,8 @@
                     },
                     complete: function() {
                         // Hide the thinking icon
-                        $("#thinking-icon").removeClass("animate-spin");
-                    }
+                        $("#thinking-icon").css("display", "none").removeClass("animate-spin");
+                   }
                 });
             }
 
