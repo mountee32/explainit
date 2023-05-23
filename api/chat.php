@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 echo "Hello, step 1";
 $log_file = 'api-log.txt';
 date_default_timezone_set('UTC');
@@ -31,6 +34,9 @@ array_push($chat_log, array('role' => 'user', 'content' => $message));
 $data = array(
     'messages' => $chat_log
 );
+var_dump($http_response_header);  // Print the response headers
+var_dump($result);  // Print the API response
+
 echo "API Request: \n";
 print_r($data);  // This will print the API request data to the screen
 
