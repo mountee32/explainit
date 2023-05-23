@@ -8,27 +8,26 @@
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    <style> /* chat container used on the chatgpt chat page*/
+    <style>
+        /* chat container used on the chatgpt chat page*/
         #chat-container {
-          max-height: 300px; /* Set a maximum height for the chat container */
-          overflow-y: auto; /* Enable vertical scrolling */
+            max-height: 300px; /* Set a maximum height for the chat container */
+            overflow-y: auto; /* Enable vertical scrolling */
         }
-        </style>
-        <style>
-            .animate-spin {
-                animation: spin 1s infinite linear;
+
+        .animate-spin {
+            animation: spin 1s infinite linear;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
             }
-            
-            @keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                }
-                100% {
-                    transform: rotate(360deg);
-                }
+            100% {
+                transform: rotate(360deg);
             }
-            </style>
-            
+        }
+    </style>
 </head>
 <body>
     
@@ -42,18 +41,13 @@
             <h1>Chat with an experienced Christian</h1>
         </div>
     </div>
-<!-- Add the hero area -->
-<div class="hero">
-    <h2>Chat with an experienced Christian trained in apologetics and 2000 years of Christian history.
-        <h2>
-  </div>
 
+    <!-- Add the hero area -->
+    <div class="hero">
+        <h2>Chat with an experienced Christian trained in apologetics and 2000 years of Christian history.</h2>
+    </div>
 
     <!-- Include chat area -->
-
-
-
-
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -67,6 +61,7 @@
                         </div>
 
                     </div>
+                   
                     <div class="card-footer">
                         <input type="text" class="form-control" placeholder="Type your message..." id="user-message">
                         <button class="btn btn-primary mt-3" id="send-btn">
@@ -80,84 +75,81 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
-$(document).ready(function() {
-    // Store the chat log
-    var chatLog = [];
+        $(document).ready(function() {
+            // Store the chat log
+            var chatLog = [];
 
-    // Function to send a message and update the chat
-    function sendMessage(message) {
-        $("#thinking-icon").addClass("animate-spin");
-        // Prepare the data to be sent in the API request
-        var requestData = {
-            "message": message,
-            "chat_log": chatLog
-        };
+            // Function to send a message and update the chat
+            function sendMessage(message) {
+                // Show the thinking icon
+                $("#thinking-icon").addClass("animate-spin");
 
-        // Show the loading indicator
-        $("#loading-indicator").show();
+                // Prepare the data to be sent in the API request
+                var requestData = {
+                    "message": message,
+                    "chat_log": chatLog
+                };
 
-        // Send the API request
-        $.ajax({
-            url: "https://explainit.app/api/chat.php",
-            type: "POST",
-            data: JSON.stringify(requestData),
-            contentType: "application/json",
-            dataType: "json",
-            success: function(response) {
-                // Update the chat UI with the response
-                var assistantMessage = response.answer;
-                appendMessage("user", message);
-                appendMessage("assistant", assistantMessage);
+                // Send the API request
+                $.ajax({
+                    url: "https://explainit.app/api/chat.php",
+                    type: "POST",
+                    data: JSON.stringify(requestData),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function(response) {
+                        // Update the chat UI with the response
+                        var assistantMessage = response.answer;
+                        appendMessage("user", message);
+                        appendMessage("assistant", assistantMessage);
 
-                // Update the chat log
-                chatLog.push({
-                    "role": "user",
-                    "content": message
+                        // Update the chat log
+                        chatLog.push({
+                            "role": "user",
+                            "content": message
+                        });
+                        chatLog.push({
+                            "role": "assistant",
+                            "content": assistantMessage
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        // Display an error message in the chat UI
+                        appendMessage("error", "An error occurred. Please try again later.");
+                    },
+                    complete: function() {
+                        // Hide the thinking icon
+                        $("#thinking-icon").removeClass("animate-spin");
+                    }
                 });
-                chatLog.push({
-                    "role": "assistant",
-                    "content": assistantMessage
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-                // Display an error message in the chat UI
-                appendMessage("error", "An error occurred. Please try again later.");
-            },
-                // Complete callback function of the AJAX request
-            complete: function() {
-                // Hide the thinking icon
-                $("#thinking-icon").removeClass("animate-spin");
             }
+
+            // Function to append a message to the chat UI
+            function appendMessage(role, content) {
+                var messageHtml = "<div class='alert alert-" + role + "' role='alert'>" + content + "</div>";
+                $("#chat-container").append(messageHtml);
+                $("#user-message").val(""); // Clear the input field
+            }
+
+            // Send button click event
+            $("#send-btn").on("click", function() {
+                var message = $("#user-message").val();
+                if (message) {
+                    sendMessage(message);
+                }
+            });
+
+            // Handle Enter key press in the input field
+            $("#user-message").on("keypress", function(event) {
+                if (event.which === 13) {
+                    var message = $("#user-message").val();
+                    if (message) {
+                        sendMessage(message);
+                    }
+                }
+            });
         });
-    }
-
-    // Function to append a message to the chat UI
-    function appendMessage(role, content) {
-        var messageHtml = "<div class='alert alert-" + role + "' role='alert'>" + content + "</div>";
-        $("#chat-container").append(messageHtml);
-        $("#user-message").val(""); // Clear the input field
-    }
-
-    // Send button click event
-    $("#send-btn").on("click", function() {
-        var message = $("#user-message").val();
-        if (message) {
-            sendMessage(message);
-        }
-    });
-
-    // Handle Enter key press in the input field
-    $("#user-message").on("keypress", function(event) {
-        if (event.which === 13) {
-            var message = $("#user-message").val();
-            if (message) {
-                sendMessage(message);
-            }
-        }
-    });
-});
-
     </script>
 </body>
 </html>
