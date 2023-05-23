@@ -9,7 +9,7 @@ $time_stamp = date('Y-m-d H:i:s');
 
 // Load environment variables from .env file
 // $env = parse_ini_file(__DIR__ . '/.env');
-$env = parse_ini_file('/.env');
+$env = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/.env');
 echo "Hello, step 2";
 
 // Capture POST data
