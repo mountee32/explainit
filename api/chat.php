@@ -34,6 +34,9 @@
     $data = array(
         'messages' => $chat_log
     );
+    echo "API Request: \n";
+    print_r($data);  // This will print the API request data to the screen
+
 
     file_put_contents($log_file, "{$time_stamp} - chat.php - Data to be sent to API: " . json_encode($data) . "\n", FILE_APPEND);
 
@@ -54,7 +57,10 @@
     } else {
         $result = json_decode($result);
         $answer = $result->choices[0]->message->content;
-
+ 
+        echo "API Response: \n";
+        print_r($result);  // This will print the API response to the screen
+    
         file_put_contents($log_file, "{$time_stamp} - chat.php - API call succeeded, received answer: {$answer}\n", FILE_APPEND);
 
         array_push($chat_log, array('role' => 'assistant', 'content' => $answer));
