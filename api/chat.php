@@ -1,73 +1,69 @@
 <?php
-    echo "Hello, step 1";
-    $log_file = 'api-log.txt';
-    date_default_timezone_set('UTC');
-    $time_stamp = date('Y-m-d H:i:s');
-    include_once 'config.php';
-    echo "Hello, step 2";
-    file_put_contents($log_file, "{$time_stamp} - chat.php - starting: " . $json . "\n", FILE_APPEND);
-    echo "Hello, step 2.5";  
+echo "Hello, step 1";
+$log_file = 'api-log.txt';
+date_default_timezone_set('UTC');
+$time_stamp = date('Y-m-d H:i:s');
 
-    // Load environment variables from .env file
-    $env = parse_ini_file(__DIR__ . '/.env');
+// Load environment variables from .env file
+$env = parse_ini_file(__DIR__ . '/.env');
 
-    echo "Hello, step 3";
+echo "Hello, step 2";
 
-    // Capture POST data
-    $json = file_get_contents('php://input');
-    $obj = json_decode($json, true);
-    $message = $obj['message'];
-    $chat_log = $obj['chat_log'];
+// Capture POST data
+$json = file_get_contents('php://input');
+$obj = json_decode($json, true);
+$message = $obj['message'];
+$chat_log = $obj['chat_log'];
 
-    file_put_contents($log_file, "{$time_stamp} - chat.php - Raw input data: " . $json . "\n", FILE_APPEND);
-    echo "Hello, step 4";
-    $url = 'https://api.openai.com/v1/engines/davinci-codex/chat/completions';
+file_put_contents($log_file, "{$time_stamp} - chat.php - Raw input data: " . $json . "\n", FILE_APPEND);
+echo "Hello, step 4";
 
-    if ($chat_log == null) {
-        $chat_log = array(
-            array('role' => 'system', 'content' => 'You are a Christian Apologetics Expert.')
-        );
-    }
+$url = 'https://api.openai.com/v1/engines/davinci-codex/chat/completions';
 
-    array_push($chat_log, array('role' => 'user', 'content' => $message));
-
-    $data = array(
-        'messages' => $chat_log
+if ($chat_log == null) {
+    $chat_log = array(
+        array('role' => 'system', 'content' => 'You are a Christian Apologetics Expert.')
     );
-    echo "API Request: \n";
-    print_r($data);  // This will print the API request data to the screen
+}
 
+array_push($chat_log, array('role' => 'user', 'content' => $message));
 
-    file_put_contents($log_file, "{$time_stamp} - chat.php - Data to be sent to API: " . json_encode($data) . "\n", FILE_APPEND);
+$data = array(
+    'messages' => $chat_log
+);
+echo "API Request: \n";
+print_r($data);  // This will print the API request data to the screen
 
-    $options = array(
-        'http' => array(
-            'header'  => "Content-type: application/json\r\nAuthorization: Bearer " . $env['OPENAI_API_KEY'] . "\r\n",
-            'method'  => 'POST',
-            'content' => json_encode($data),
-        ),
+file_put_contents($log_file, "{$time_stamp} - chat.php - Data to be sent to API: " . json_encode($data) . "\n", FILE_APPEND);
+
+$options = array(
+    'http' => array(
+        'header'  => "Content-type: application/json\r\nAuthorization: Bearer " . $env['OPENAI_API_KEY'] . "\r\n",
+        'method'  => 'POST',
+        'content' => json_encode($data),
+    ),
+);
+
+$context  = stream_context_create($options);
+$result = file_get_contents($url, false, $context);
+
+if ($result === FALSE) { 
+    /* Handle error */
+    file_put_contents($log_file, "{$time_stamp} - chat.php - API call failed.\n", FILE_APPEND);
+} else {
+    $result = json_decode($result);
+    $answer = $result->choices[0]->message->content;
+
+    echo "API Response: \n";
+    print_r($result);  // This will print the API response to the screen
+
+    file_put_contents($log_file, "{$time_stamp} - chat.php - API call succeeded, received answer: {$answer}\n", FILE_APPEND);
+
+    array_push($chat_log, array('role' => 'assistant', 'content' => $answer));
+    $response = array(
+        'answer' => $answer,
+        'chat_log' => $chat_log
     );
-
-    $context  = stream_context_create($options);
-    $result = file_get_contents($url, false, $context);
-
-    if ($result === FALSE) { 
-        /* Handle error */
-        file_put_contents($log_file, "{$time_stamp} - chat.php - API call failed.\n", FILE_APPEND);
-    } else {
-        $result = json_decode($result);
-        $answer = $result->choices[0]->message->content;
- 
-        echo "API Response: \n";
-        print_r($result);  // This will print the API response to the screen
-    
-        file_put_contents($log_file, "{$time_stamp} - chat.php - API call succeeded, received answer: {$answer}\n", FILE_APPEND);
-
-        array_push($chat_log, array('role' => 'assistant', 'content' => $answer));
-        $response = array(
-            'answer' => $answer,
-            'chat_log' => $chat_log
-        );
-        echo json_encode($response);
-    }
+    echo json_encode($response);
+}
 ?>
