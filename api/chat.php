@@ -7,9 +7,10 @@
     echo "Hello, step 2";
     file_put_contents($log_file, "{$time_stamp} - chat.php - starting: " . $json . "\n", FILE_APPEND);
     echo "Hello, step 2.5";  
-    require 'vendor/autoload.php';
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-    $dotenv->load();
+
+    // Load environment variables from .env file
+    $env = parse_ini_file(__DIR__ . '/.env');
+
     echo "Hello, step 3";
 
     // Capture POST data
@@ -38,7 +39,7 @@
 
     $options = array(
         'http' => array(
-            'header'  => "Content-type: application/json\r\nAuthorization: Bearer " . getenv('OPENAI_API_KEY') . "\r\n",
+            'header'  => "Content-type: application/json\r\nAuthorization: Bearer " . $env['OPENAI_API_KEY'] . "\r\n",
             'method'  => 'POST',
             'content' => json_encode($data),
         ),
