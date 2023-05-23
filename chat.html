@@ -9,68 +9,67 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
-            .container {
-                width: 90vw;
-                height: 90vh;
-                max-width: none;
-            }
+    html, body {
+        height: 100%;
+    }
+    .container {
+        width: 90%;
+        height: 90%;
+    }
+    .card {
+        height: 100%;
+        display: flex;
+        flex-direction: column; /* This will ensure your footer stays at the bottom */
+    }
 
-            .card {
-                height: 100%;
-                display: flex;
-                flex-direction: column; /* This will ensure your footer stays at the bottom */
-            }
+    #chat-container {
+        overflow-y: auto;
+    }
 
-            #chat-container {
-                max-height: calc(100% - 120px); /* adjust as necessary for your header and footer height */
-                overflow-y: auto;
-            }
+    .card-footer {
+        width: 100%;
+    }
+    #chat-container {
+        max-height: 900px; /* Set a maximum height for the chat container */
+        overflow-y: auto; /* Enable vertical scrolling */
+    }
+    .animate-spin {
+        animation: spin 1s infinite linear;
+    }
 
-            .card-footer {
-                width: 100%;
-            }
-         /* chat container used on the chatgpt chat page*/
-        #chat-container {
-            max-height: 900px; /* Set a maximum height for the chat container */
-            overflow-y: auto; /* Enable vertical scrolling */
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
         }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 
-        .animate-spin {
-            animation: spin 1s infinite linear;
-        }
+    #thinking-icon {
+        display: none;
+    }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        #thinking-icon {
-            display: none;
-        }
-        #chat-container .message {
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-        }
+    #chat-container .message {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+    }
+    #chat-container .message.user {
+        background-color: #007bff;
+        color: white;
+        text-align: right;
+        margin-left: 50px;
+    }
 
-        #chat-container .message.user {
-            background-color: #007bff;
-            color: white;
-            text-align: right;
-            margin-left: 50px;
-        }
+    #chat-container .message.assistant {
+        background-color: #f8f9fa;
+        color: #212529;
+        text-align: left;
+        margin-right: 50px;
+    }
 
-        #chat-container .message.assistant {
-            background-color: #f8f9fa;
-            color: #212529;
-            text-align: left;
-            margin-right: 50px;
-        }
-
-    </style>
+</style>
 </head>
 
 <body>
@@ -85,11 +84,10 @@
             <h1>Chat with an experienced Christian</h1>
         </div>
     </div>
-
-     <!-- Include chat area -->
+    <!-- Include chat area -->
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-12">
                 <div class="card d-flex flex-column justify-content-between">
                     <div class="card-header">
                         Chat
@@ -109,7 +107,6 @@
             </div>
         </div>
     </div>
-    
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -168,7 +165,6 @@
                 $("#chat-container").append(messageHtml);
                 $("#user-message").val(""); // Clear the input field
             }
-
 
             // Send button click event
             $("#send-btn").on("click", function() {
