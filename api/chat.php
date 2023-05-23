@@ -8,8 +8,8 @@ date_default_timezone_set('UTC');
 $time_stamp = date('Y-m-d H:i:s');
 
 // Load environment variables from .env file
-$env = parse_ini_file(__DIR__ . '/.env');
-
+// $env = parse_ini_file(__DIR__ . '/.env');
+$env = parse_ini_file('/.env');
 echo "Hello, step 2";
 
 // Capture POST data
