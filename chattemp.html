@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Chat</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Chat
+                    </div>
+                    <div class="card-body" id="chat-container">
+                        <div class="alert alert-primary" role="alert">
+                            You are a Christian Apologetics Expert.
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <input type="text" class="form-control" placeholder="Type your message..." id="user-message">
+                        <button class="btn btn-primary mt-3" id="send-btn">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to send a message and update the chat
+            function sendMessage(message) {
+                // Prepare the data to be sent in the API request
+                var requestData = {
+                    "message": message,
+                    "chat_log": null
+                };
+
+                // Send the API request
+                $.ajax({
+                    url: "https://explainit.app/api/chat.php",
+                    type: "POST",
+                    data: JSON.stringify(requestData),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function(response) {
+                        // Update the chat UI with the response
+                        var assistantMessage = response.answer;
+                        appendMessage("user", message);
+                        appendMessage("assistant", assistantMessage);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        // Display an error message in the chat UI
+                        appendMessage("error", "An error occurred. Please try again later.");
+                    }
+                });
+            }
+
+            // Function to append a message to the chat UI
+            function appendMessage(role, content) {
+                var messageHtml = "<div class='alert alert-" + role + "' role='alert'>" + content + "</div>";
+                $("#chat-container").append(messageHtml);
+                $("#user-message").val(""); // Clear the input field
+            }
+
+            // Send button click event
+            $("#send-btn").on("click", function() {
+                var message = $("#user-message").val();
+                if (message) {
+                    sendMessage(message);
+                }
+            });
+
+            // Handle Enter key press in the input field
+            $("#user-message").on("keypress", function(event) {
+                if (event.which === 13) {
+                    var message = $("#user-message").val();
+                    if (message) {
+                        sendMessage(message);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
