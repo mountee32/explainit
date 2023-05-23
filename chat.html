@@ -30,6 +30,25 @@
         #thinking-icon {
             display: none;
         }
+        #chat-container .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        #chat-container .message.user {
+            background-color: #007bff;
+            color: white;
+            text-align: right;
+            margin-left: 50px;
+        }
+
+        #chat-container .message.assistant {
+            background-color: #f8f9fa;
+            color: #212529;
+            text-align: left;
+            margin-right: 50px;
+        }
 
     </style>
 </head>
@@ -133,10 +152,11 @@
 
             // Function to append a message to the chat UI
             function appendMessage(role, content) {
-                var messageHtml = "<div class='alert alert-" + role + "' role='alert'>" + content + "</div>";
+                var messageHtml = "<div class='message " + role + "'>" + content + "</div>";
                 $("#chat-container").append(messageHtml);
                 $("#user-message").val(""); // Clear the input field
             }
+
 
             // Send button click event
             $("#send-btn").on("click", function() {
