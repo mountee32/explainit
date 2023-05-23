@@ -495,6 +495,10 @@ body {
 .question-number {
   color: #333;
 }
+
+.answer-text {
+  font-size: 16px; /* Adjust the font size in the accordian */
+}
 .accordian-container {
 
   padding: 20px;
