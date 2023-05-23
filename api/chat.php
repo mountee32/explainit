@@ -2,15 +2,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-echo "Hello, step 1";
 $log_file = 'api-log.txt';
 date_default_timezone_set('UTC');
 $time_stamp = date('Y-m-d H:i:s');
 
 // Load environment variables from .env file
-// $env = parse_ini_file(__DIR__ . '/.env');
 $env = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/.env');
-echo "Hello, step 2";
 
 // Capture POST data
 $json = file_get_contents('php://input');
@@ -19,9 +16,8 @@ $message = $obj['message'];
 $chat_log = $obj['chat_log'];
 
 file_put_contents($log_file, "{$time_stamp} - chat.php - Raw input data: " . $json . "\n", FILE_APPEND);
-echo "Hello, step 4";
 
-$url = 'https://api.openai.com/v1/engines/davinci-codex/chat/completions';
+$url = 'https://api.openai.com/v1/chat/completions';
 
 if ($chat_log == null) {
     $chat_log = array(
@@ -32,13 +28,9 @@ if ($chat_log == null) {
 array_push($chat_log, array('role' => 'user', 'content' => $message));
 
 $data = array(
+    'model' => 'gpt-3.5-turbo',
     'messages' => $chat_log
 );
-var_dump($http_response_header);  // Print the response headers
-var_dump($result);  // Print the API response
-
-echo "API Request: \n";
-print_r($data);  // This will print the API request data to the screen
 
 file_put_contents($log_file, "{$time_stamp} - chat.php - Data to be sent to API: " . json_encode($data) . "\n", FILE_APPEND);
 
@@ -59,9 +51,6 @@ if ($result === FALSE) {
 } else {
     $result = json_decode($result);
     $answer = $result->choices[0]->message->content;
-
-    echo "API Response: \n";
-    print_r($result);  // This will print the API response to the screen
 
     file_put_contents($log_file, "{$time_stamp} - chat.php - API call succeeded, received answer: {$answer}\n", FILE_APPEND);
 
