@@ -4,12 +4,7 @@ html {
   background-image: linear-gradient(45deg, #222, #00adb5);
 }
 
-<style> /* chat container used on the chatgpt chat page*/
-#chat-container {
-  max-height: 300px; /* Set a maximum height for the chat container */
-  overflow-y: auto; /* Enable vertical scrolling */
-}
-</style>
+
 .carousel-item {
   height: 400px;
   background-size: cover;
