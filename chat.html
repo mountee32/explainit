@@ -65,32 +65,38 @@
         $(document).ready(function() {
             // Function to send a message and update the chat
             function sendMessage(message) {
-                // Prepare the data to be sent in the API request
-                var requestData = {
-                    "message": message,
-                    "chat_log": null
-                };
+            // Show the loading indicator
+            $("#loading-indicator").show();
 
-                // Send the API request
-                $.ajax({
-                    url: "https://explainit.app/api/chat.php",
-                    type: "POST",
-                    data: JSON.stringify(requestData),
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function(response) {
-                        // Update the chat UI with the response
-                        var assistantMessage = response.answer;
-                        // appendMessage("user", message);
-                        appendMessage("assistant", assistantMessage);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(error);
-                        // Display an error message in the chat UI
-                        appendMessage("error", "An error occurred. Please try again later.");
-                    }
-                });
-            }
+            // Prepare the data to be sent in the API request
+            var requestData = {
+                "message": message,
+                "chat_log": null
+            };
+
+            // Send the API request
+            $.ajax({
+                url: "https://explainit.app/api/chat.php",
+                type: "POST",
+                data: JSON.stringify(requestData),
+                contentType: "application/json",
+                dataType: "json",
+                success: function(response) {
+                    // Update the chat UI with the response
+                    var assistantMessage = response.answer;
+                    appendMessage("assistant", assistantMessage);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    // Display an error message in the chat UI
+                    appendMessage("error", "An error occurred. Please try again later.");
+                },
+                complete: function() {
+                    // Hide the loading indicator when the request is complete
+                    $("#loading-indicator").hide();
+                }
+            });
+        }
 
             // Function to append a message to the chat UI
             function appendMessage(role, content) {
