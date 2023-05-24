@@ -544,7 +544,7 @@ body {
   font-weight: normal;
   border: none;
   background-color: transparent;
-  padding-left: 20px;
+  padding-left: 10px;
   text-align: left;
 }
 
@@ -553,11 +553,11 @@ body {
   font-weight: normal;
   border: none;
   background-color: transparent;
-  padding-left: 20px;
+  padding-left: 1px;
 }
 .accordion-body p {
   /* Add your styles here */
-  font-size: 14px;
+  font-size: 18px;
   /* font-weight: none; */
   border: none;
   background-color: transparent;
@@ -566,12 +566,12 @@ body {
 
 .accordion-body a {
   /* Add your styles here */
-  font-size: 14px;
+  font-size: 18px;
   /* font-weight: none; */
   border: none;
   background-color: transparent;
-  padding-left: 20px;
-  margin-bottom: 20px;
+  padding-left: 5px;
+  margin-bottom: 10px;
 }
 
 
