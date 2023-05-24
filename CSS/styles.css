@@ -535,7 +535,7 @@ body {
   font-weight: bold;
   border: none;
   background-color: transparent;
-  padding-left: 20px;
+  padding-left: 0px;
 }
 
 /* Question heading styles */
@@ -544,7 +544,7 @@ body {
   font-weight: bold;
   border: none;
   background-color: transparent;
-  padding-left: 10px;
+  padding-left: 0px;
   text-align: left;
 }
 
@@ -553,7 +553,7 @@ body {
   font-weight: normal;
   border: none;
   background-color: transparent;
-  padding-left: 1px;
+  padding-left: 0px;
 }
 .accordion-body p {
   /* Add your styles here */
@@ -561,7 +561,7 @@ body {
   /* font-weight: none; */
   border: none;
   background-color: transparent;
-  padding-left: 40px; /* Increase the value to indent the text more */
+  padding-left: 0px; /* Increase the value to indent the text more */
 }
 
 .accordion-body a {
@@ -570,7 +570,7 @@ body {
   /* font-weight: none; */
   border: none;
   background-color: transparent;
-  padding-left: 5px;
+  padding-left: px;
   margin-bottom: 10px;
 }
 
