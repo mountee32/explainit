@@ -494,6 +494,7 @@ body {
 }
 .question-number {
   color: #333;
+  margin-left: 0px;
 }
 
 .answer-text {
