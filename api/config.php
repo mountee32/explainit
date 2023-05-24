@@ -1,8 +1,9 @@
 <?php
+$env = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/.env');
 $host = 'localhost';
-$db_name = 'u383132761_explaint';
-$username = 'u383132761_GG78';
-$password = 'Jump6565%True';
+$db_name = $env['DB_NAME'];
+$username = $env['DB_USERNAME'];
+$password = $env['DB_PASSWORD'];
 $log_file = 'api-log.txt';
 date_default_timezone_set('UTC');
 $time_stamp = date('Y-m-d H:i:s');
