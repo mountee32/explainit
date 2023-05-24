@@ -501,7 +501,7 @@ body {
 }
 .accordian-container {
 
-  padding: 20px;
+  padding: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
