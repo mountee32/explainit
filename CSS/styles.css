@@ -526,7 +526,7 @@ body {
   font-weight: bold;
   border: none;
   background-color: transparent;
-  padding-left: 5px;
+  padding-left: 20px;
   text-align: left;
 }
 
@@ -535,7 +535,7 @@ body {
   font-weight: bold;
   border: none;
   background-color: transparent;
-  padding-left: 5px;
+  padding-left: 20px;
 }
 
 /* Question heading styles */
