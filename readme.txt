@@ -16,3 +16,12 @@ The structure of the question object:
   "explanation3": "Berlin is the capital of Germany.",
   "explanation4": "Madrid is the capital of Spain."
 }
+Backlog
+----------------
+API Secret key Change
+DB Acc Change
+Latest Posts on home
+AI Chat performance upgrade
+Images need to format on home page accross device sizes
+Articles post graphic not formatted correctly
+Rename Tips to resources and link to useful videos like WLC
