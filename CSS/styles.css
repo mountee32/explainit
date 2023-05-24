@@ -561,7 +561,7 @@ body {
   /* font-weight: none; */
   border: none;
   background-color: transparent;
-  padding-left: 0px; /* Increase the value to indent the text more */
+  padding-left: 50px; /* Increase the value to indent the text more */
 }
 
 .accordion-body a {
@@ -570,7 +570,7 @@ body {
   /* font-weight: none; */
   border: none;
   background-color: transparent;
-  padding-left: px;
+  padding-left: 50px;
   margin-bottom: 10px;
 }
 
