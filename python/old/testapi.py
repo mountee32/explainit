@@ -10,9 +10,9 @@ import python.old.test_update_question as test_update_question
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s [%(levelname)s] %(message)s', handlers=[logging.FileHandler("testapi.log"), logging.StreamHandler()])
 
 # Define the API URLs
-READ_API_URL = "https://explainit.app/api/read.php"
-CREATE_API_URL = "https://explainit.app/api/create.php"
-DELETE_API_URL = "https://explainit.app/api/delete.php"
+READ_API_URL = "https://ai4christians.com/api/read.php"
+CREATE_API_URL = "https://ai4christians.com/api/create.php"
+DELETE_API_URL = "https://ai4christians.com/api/delete.php"
 
 # Define a variable to store the ID of the first question
 example_id = None

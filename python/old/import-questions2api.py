@@ -1,7 +1,7 @@
 import requests
 import json
 
-url = "https://explainit.app/api/create.php"
+url = "https://ai4christians.com/api/create.php"
 api_key = "55556666"
 
 data = {

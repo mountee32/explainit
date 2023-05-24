@@ -3,7 +3,7 @@ import json
 
 def create_question():
 
-    CREATE_API_URL = "https://explainit.app/api/create.php"
+    CREATE_API_URL = "https://ai4christians.com/api/create.php"
 
     new_question = {
         "question": "_What is the smallest unit of matter?",

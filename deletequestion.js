@@ -1,7 +1,7 @@
 function deleteQuestion(id) {
     // Send
     $.ajax({
-        url: 'https://explainit.app/api/delete.php',
+        url: 'https://ai4christians.com/api/delete.php',
         type: 'DELETE',
         headers: {
             'Authorization': 'Bearer ' + apiKey,

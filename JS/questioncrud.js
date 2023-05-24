@@ -90,7 +90,7 @@ function resetFormAndCreateQuestionBehavior() {
 
 function fetchQuestions() {
     $.ajax({
-        url: 'https://explainit.app/api/quiz.php?action=read',
+        url: 'https://ai4christians.com/api/quiz.php?action=read',
         method: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -190,7 +190,7 @@ function deleteQuestion(questionId) {
     }
 
     $.ajax({
-        url: 'https://explainit.app/api/delete.php',
+        url: 'https://ai4christians.com/api/delete.php',
         method: 'DELETE',
         data: JSON.stringify({ id: questionId }),
         contentType: 'application/json',
@@ -212,7 +212,7 @@ function deleteQuestion(questionId) {
 function createQuestion(questionData, returnResponse = false) {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: 'https://explainit.app/api/quiz.php?create',
+            url: 'https://ai4christians.com/api/quiz.php?create',
             method: 'POST',
             data: JSON.stringify({ ...questionData, action: 'create' }),
             contentType: 'application/json',
@@ -272,7 +272,7 @@ function editQuestion(question) {
 
 function updateQuestion(questionData) {
     $.ajax({
-        url: 'https://explainit.app/api/update.php',
+        url: 'https://ai4christians.com/api/update.php',
         method: 'PUT',
         data: JSON.stringify(questionData),
         contentType: 'application/json',

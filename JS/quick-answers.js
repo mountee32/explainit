@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Change the fetch URL to the new API endpoint
-    fetch('https://explainit.app/api/quickanswers.php?action=read')
+    fetch('https://ai4christians.com/api/quickanswers.php?action=read')
     .then(response => {
         if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`);
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
                           questionIcon.classList.toggle('rotate');
                         }document.addEventListener('DOMContentLoaded', function () {
                             // Change the fetch URL to the new API endpoint
-                            fetch('https://explainit.app/api/quickanswers.php?action=read')
+                            fetch('https://ai4christians.com/api/quickanswers.php?action=read')
                             .then(response => {
                                 if (!response.ok) {
                                     throw new Error(`HTTP error ${response.status}`);

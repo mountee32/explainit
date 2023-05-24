@@ -19,10 +19,10 @@ async function fetchData(apiUrl) {
     let apiUrl, pageTitle;
   
     if (category === 'Quick_Answers') {
-      apiUrl = 'https://explainit.app/api/quickanswers.php?action=read';
+      apiUrl = 'https://ai4christians.com/api/quickanswers.php?action=read';
       pageTitle = 'Quick Answers';
     } else if (category === 'Conversation_Starters') {
-      apiUrl = 'https://explainit.app/api/conversationstarters.php?action=read';
+      apiUrl = 'https://ai4christians.com/api/conversationstarters.php?action=read';
       pageTitle = 'Conversation Starters';
     } else {
       console.error('Invalid category parameter:', category);

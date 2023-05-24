@@ -2,8 +2,8 @@ import csv
 import requests
 import pandas as pd
 
-API_QA_URL = "https://explainit.app/api/quickanswers.php"
-API_ST_URL = "https://explainit.app/api/conversationstarters.php"
+API_QA_URL = "https://ai4christians.com/api/quickanswers.php"
+API_ST_URL = "https://ai4christians.com/api/conversationstarters.php"
 QUICK_ANSWERS_FILE = "csv/quick_answers.csv"
 CONVERSATION_STARTERS_FILE = "csv/conversation_starters.csv"
 

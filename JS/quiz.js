@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let filteredQuestions = [];
   let currentQuestionIndex = 0;
   let totalScore = 0;
-  fetch("https://explainit.app/api/quiz.php?action=read")
+  fetch("https://ai4christians.com/api/quiz.php?action=read")
   .then(response => {
     if (!response.ok) {
       throw new Error('Network response was not ok');

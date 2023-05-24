@@ -5,7 +5,7 @@ function openEditModal(id) {
   
   function loadQuestionData(id) {
     $.ajax({
-      url: 'https://explainit.app/api/read.php',
+      url: 'https://ai4christians.com/api/read.php',
       type: 'GET',
       headers: {
         'Authorization': 'Bearer 55556666'
@@ -60,7 +60,7 @@ function openEditModal(id) {
     };
   
     $.ajax({
-      url: 'https://explainit.app/api/update.php',
+      url: 'https://ai4christians.com/api/update.php',
       type: 'PUT',
       headers: {
         'Authorization': 'Bearer Jump857571111',

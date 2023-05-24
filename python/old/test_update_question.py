@@ -1,7 +1,7 @@
 import requests
 import json
 def update_question():
-    url = 'https://explainit.app/api/update.php'
+    url = 'https://ai4christians.com/api/update.php'
     headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer Jump857571111'}
     data = {
         'id': 18390,

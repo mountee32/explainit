@@ -229,7 +229,7 @@
         },
         methods: {
             getQuestions: function() {
-                axios.get('https://explainit.app/api/questions/read.php', { headers: { 'Authorization': `Bearer ${this.token}` } })
+                axios.get('https://ai4christians.com/api/questions/read.php', { headers: { 'Authorization': `Bearer ${this.token}` } })
                     .then(response => {
                         this.questions = response.data.records;
                     })
@@ -238,7 +238,7 @@
                     });
             },
             createQuestion: function() {
-                axios.post('https://explainit.app/api/questions/create.php', this.newQuestion, { headers: { 'Authorization': `Bearer ${this.token}` } })
+                axios.post('https://ai4christians.com/api/questions/create.php', this.newQuestion, { headers: { 'Authorization': `Bearer ${this.token}` } })
                     .then(response => {
                         this.message = response.data.message;
                         this.newQuestion = {
@@ -259,7 +259,7 @@
             },
             deleteQuestion: function(id) {
                 if (confirm('Are you sure you want to delete this question?')) {
-                    axios.delete(`https://explainit.app/api/questions/delete.php?id=${id}`, { headers: { 'Authorization': `Bearer ${this.token}` } })
+                    axios.delete(`https://ai4christians.com/api/questions/delete.php?id=${id}`, { headers: { 'Authorization': `Bearer ${this.token}` } })
                         .then(response => {
                             this.message = response.data.message;
                             this.getQuestions();
@@ -273,7 +273,7 @@
                 this.selectedQuestion = JSON.parse(JSON.stringify(question));
             },
             updateQuestion: function() {
-                axios.put(`https://explainit.app/api/questions/update.php?id=${this.selectedQuestion.id}`, this.selectedQuestion, { headers: { 'Authorization': `Bearer ${this.token}` } })
+                axios.put(`https://ai4christians.com/api/questions/update.php?id=${this.selectedQuestion.id}`, this.selectedQuestion, { headers: { 'Authorization': `Bearer ${this.token}` } })
                     .then(response => {
                         this.message = response.data.message;
                         this.getQuestions();
@@ -525,7 +525,7 @@ this.getQuestions();
 },
 methods: {
 getQuestions: function() {
-axios.get('https://explainit.app/api/read.php')
+axios.get('https://ai4christians.com/api/read.php')
 .then(function(response) {
 this.questions = response.data.records;
 }.bind(this))
@@ -534,7 +534,7 @@ console.log(error);
 });
 },
 addQuestion: function() {
-axios.post('https://explainit.app/api/create.php', this.newQuestion)
+axios.post('https://ai4christians.com/api/create.php', this.newQuestion)
 .then(function(response) {
 if (response.data.message === "Question created.") {
 this.newQuestion.question = '';
@@ -559,7 +559,7 @@ console.log(error);
 },
 deleteQuestion: function(id) {
 if (confirm("Are you sure you want to delete this question?")) {
-axios.delete('https://explainit.app/api/delete.php?id=' + id)
+axios.delete('https://ai4christians.com/api/delete.php?id=' + id)
 .then(function(response) {
 if (response.data.message === "Question deleted.") {
 this.getQuestions();
@@ -587,7 +587,7 @@ this.selectedQuestion.explanation3_text = question.explanation3_text;
 this.selectedQuestion.explanation4_text = question.explanation4_text;
 },
 updateQuestion: function() {
-axios.put('https://explainit.app/api/update.php?id=' + this.selectedQuestion.id, this.selectedQuestion)
+axios.put('https://ai4christians.com/api/update.php?id=' + this.selectedQuestion.id, this.selectedQuestion)
 .then(function(response) {
 if (response.data.message === "Question updated.") {
 this.getQuestions();

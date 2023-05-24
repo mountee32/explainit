@@ -1,5 +1,5 @@
 // Global variables
-const apiUrl = "https://explainit.app/api/conversationstarters.php";
+const apiUrl = "https://ai4christians.com/api/conversationstarters.php";
 let questions = [];
 const questionModal = new bootstrap.Modal(document.getElementById('questionModal'));
 
