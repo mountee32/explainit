@@ -1,4 +1,5 @@
 <?php
+// hosted at https://ai4chistians.com/api/chat.php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
