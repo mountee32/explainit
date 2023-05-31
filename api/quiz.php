@@ -20,7 +20,7 @@ $action = isset($data['action']) ? $data['action'] : (isset($_GET['action']) ? $
 
 if ($action === 'create') {
     if (!empty($data['question']) && !empty($data['skill']) && !empty($data['choice1']) && !empty($data['choice2']) && !empty($data['choice3']) && !empty($data['choice4']) && isset($data['correct_choice']) && !empty($data['explanation1']) && !empty($data['explanation2']) && !empty($data['explanation3']) && !empty($data['explanation4'])) {
-        $stmt = $conn->prepare("INSERT INTO quiz (id, date_reviewed, question, skill, choice1, choice2, choice3, choice4, correct_choice, explanation1, explanation2, explanation3, explanation4, category, status) VALUES (NULL, :date_reviewed, :question, :skill, :choice1, :choice2, :choice3, :choice4, :correct_choice, :explanation1, :explanation2, :explanation3, :explanation4, :category, :status)");
+        $stmt = $conn->prepare("INSERT INTO quiz ( date_reviewed, question, skill, choice1, choice2, choice3, choice4, correct_choice, explanation1, explanation2, explanation3, explanation4, category, status) VALUES (NULL, :date_reviewed, :question, :skill, :choice1, :choice2, :choice3, :choice4, :correct_choice, :explanation1, :explanation2, :explanation3, :explanation4, :category, :status)");
         $stmt->bindParam(':date_reviewed', $data['date_reviewed']);
         $stmt->bindParam(':question', $data['question']);
         $stmt->bindParam(':skill', $data['skill']);
