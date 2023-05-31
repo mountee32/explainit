@@ -24,8 +24,7 @@ $action = isset($data['action']) ? $data['action'] : (isset($_GET['action']) ? $
 
 if ($action === 'create') {
     if (!empty($data['question']) && !empty($data['skill']) && !empty($data['choice1']) && !empty($data['choice2']) && !empty($data['choice3']) && !empty($data['choice4']) && isset($data['correct_choice']) && !empty($data['explanation1']) && !empty($data['explanation2']) && !empty($data['explanation3']) && !empty($data['explanation4'])) {
-        $stmt = $conn->prepare("INSERT INTO quiz ( date_reviewed, question, skill, choice1, choice2, choice3, choice4, correct_choice, explanation1, explanation2, explanation3, explanation4, category, status) VALUES (NULL, :date_reviewed, :question, :skill, :choice1, :choice2, :choice3, :choice4, :correct_choice, :explanation1, :explanation2, :explanation3, :explanation4, :category, :status)");
-        $stmt->bindParam(':date_reviewed', $data['date_reviewed']);
+        $stmt = $conn->prepare("INSERT INTO quiz ( question, skill, choice1, choice2, choice3, choice4, correct_choice, explanation1, explanation2, explanation3, explanation4, category, status) VALUES ( :question, :skill, :choice1, :choice2, :choice3, :choice4, :correct_choice, :explanation1, :explanation2, :explanation3, :explanation4, :category, :status)");
         $stmt->bindParam(':question', $data['question']);
         $stmt->bindParam(':skill', $data['skill']);
         $stmt->bindParam(':choice1', $data['choice1']);
@@ -68,9 +67,8 @@ if ($action === 'create') {
 
 elseif ($action === 'update') {
     if (!empty($data['id']) && !empty($data['question']) && !empty($data['skill']) && !empty($data['choice1']) && !empty($data['choice2']) && !empty($data['choice3']) && !empty($data['choice4']) && isset($data['correct_choice']) && !empty($data['explanation1']) && !empty($data['explanation2']) && !empty($data['explanation3']) && !empty($data['explanation4']) && !empty($data['category']) && !empty($data['status'])) {
-        $stmt = $conn->prepare("UPDATE quiz SET date_reviewed = :date_reviewed, question = :question, skill = :skill, choice1 = :choice1, choice2 = :choice2, choice3 = :choice3, choice4 = :choice4, correct_choice = :correct_choice, explanation1 = :explanation1, explanation2 = :explanation2, explanation3 = :explanation3, explanation4 = :explanation4, category = :category, status = :status WHERE id = :id");
+        $stmt = $conn->prepare("UPDATE quiz SET question = :question, skill = :skill, choice1 = :choice1, choice2 = :choice2, choice3 = :choice3, choice4 = :choice4, correct_choice = :correct_choice, explanation1 = :explanation1, explanation2 = :explanation2, explanation3 = :explanation3, explanation4 = :explanation4, category = :category, status = :status WHERE id = :id");
         $stmt->bindParam(':id', $data['id']);
-        $stmt->bindParam(':date_reviewed', $data['date_reviewed']);
         $stmt->bindParam(':question', $data['question']);
         $stmt->bindParam(':skill', $data['skill']);
         $stmt->bindParam(':choice1', $data['choice1']);
