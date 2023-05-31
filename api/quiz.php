@@ -20,7 +20,7 @@ $action = isset($data['action']) ? $data['action'] : (isset($_GET['action']) ? $
 
 if ($action === 'create') {
     if (!empty($data['question']) && !empty($data['skill']) && !empty($data['choice1']) && !empty($data['choice2']) && !empty($data['choice3']) && !empty($data['choice4']) && isset($data['correct_choice']) && !empty($data['explanation1']) && !empty($data['explanation2']) && !empty($data['explanation3']) && !empty($data['explanation4'])) {
-        $stmt = $conn->prepare("INSERT INTO quiz (id, date_reviewed, question, skill, choice1, choice2, choice3, choice4, correct_choice, explanation1, explanation2, explanation3, explanation4, category, status) VALUES (NULL, :date_reviewed, :question, :skill, :choice1, :choice2, :choice3, :choice4, :correct_choice, :explanation1, :explanation2, :explanation3, :explanation4, :category, :status))");
+        $stmt = $conn->prepare("INSERT INTO quiz (id, date_reviewed, question, skill, choice1, choice2, choice3, choice4, correct_choice, explanation1, explanation2, explanation3, explanation4, category, status) VALUES (NULL, :date_reviewed, :question, :skill, :choice1, :choice2, :choice3, :choice4, :correct_choice, :explanation1, :explanation2, :explanation3, :explanation4, :category, :status)");
         $stmt->bindParam(':date_reviewed', $data['date_reviewed']);
         $stmt->bindParam(':question', $data['question']);
         $stmt->bindParam(':skill', $data['skill']);
@@ -36,16 +36,15 @@ if ($action === 'create') {
         $stmt->bindParam(':category', $data['category']);
         $stmt->bindParam(':status', $data['status']);
         if ($stmt->execute()) {
+            file_put_contents($log_file, "{$time_stamp} - api - MySQL Insert Success: " . json_encode($stmt->errorInfo()) . "\n", FILE_APPEND);
             http_response_code(201);
             echo json_encode(array("message" => "Question added successfully."));
         } else {
+            file_put_contents($log_file, "{$time_stamp} - api - MySQL Insert Failed: " . json_encode($stmt->errorInfo()) . "\n", FILE_APPEND);
             http_response_code(503);
             echo json_encode(array("message" => "Unable to add question."));
         }
-    } else {
-        http_response_code(400);
-        echo json_encode(array("message" => "Unable to add question. Data is incomplete."));
-    }
+        
 } elseif ($action === 'delete') {
     if (!empty($data['id'])) {
         $stmt = $conn->prepare("DELETE FROM quiz WHERE id = :id");
