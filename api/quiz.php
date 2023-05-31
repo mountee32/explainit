@@ -48,7 +48,7 @@ if ($action === 'create') {
             http_response_code(503);
             echo json_encode(array("message" => "Unable to add question."));
         }
-        
+    } // This is the missing closing bracket
 } elseif ($action === 'delete') {
     if (!empty($data['id'])) {
         $stmt = $conn->prepare("DELETE FROM quiz WHERE id = :id");
