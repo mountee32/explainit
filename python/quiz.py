@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import openai
 import json
 import re
+import time
 
 load_dotenv()
 openai.api_key = os.environ.get('OPENAI_API_KEY')
@@ -135,12 +136,17 @@ def generate_questions(category, num_questions):
         chat_log.append(question_prompt)
 
         print("Sending prompt to OpenAI: ", question_prompt['content'])
-
-        response = completion.create(
-            model='gpt-3.5-turbo',
-            messages=chat_log
-        )
-
+        try:
+            response = completion.create(
+                model='gpt-3.5-turbo',
+                messages=chat_log
+            )
+            print("Received response from OpenAI: ", response.choices[0]['message']['content'])
+        except openai.error.APIError as e:
+                    print("OpenAI API Error:", e)
+                    print("Waiting for 5 minutes before retrying...")
+                    time.sleep(300)  # 300 seconds = 5 minutes
+                    continue
         print("Received response from OpenAI: ", response.choices[0]['message']['content'])
 
 
