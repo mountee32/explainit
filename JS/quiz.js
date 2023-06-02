@@ -193,6 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   
   
+  
 
 function displayResults() {
   quizContainer.innerHTML = `<h2>Quiz Summary</h2> <p>Your total score: ${totalScore} out of ${filteredQuestions.length}</p> <button class="btn btn-primary" id="start-again">Start Again</button>`;
