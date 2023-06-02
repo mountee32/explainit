@@ -120,6 +120,18 @@ elseif ($action === 'update') {
             echo json_encode(array("message" => "No questions found."));
         }
     }
+} elseif ($action === 'read_category') {
+    $stmt = $conn->prepare("SELECT DISTINCT category FROM quiz ORDER BY category ASC");
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($stmt->rowCount() > 0) {
+        http_response_code(200);
+        echo json_encode($result);
+    } else {
+        http_response_code(404);
+        echo json_encode(array("message" => "No categories found."));
+    }
 } else {
     http_response_code(400);
     echo json_encode(array("message" => "Invalid action."));
