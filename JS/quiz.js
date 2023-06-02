@@ -115,9 +115,10 @@ document.addEventListener("DOMContentLoaded", () => {
   
       <quiz-question>${question.question}</quiz-question>
       <div class="choices">
-        ${["choice1", "choice2", "choice3", "choice4"].map((choiceKey, index) => `
-          <button class="btn btn-outline-primary" data-choice="${index}">${question[choiceKey]}</button>
+          ${["choice1", "choice2", "choice3", "choice4"].map((choiceKey, index) => `
+          <button class="btn btn-outline-primary" data-choice="${index + 1}">${question[choiceKey]}</button>
         `).join("")}
+    
       </div>
       <div class="explanation mt-3" style="display: none;"></div>
       <button class="btn btn-success mt-3" id="next-question" style="display: none;">Next Question</button> `;
