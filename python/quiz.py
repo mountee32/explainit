@@ -191,10 +191,10 @@ def main():
             categories = {
                 "1": "Old Testament Characters",
                 "2": "New Testament Characters",
-                "3": "Key Events",
+                "3": "Key Christian Events",
                 "4": "Books of the Bible",
                 "5": "Parables of Jesus",
-                "6": "Miracles",
+                "6": "Bible Miracles",
                 "7": "Christian Symbols",
                 "8": "Biblical Geography",
                 "9": "Christian Denominations",
@@ -204,11 +204,11 @@ def main():
                 "13": "Christian Worship and Liturgy",
                 "14": "Christian Practices",
                 "15": "Popular Bible Verses",
-                "16": "Sharing Gospel with Muslims",
-                "17": "Sharing Gospel with Agnostics",
-                "18": "Sharing Gospel with LGBT Community",
-                "19": "Sharing Gospel with Ex-Christians",
-                "20": "Sharing Gospel with Atheists",
+                "16": "Gospel Sharing with Muslims",
+                "17": "Gospel Sharing with Agnostics",
+                "18": "Gospel Sharing with LGBT Community",
+                "19": "Gospel Sharing with Ex-Christians",
+                "20": "Gospel Sharing with Atheists",
                 "21": "All"
             }
 
