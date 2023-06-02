@@ -22,6 +22,15 @@ document.addEventListener("DOMContentLoaded", () => {
     quizContainer.innerHTML = '<h2>There was an error retrieving the quiz questions. Please try again later.</h2>';
   });
 
+  async function fetchCategories() {
+    try {
+      const response = await fetch("https://ai4christians.com/api/quiz.php?action=read_category");
+      if (!response.ok) throw new Error('Network response was not ok');
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  }
 
   function displayQuestionsPopup(questions) {
     const popupWindow = window.open('', 'Quiz Questions', 'height=500,width=500');
@@ -32,8 +41,14 @@ document.addEventListener("DOMContentLoaded", () => {
     popupWindow.document.close();
   }
 
-  function displaySkillSelection() {
+  async displaySkillSelection() {
+    const categories = await fetchCategories();
+    const categoryOptions = categories.map(category => `<option value="${category.category}">${category.category}</option>`).join('');
+
     quizContainer.innerHTML = `
+      <p>Select a category:</p>
+      <select id="category-select" class="form-control">${categoryOptions}</select>
+      <br> 
       <p>Select your quiz skill level:</p>
       <button class="btn btn-outline-primary" data-skill="easy">Easy</button>
       <button class="btn btn-primary" data-skill="medium">Medium</button>
@@ -76,19 +91,21 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   
-    document.getElementById("start-quiz").addEventListener("click", () => {
-      filteredQuestions = filterQuestionsBySkill(selectedSkill, selectedNumberOfQuestions);
-      if (filteredQuestions.length > 0) {
-        displayQuestion(filteredQuestions[currentQuestionIndex]);
-      } else {
-        quizContainer.innerHTML = '<h2>No questions found for selected skill level and number of questions.</h2>';
-      }
-    });
+  document.getElementById("start-quiz").addEventListener("click", () => {
+    const selectedCategory = document.getElementById("category-select").value;
+    filteredQuestions = filterQuestionsBySkill(selectedSkill, selectedNumberOfQuestions, selectedCategory);
+    
+    if (filteredQuestions.length > 0) {
+      displayQuestion(filteredQuestions[currentQuestionIndex]);
+    } else {
+      quizContainer.innerHTML = '<h2>No questions found for selected skill level and number of questions.</h2>';
+    }
+  });
   }
 
-  function filterQuestionsBySkill(skill, numberOfQuestions) {
-    const skillQuestions = questions.filter(question => question.skill === skill);
-    return skillQuestions.sort(() => 0.5 - Math.random()).slice(0, numberOfQuestions);
+  function filterQuestionsBySkill(skill, numberOfQuestions, category) {
+    const skillQuestions = questions.filter(question => question.skill === skill && question.category === category);
+   return skillQuestions.sort(() => 0.5 - Math.random()).slice(0, numberOfQuestions);
   }
 
   function displayQuestion(question) {
