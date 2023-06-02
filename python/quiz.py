@@ -95,7 +95,8 @@ def generate_questions(category):
         answer, chat_log = askgpt(question_prompt)
         print("\n")
         print(answer)
-        question_data["question"] = answer
+        question_data["question"] = answer["choices"][0]["text"]["question"].strip()
+
 
         # Send the question data to the API
         try:
