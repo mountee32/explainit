@@ -39,11 +39,7 @@
     overflow-y: auto;
     flex: 1 1 auto;
   }
-  .modal-image-container {
-    position: relative;
-    height: 200px; /* or whatever height you want */
-    width: 100%; /* ensure it takes full width */
-    overflow: hidden;
+
   }
   .modal-text-container {
     position: relative;
@@ -97,7 +93,12 @@
     overflow-y: auto;
     flex: 1 1 auto;
 }
-
+.modal-image-container {
+    position: relative;
+    /* height: 200px; /* or whatever height you want */
+    /* width: 100%; ensure it takes full width */ */
+    overflow: hidden;
+}  
 .card-img-top, #articleModalImage {
     object-fit: cover;
     /* width: 100%;
@@ -108,7 +109,7 @@
     position: relative;
     display: block;
     background-size: cover;
-    height: 200px;  /* Set to the height of your images */
+    /* height: 200px;  Set to the height of your images */
     overflow: hidden;
 }
 
