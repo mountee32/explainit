@@ -40,17 +40,13 @@ def create_question(question_data):
 
     # Check if existing_questions is None or the message indicates no questions found
     if existing_questions is None or existing_questions.get('message') == "No questions found.":
-        print("Failed to fetch existing questions or no questions found. Skipping...")
-        return
-
-    # Check if new question is already in existing questions
-    for question in existing_questions:
-        if question['question'] == question_data['question']:
-            print("Duplicate question. Skipping...")
-            return
-
-    # Rest of the code...
-
+        print("Failed to fetch existing questions. Creating new question...")
+    else:
+        # Check if new question is already in existing questions
+        for question in existing_questions:
+            if question['question'] == question_data['question']:
+                print("Duplicate question. Skipping...")
+                return
 
     # Handle 'nan' values
     if pd.isna(question_data['category']):
