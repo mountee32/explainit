@@ -115,10 +115,15 @@ def generate_questions(category, num_questions):
         }
         chat_log.append(question_prompt)
 
+        print("Sending prompt to OpenAI: ", question_prompt['content'])
+
         response = completion.create(
             model='gpt-3.5-turbo',
             messages=chat_log
         )
+
+        print("Received response from OpenAI: ", response.choices[0]['message']['content'])
+
 
         answer = response.choices[0]['message']['content']
         chat_log.append({'role': 'assistant', 'content': answer})
