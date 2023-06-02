@@ -1,5 +1,10 @@
 <?php
 $env = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/.env');
+if ($env === false) {
+    file_put_contents($log_file, "{$time_stamp} config.php - Failed to parse .env file.\n", FILE_APPEND);
+} else {
+    file_put_contents($log_file, "{$time_stamp} config.php - Successfully parsed .env file.\n", FILE_APPEND);
+}
 $host = 'localhost';
 $db_name = $env['DB_NAME'];
 $username = $env['DB_USERNAME'];
