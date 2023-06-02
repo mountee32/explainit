@@ -90,7 +90,16 @@
     margin-right: 5px;
     margin-bottom: 5px;
   }
-
+.modal-content {
+    max-height: 95vh;
+    overflow-y: auto;
+}
+.modal-body {
+    min-height: 0; /* Adjust this value as needed */
+    max-height: calc(95vh - 120px); /* Adjust this value as needed */
+    overflow-y: auto;
+    flex: 1 1 auto;
+}
 
 
 </style>
