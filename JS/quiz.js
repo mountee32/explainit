@@ -142,6 +142,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function displayExplanation(question, answerIndex, correctIndex) {
     const explanation = quizContainer.querySelector(".explanation");
     const choiceButtons = quizContainer.querySelectorAll("[data-choice]");
+
+    // Subtract 1 from correctIndex
+    correctIndex = correctIndex - 1;
   
     // Highlight the correct and wrong answers
     choiceButtons.forEach((button, index) => {
