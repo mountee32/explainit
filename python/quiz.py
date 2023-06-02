@@ -1,6 +1,14 @@
 import requests
 import pandas as pd
-from chatbot import askgpt
+import os
+from dotenv import load_dotenv
+import openai
+import json
+
+
+load_dotenv()
+openai.api_key = os.environ.get('OPENAI_API_KEY')
+completion = openai.ChatCompletion()
 
 API_URL = "https://ai4christians.com/api/quiz.php"
 
@@ -26,12 +34,14 @@ def create_question(question_data):
         question_data['category'] = ''
     if pd.isna(question_data['status']):
         question_data['status'] = ''
-    
+
     question_data.update({"action": "create"})
+
     print("Sending data:", question_data)
     try:
         response = requests.post(API_URL, json=question_data, headers={"Content-Type": "application/json"})
         response.raise_for_status()
+        print("API Response:", response.json())
     except requests.exceptions.HTTPError as errh:
         print(f"HTTP Error: {errh}")
         print(f"Response: {response.text}")
@@ -41,6 +51,8 @@ def create_question(question_data):
         print(f"Timeout Error: {errt}")
     except requests.exceptions.RequestException as err:
         print(f"Unexpected Error: {err}")
+
+
 
 def print_questions(questions):
     df = pd.DataFrame(questions)
@@ -75,7 +87,7 @@ def generate_questions(category):
     for i in range(2):
         question_data = {
             "action": "create",
-            "question": {},
+            "question": "",
             "skill": "hard",
             "choice1": "",
             "choice2": "",
@@ -90,29 +102,30 @@ def generate_questions(category):
             "status": "drafted"
         }
 
-        question_prompt = f"ChatGPT, please generate a quiz question related to the category {category} in JSON format with the following fields: `question`, 'skill', `choice1`, `choice2`, `choice3`, `choice4`, `correct_choice numbered 1 to 4`, `explanation1`, `explanation2`, `explanation3`, `explanation4`, 'category', 'status'. Please set the 'status' to draft, the 'category' to {category}, and the 'skill' to medium."
-        print(question_prompt)
-        answer, chat_log = askgpt(question_prompt)
-        print("\n")
-        print(answer)
-        question_data["question"] = answer["choices"][0]["text"]["question"].strip()
+        chat_log = [
+            {
+                'role': 'system',
+                'content': 'You are an assistant that generates quiz questions.',
+            }
+        ]
 
+        question_prompt = {
+            'role': 'user',
+            'content': f"Please generate a quiz question related to the category {category} in JSON format with the following fields: `question`, 'skill', `choice1`, `choice2`, `choice3`, `choice4`, `correct_choice numbered 1 to 4`, `explanation1`, `explanation2`, `explanation3`, `explanation4`, 'category', 'status'. Please set the 'status' to draft, the 'category' to {category}, and the 'skill' to medium."
+        }
+        chat_log.append(question_prompt)
 
-        # Send the question data to the API
-        try:
-            response = requests.post(API_URL, json=question_data, headers={"Content-Type": "application/json"})
-            print("API Response Status Code:", response.status_code)
-            print("API Response Headers:", response.headers)
-            response.raise_for_status()
+        response = completion.create(
+            model='gpt-3.5-turbo',
+            messages=chat_log
+        )
 
-            # Check if the response contains valid JSON
-            try:
-                question = response.json()
-                questions.append(question)
-            except ValueError:
-                print("Invalid JSON response:", response.text)
-        except requests.exceptions.RequestException as err:
-            print(f"Error creating question: {err}")
+        answer = response.choices[0]['message']['content']
+        chat_log.append({'role': 'assistant', 'content': answer})
+
+        question_data.update(json.loads(answer.strip()))  # assuming the assistant generates a valid JSON as an answer
+        question_data["question"] = question_data["question"].replace("\n", "")  # Remove newline characters from the question
+        questions.append(question_data)
 
     return questions
 
