@@ -16,10 +16,16 @@ def get_all_questions():
     try:
         response = requests.get(API_URL, params={"action": "read"})
         response.raise_for_status()
-        return response.json()
+        data = response.json()
+        if data is not None:
+            return data
+        else:
+            print("No questions found.")
+            return []
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
         return None
+
 
 def delete_question(id):
     try:
