@@ -82,9 +82,9 @@ def menu():
     print("5. Create new quiz questions with OpenAI")
     print("6. Exit")
 
-def generate_questions(category):
+def generate_questions(category, num_questions):
     questions = []
-    for i in range(2):
+    for i in range(num_questions):
         question_data = {
             "action": "create",
             "question": "",
@@ -169,18 +169,30 @@ def main():
             print("2. Bible Books")
             print("3. Bible Characters")
             category_choice = input("Choose a category: ")
+            num_questions = input("Enter the number of questions to generate (default is 2): ")
+            if not num_questions:
+                num_questions = 2  # Default to 2 if no input
+            else:
+                try:
+                    num_questions = int(num_questions)
+                    if num_questions < 1:
+                        raise ValueError("Number of questions must be at least 1")
+                except ValueError:
+                    print("Invalid number of questions. Defaulting to 2.")
+                    num_questions = 2
             categories = {
                 "1": "Christianity History",
                 "2": "Bible Books",
                 "3": "Bible Characters",
             }
             if category_choice in categories:
-                questions = generate_questions(categories[category_choice])
+                questions = generate_questions(categories[category_choice], num_questions)
                 for question in questions:
                     create_question(question)
                 print("Quiz questions created and uploaded.")
             else:
                 print("Invalid category choice.")
+
         elif choice == "6":
             break
         else:
