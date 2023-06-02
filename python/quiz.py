@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 import openai
 import json
-
+import re
 
 load_dotenv()
 openai.api_key = os.environ.get('OPENAI_API_KEY')
@@ -122,12 +122,20 @@ def generate_questions(category):
 
         answer = response.choices[0]['message']['content']
         chat_log.append({'role': 'assistant', 'content': answer})
+        # Extract JSON from answer using regex
+        json_match = re.search(r'\{(.|\n)*\}', answer)
+        if json_match:
+            json_str = json_match.group()
+        else:
+            print("Invalid response from assistant. Could not extract JSON.")
+            return []
 
-        question_data.update(json.loads(answer.strip()))  # assuming the assistant generates a valid JSON as an answer
+        question_data.update(json.loads(json_str))  # update with the extracted JSON
         question_data["question"] = question_data["question"].replace("\n", "")  # Remove newline characters from the question
         questions.append(question_data)
 
     return questions
+
 
 def main():
     while True:
