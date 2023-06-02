@@ -177,24 +177,34 @@ def main():
                 for question in questions:
                     create_question(question)
                 print("All questions imported.")
-
-
         elif choice == "5":
+            categories = {
+                "1": "Old Testament Characters",
+                "2": "New Testament Characters",
+                "3": "Key Events",
+                "4": "Books of the Bible",
+                "5": "Parables of Jesus",
+                "6": "Miracles",
+                "7": "Christian Symbols",
+                "8": "Biblical Geography",
+                "9": "Christian Denominations",
+                "10": "Christian Festivals",
+                "11": "Christian Theology",
+                "12": "Christian Apologetics",
+                "13": "Christian Worship and Liturgy",
+                "14": "Christian Practices",
+                "15": "Popular Bible Verses",
+                "16": "Sharing Gospel with Muslims",
+                "17": "Sharing Gospel with Agnostics",
+                "18": "Sharing Gospel with LGBT Community",
+                "19": "Sharing Gospel with Ex-Christians",
+                "20": "Sharing Gospel with Atheists"
+            }
+
             print("Select a category to generate questions for:")
-            print("1. Christian History")
-            print("2. Bible Books")
-            print("3. Bible Characters")
-            print("4. Sharing the Gospel with Muslims")
-            print("5. Sharing the Gospel with Hindus")
-            print("6. Sharing the Gospel with Buddhists")
-            print("7. Sharing the Gospel with New Age believers")
-            print("8. Sharing the Gospel with Scientists")
-            print("9. Sharing the Gospel with Agnostics")
-            print("10. Sharing the Gospel with Atheists")
-            print("11. Sharing the Gospel with Indigenous religions")
-            print("12. Sharing the Gospel with Jewish people")
-            print("13. Sharing the Gospel with People of no religious affiliation")
-            print("14. All")
+            for category_key in categories:
+                print(f"{category_key}. {categories[category_key]}")
+
             category_choice = input("Choose a category: ")
             num_questions = input("Enter the number of questions to generate (default is 2): ")
             if not num_questions:
@@ -207,35 +217,12 @@ def main():
                 except ValueError:
                     print("Invalid number of questions. Defaulting to 2.")
                     num_questions = 2
-            categories = {
-                "1": "Christian History",
-                "2": "Bible Books",
-                "3": "Bible Characters",
-                "4": "Sharing the Gospel with Muslims",
-                "5": "Sharing the Gospel with Hindus",
-                "6": "Sharing the Gospel with Buddhists",
-                "7": "Sharing the Gospel with New Age believers",
-                "8": "Sharing the Gospel with Scientists",
-                "9": "Sharing the Gospel with Agnostics",
-                "10": "Sharing the Gospel with Atheists",
-                "11": "Sharing the Gospel with Indigenous religions",
-                "12": "Sharing the Gospel with Jewish people",
-                "13": "Sharing the Gospel with People of no religious affiliation",
-                "14": "All"
-            }
+
             if category_choice in categories:
-                if category_choice == "14":  # "All" category
-                    for category_key in categories:
-                        if category_key != "14":  # avoid creating questions for "All" category
-                            questions = generate_questions(categories[category_key], num_questions)
-                            for question in questions:
-                                create_question(question)
-                    print("Quiz questions for all categories created and uploaded.")
-                else:
-                    questions = generate_questions(categories[category_choice], num_questions)
-                    for question in questions:
-                        create_question(question)
-                    print("Quiz questions for the chosen category created and uploaded.")
+                questions = generate_questions(categories[category_choice], num_questions)
+                for question in questions:
+                    create_question(question)
+                print("Quiz questions for the chosen category created and uploaded.")
             else:
                 print("Invalid category choice.")
 
