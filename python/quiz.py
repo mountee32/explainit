@@ -198,7 +198,8 @@ def main():
                 "17": "Sharing Gospel with Agnostics",
                 "18": "Sharing Gospel with LGBT Community",
                 "19": "Sharing Gospel with Ex-Christians",
-                "20": "Sharing Gospel with Atheists"
+                "20": "Sharing Gospel with Atheists",
+                "21": "All"
             }
 
             print("Select a category to generate questions for:")
@@ -219,10 +220,18 @@ def main():
                     num_questions = 2
 
             if category_choice in categories:
-                questions = generate_questions(categories[category_choice], num_questions)
-                for question in questions:
-                    create_question(question)
-                print("Quiz questions for the chosen category created and uploaded.")
+                if category_choice == "21":  # "All" category
+                    for category_key in categories:
+                        if category_key != "21":  # avoid creating questions for "All" category
+                            questions = generate_questions(categories[category_key], num_questions)
+                            for question in questions:
+                                create_question(question)
+                    print("Quiz questions for all categories created and uploaded.")
+                else:
+                    questions = generate_questions(categories[category_choice], num_questions)
+                    for question in questions:
+                        create_question(question)
+                    print("Quiz questions for the chosen category created and uploaded.")
             else:
                 print("Invalid category choice.")
 
