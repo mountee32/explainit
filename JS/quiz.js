@@ -142,15 +142,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function displayExplanation(question, answerIndex, correctIndex) {
     const explanation = quizContainer.querySelector(".explanation");
     const choiceButtons = quizContainer.querySelectorAll("[data-choice]");
-
-    // Subtract 1 from correctIndex
-    correctIndex = correctIndex - 1;
-  
+    
     // Highlight the correct and wrong answers
     choiceButtons.forEach((button, index) => {
       const isCorrect = index === correctIndex;
       const isChosen = index === answerIndex;
-  
+    
       if (isCorrect) {
         button.classList.add("btn-success");
         button.classList.remove("btn-outline-primary");
@@ -158,36 +155,34 @@ document.addEventListener("DOMContentLoaded", () => {
         button.classList.add("btn-danger");
         button.classList.remove("btn-outline-primary");
       }
-  
+    
       if (isChosen) {
         button.disabled = true;
       } else {
         button.disabled = true;
       }
     });
-  
+    
     let icon;
     let answerText;
     if (answerIndex === correctIndex) {
       totalScore++;
       icon = '<i class="fas fa-check-circle animated-icon correct"></i>';
-      answerText = "";
-       answerText = "Correct,";
+      answerText = "Correct,";
     } else {
       icon = '<i class="fas fa-times-circle animated-icon wrong"></i>';
-      answerText = "";
-       answerText = "Wrong, ";
+      answerText = "Wrong, ";
     }
-  
-    explanation.innerHTML = `${icon} ${answerText} ${question[`explanation${correctIndex + 1}`]}`;
-  
+    
+    explanation.innerHTML = `${icon} ${answerText} ${question[`explanation${answerIndex + 1}`]}`;
+    
     explanation.style.display = "block";
-  
+    
     const nextButton = document.getElementById("next-question");
     nextButton.style.display = "block";
     nextButton.addEventListener("click", () => {
       currentQuestionIndex++;
-  
+    
       if (currentQuestionIndex < filteredQuestions.length) {
         displayQuestion(filteredQuestions[currentQuestionIndex]);
       } else {
@@ -195,6 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+  
   
   
 
