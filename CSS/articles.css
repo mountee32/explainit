@@ -1,0 +1,82 @@
+/* Style the header icon and text container */
+.header-content {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+  }
+.hero {
+    background-image: url('/imgs/index-hero.jpg'); /* Replace with your desired hero image */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 30vh; /* Adjust this value to control the height of the hero area */
+    margin-bottom:3px;
+  }
+.container {
+    padding: 0;
+    margin: 2rem auto; /* Adjust the '2rem' value to control the vertical spacing */
+    max-width: 90%; /* Use 100% to make it full width, or a specific value like '1200px' to control the maximum width */
+    margin-left: auto;
+    margin-right: auto;
+}
+.modal-body {
+    min-height: 60vh; /* Adjust the value as desired */
+    max-height: calc(100% - 120px);
+    overflow-y: auto;
+    flex: 1 1 auto;
+  }
+  .modal-image-container {
+    position: relative;
+    height: 50vh;
+  }
+  .modal-text-container {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    background-color: #fff;
+    overflow: hidden;
+  }
+
+  .filter-tag {
+    font-size: 1.2rem;
+    padding: 8px 12px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .filter-tag:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  .card {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-title {
+    height: 3.5rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  
+  .card-body {
+    flex-grow: 1;
+  }
+  
+  .badge {
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+

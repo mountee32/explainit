@@ -16,18 +16,7 @@ html {
   padding: 1rem;
 }
 
-.filter-tag {
-  font-size: 1.2rem;
-  padding: 8px 12px;
-  margin: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
 
-.filter-tag:hover {
-  background-color: #007bff;
-  color: white;
-}
 
 
 /* Style the main headings */
@@ -114,14 +103,11 @@ h2 {
   padding: 1rem;
   z-index: 0;
 }
-.modal-image-container {
-  position: relative;
-  height: 50vh;
-}
-.modal-image-container img {
+
+/* .modal-image-container img {
   object-fit: cover;
   height: 100%;
-}
+} */
 /* Style the container */
 .container-home-page {
   background-color: white;
@@ -591,33 +577,7 @@ body {
 .modal-lg {
     max-width: 90%; /* Adjust this value to set the desired width */
 }
-.card {
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-}
 
-.card-img-top {
-  height: 200px;
-  object-fit: cover;
-}
-
-.card-title {
-  height: 3.5rem;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.card-body {
-  flex-grow: 1;
-}
-
-.badge {
-  margin-right: 5px;
-  margin-bottom: 5px;
-}
   /* Add this to your styles.css file */
 #articleModalImage {
   max-width: 100%; /* Ensure the image doesn't exceed the container width */
