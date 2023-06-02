@@ -29,6 +29,15 @@ def delete_question(id):
         print(f"Error: {e}")
 
 def create_question(question_data):
+    # Get all existing questions
+    existing_questions = get_all_questions()
+
+    # Check if new question is already in existing questions
+    for question in existing_questions:
+        if question['question'] == question_data['question']:
+            print("Duplicate question. Skipping..."+question_data['question'])
+            return
+
     # Handle 'nan' values
     if pd.isna(question_data['category']):
         question_data['category'] = ''
