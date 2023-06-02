@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     popupWindow.document.close();
   }
 
-  async displaySkillSelection() {
+  async function displaySkillSelection() {
     const categories = await fetchCategories();
     const categoryOptions = categories.map(category => `<option value="${category.category}">${category.category}</option>`).join('');
 
@@ -91,17 +91,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   
-  document.getElementById("start-quiz").addEventListener("click", () => {
-    const selectedCategory = document.getElementById("category-select").value;
-    filteredQuestions = filterQuestionsBySkill(selectedSkill, selectedNumberOfQuestions, selectedCategory);
+    document.getElementById("start-quiz").addEventListener("click", () => {
+      const selectedCategory = document.getElementById("category-select").value;
+      filteredQuestions = filterQuestionsBySkill(selectedSkill, selectedNumberOfQuestions, selectedCategory);
     
-    if (filteredQuestions.length > 0) {
-      displayQuestion(filteredQuestions[currentQuestionIndex]);
-    } else {
-      quizContainer.innerHTML = '<h2>No questions found for selected skill level and number of questions.</h2>';
-    }
-  });
+      if (filteredQuestions.length > 0) {
+        displayQuestion(filteredQuestions[currentQuestionIndex]);
+      } else {
+        quizContainer.innerHTML = '<h2>No questions found for selected skill level and number of questions.</h2>';
+      }
+    });
   }
+
 
   function filterQuestionsBySkill(skill, numberOfQuestions, category) {
     const skillQuestions = questions.filter(question => question.skill === skill && question.category === category);
