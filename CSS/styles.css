@@ -625,7 +625,7 @@ body {
   object-fit: cover; /* Crop the image if it doesn't fit the given dimensions */
 }
 .article-title {
-  white-space: nowrap;
+  /* white-space: nowrap; */
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
