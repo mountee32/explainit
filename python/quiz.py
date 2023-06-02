@@ -38,9 +38,9 @@ def create_question(question_data):
     # Get all existing questions
     existing_questions = get_all_questions()
 
-    # Check if existing_questions is None or the message indicates no questions found
-    if existing_questions is None or existing_questions.get('message') == "No questions found.":
-        print("Failed to fetch existing questions. Creating new question...")
+    # Check if existing_questions is None or empty list
+    if existing_questions is None or len(existing_questions) == 0:
+        print("No existing questions found. Creating new question...")
     else:
         # Check if new question is already in existing questions
         for question in existing_questions:
