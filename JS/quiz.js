@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Show an alert with the button number.
 
-        // alert(`Button ${answerIndex + 1} was clicked. The correct answer is ${correctIndex + 1}.`);
+         alert(`Button ${answerIndex + 1} was clicked. The correct answer is ${correctIndex + 1}.`);
 
 
 
