@@ -12,7 +12,7 @@ from datetime import datetime
 load_dotenv()
 openai.api_key = os.environ.get('OPENAI_API_KEY')
 completion = openai.ChatCompletion()
-
+api_delay = 20
 API_URL = "https://ai4christians.com/api/quiz.php"
 
 def check_question_accuracy():
@@ -48,7 +48,7 @@ def check_question_accuracy():
                     model='gpt-3.5-turbo',
                     messages=chat_log
                 )
-                time.sleep(10) 
+                time.sleep(api_delay) 
                 feedback = response.choices[0]['message']['content']
 
 
@@ -190,7 +190,7 @@ def create_question(question_data):
 
     question_data.update({"action": "create"})
 
-    print("Sending data:", question_data)
+    # print("Sending data:", question_data)
     try:
         response = requests.post(API_URL, json=question_data, headers={"Content-Type": "application/json"})
         response.raise_for_status()
@@ -241,6 +241,10 @@ def menu():
 
 def generate_questions(category, num_questions):
     questions = []
+    existing_questions = get_all_questions()  # Fetch all existing questions
+    existing_questions_in_category = [q for q in existing_questions if q['category'] == category]
+    existing_questions_content = [q['question'] for q in existing_questions_in_category]
+
     for i in range(num_questions):
         question_data = {
             "action": "create",
@@ -268,25 +272,22 @@ def generate_questions(category, num_questions):
 
         question_prompt = {
             'role': 'user',
-            'content': f"Please generate a quiz question related to the category {category} in JSON format with the following fields: `question`, 'skill', `choice1`, `choice2`, `choice3`, `choice4`, `correct_choice numbered 1 to 4`, `explanation1`, `explanation2`, `explanation3`, `explanation4`, 'category', 'status'. Please set the 'status' to draft, the 'category' to {category}, and the 'skill' to medium"
-        }
+            'content': f"Please generate a quiz question related to the category {category} in JSON format with the following fields: `question`, 'skill', `choice1`, `choice2`, `choice3`, `choice4`, `correct_choice numbered 1 to 4`, `explanation1`, `explanation2`, `explanation3`, `explanation4`, 'category', 'status'. Please set the 'status' to draft, the 'category' to {category}, and the 'skill' to medium, and don't create any of these questions I already have {existing_questions_content}"        }
         chat_log.append(question_prompt)
 
-        print("Sending prompt to OpenAI: ", question_prompt['content'])
+        print("Sending prompt to OpenAI: ", question_prompt['content'],"\n")
         try:
             response = completion.create(
                 model='gpt-3.5-turbo',
                 messages=chat_log
             )
-            time.sleep(10) 
-            print("Received response from OpenAI: ", response.choices[0]['message']['content'])
+            time.sleep(api_delay) 
+            print("Received response from OpenAI: ", response.choices[0]['message']['content'],"\n")
         except openai.error.APIError as e:
                     print("OpenAI API Error:", e)
                     print("Waiting for 5 minutes before retrying...")
                     time.sleep(300)  
                     continue
-        print("Received response from OpenAI: ", response.choices[0]['message']['content'])
-
 
         answer = response.choices[0]['message']['content']
         chat_log.append({'role': 'assistant', 'content': answer})
@@ -295,7 +296,7 @@ def generate_questions(category, num_questions):
         if json_match:
             json_str = json_match.group()
         else:
-            print("Invalid response from assistant. Could not extract JSON.")
+            print("Invalid response from assistant. Could not extract JSON.","\n")
             return []
 
         question_data.update(json.loads(json_str)) 
@@ -345,7 +346,7 @@ def main():
                 "10": "Christian Festivals",
                 "11": "Christian Theology",
                 "12": "Christian Apologetics",
-                "13": "Christian Worship and Liturgy",
+                "13": "Questions asked of Christians",
                 "14": "Christian Practices",
                 "15": "Popular Bible Verses",
                 "16": "Gospel Sharing with Muslims",
