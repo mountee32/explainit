@@ -74,24 +74,25 @@ elseif ($action === 'update') {
         $requiredFields = array('question', 'skill', 'choice1', 'choice2', 'choice3', 'choice4', 'correct_choice', 'explanation1', 'explanation2', 'explanation3', 'explanation4', 'category', 'status');
         foreach ($requiredFields as $field) {
             if (isset($data[$field]) && !empty($data[$field])) {
-                $updateFields[$field] = $data[$field];
+                $updateFields[] = "$field = :$field";
             }
         }
 
         if (!empty($updateFields)) {
-            $fieldCount = count($updateFields);
-            $fieldPlaceholders = implode(' = :', array_keys($updateFields));
-            $fieldPlaceholders = ':' . $fieldPlaceholders;
+            $fieldPlaceholders = implode(', ', $updateFields);
 
             $stmt = $conn->prepare("UPDATE quiz SET $fieldPlaceholders WHERE id = :id");
             $stmt->bindParam(':id', $data['id']);
-            foreach ($updateFields as $field => $value) {
-                $stmt->bindParam(':' . $field, $value);
+            foreach ($updateFields as $field) {
+                $fieldParts = explode(' = ', $field);
+                $fieldKey = ':' . $fieldParts[0];
+                $fieldValue = $data[$fieldParts[0]];
+                $stmt->bindParam($fieldKey, $fieldValue);
             }
 
             if ($stmt->execute()) {
                 http_response_code(200);
-                echo json_encode(array("message" => "Question updated successfully. $fieldCount fields updated."));
+                echo json_encode(array("message" => "Question updated successfully."));
             } else {
                 http_response_code(503);
                 echo json_encode(array("message" => "Unable to update question."));
@@ -104,11 +105,6 @@ elseif ($action === 'update') {
         http_response_code(400);
         echo json_encode(array("message" => "Unable to update question. ID is missing."));
     }
-}
-
-// ...
-
-
 
 } elseif ($action === 'read') {
     if (isset($_GET['id'])) {
