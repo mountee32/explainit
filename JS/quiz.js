@@ -127,13 +127,14 @@ document.addEventListener("DOMContentLoaded", () => {
     choiceButtons.forEach(button => {
       button.addEventListener("click", () => {
         const answerIndex = parseInt(button.dataset.choice, 10);
+        const correctIndex = parseInt(question.correct_choice, 10);
 
         // Show an alert with the button number.
 
         // alert(`Button ${answerIndex + 1} was clicked. The correct answer is ${correctIndex + 1}.`);
 
 
-        const correctIndex = parseInt(question.correct_choice, 10);
+
         displayExplanation(question, answerIndex, correctIndex);
   
         // Disable all choice buttons after an answer has been selected
