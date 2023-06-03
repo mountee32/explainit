@@ -16,7 +16,7 @@ API_URL = "https://ai4christians.com/api/quiz.php"
 
 def check_question_accuracy():
     # Retrieve all questions from the API
-    questions = get_all_questions()
+    questions = get_all_questions('draft')
 
     # Open the CSV file in write mode, resetting it
     with open('question-checks.csv', 'w', newline='') as csvfile:
@@ -38,7 +38,6 @@ def check_question_accuracy():
                 }
             ]
 
-
             try:
                 response = completion.create(
                     model='gpt-3.5-turbo',
@@ -57,26 +56,32 @@ def check_question_accuracy():
                 
                 # Write the OpenAI response into the CSV file
                 writer.writerow({'ID': id, 'Issue Yes/No': issue_yn, 'Issue Description': issue_description})
-            except openai.error.APIError as e:
+            except openai.error.RateLimitError as e:
                 print("OpenAI API Error:", e)
                 print("Waiting for 5 minutes before retrying...")
                 time.sleep(300)  # 300 seconds = 5 minutes
                 continue
 
 
-def get_all_questions():
+def get_all_questions(status='all'):
     try:
         response = requests.get(API_URL, params={"action": "read"})
         response.raise_for_status()
         data = response.json()
         if data is not None:
-            return data
+            if status.lower() != 'all':
+                # Filter the questions for the given status
+                filtered_questions = [question for question in data if question['status'].lower() == status]
+                return filtered_questions
+            else:
+                return data
         else:
             print("No questions found.")
             return []
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
         return None
+
 
 
 def delete_question(id):
@@ -153,6 +158,7 @@ def menu():
     print("5. Create new quiz questions with OpenAI")
     print("6. Check question accuracy with OpenAI")
     print("7. Exit")
+    print("Tips: Checking Accuracy only runs for questions in draft status, so once run, export to CSV all questions, replace draft for checked, delete all questions and import from CSV to avoid duplicate checking")
 
 def generate_questions(category, num_questions):
     questions = []
