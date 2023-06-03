@@ -16,22 +16,22 @@ completion = openai.ChatCompletion()
 API_URL = "https://ai4christians.com/api/quiz.php"
 
 def check_question_accuracy():
-    # Retrieve all questions from the API
+
     questions = get_all_questions('draft')
 
-    # Open the CSV file in append mode
+
     with open('question-checks.csv', 'a', newline='') as csvfile:
         fieldnames = ['Date', 'Time', 'ID', 'Issue Yes/No', 'Issue Description']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-        # Check if the file is empty
+
         is_empty = csvfile.tell() == 0
         if is_empty:
-            writer.writeheader()  # write the header only if the file is empty
+            writer.writeheader()  
 
-        # Iterate through each question
+
         for question in questions:
-            # Send each question to OpenAI for checking
+
             chat_log = [
                 {
                     'role': 'system',
@@ -48,27 +48,25 @@ def check_question_accuracy():
                     model='gpt-3.5-turbo',
                     messages=chat_log
                 )
-
+                time.sleep(5) 
                 feedback = response.choices[0]['message']['content']
 
-                # Parse the feedback to extract 'ID', 'Issue Yes/No', and 'Issue Description'
-                # This assumes the feedback is in the format: '{ID,Issue Yes/No, Issue Description}'
+
                 print(feedback, '\n')
                 split_feedback = feedback.split(',')
                 id = split_feedback[0]
                 issue_yn = split_feedback[1]
-                issue_description = ','.join(split_feedback[2:])  # Concatenates the remaining split parts, effectively reversing the split operation
+                issue_description = ','.join(split_feedback[2:])  
 
-                # Get the current date and time
+
                 now = datetime.now()
                 date = now.strftime('%Y-%m-%d')
                 current_time = now.strftime('%H:%M:%S')
 
-                # Write the OpenAI response with date and time into the CSV file
+
                 writer.writerow({'Date': date, 'Time': current_time, 'ID': id, 'Issue Yes/No': issue_yn, 'Issue Description': issue_description})
 
-                # Update the status of the question to "checked"
-                 # Update the status of the question based on the issue_yn value
+
                 if issue_yn.strip().lower() == "yes":
                     new_status = f"bad"
                 else:
@@ -80,7 +78,7 @@ def check_question_accuracy():
             except openai.error.RateLimitError as e:
                 print("OpenAI API Error:", e)
                 print("Waiting for 5 minutes before retrying...")
-                time.sleep(300)  # 300 seconds = 5 minutes
+                time.sleep(300) 
                 continue
 
 def update_question(question_id, new_status):
@@ -110,10 +108,10 @@ def update_question(question_id, new_status):
 def set_status_for_all_questions():
     new_status = input("Enter the new status for all questions: ")
 
-    # Retrieve all questions from the API
+
     questions = get_all_questions()
 
-    # Update the status for each question
+
     for question in questions:
         update_question(question["id"], new_status)
 
@@ -126,7 +124,7 @@ def get_all_questions(status='all'):
         data = response.json()
         if data is not None:
             if status.lower() != 'all':
-                # Filter the questions for the given status
+
                 filtered_questions = [question for question in data if question['status'].lower() == status]
                 return filtered_questions
             else:
@@ -140,10 +138,10 @@ def get_all_questions(status='all'):
 
 
 def delete_bad_questions():
-    # Get all bad questions
+
     bad_questions = get_all_questions('bad')
     
-    # Check if there are no bad questions
+
     if len(bad_questions) == 0:
         print("No bad questions found.")
         return
@@ -155,7 +153,7 @@ def delete_bad_questions():
     confirm = input("Do you want to delete all these bad questions? Yes/No: ").strip().lower()
     
     if confirm == "yes":
-        # Delete each question in the list
+
         for question in bad_questions:
             delete_question(question["id"])
         print("All bad questions deleted.")
@@ -171,20 +169,20 @@ def delete_question(id):
         print(f"Error: {e}")
 
 def create_question(question_data):
-    # Get all existing questions
+
     existing_questions = get_all_questions()
 
-    # Check if existing_questions is None or empty list
+
     if existing_questions is None or len(existing_questions) == 0:
         print("No existing questions found. Creating new question...")
     else:
-        # Check if new question is already in existing questions
+
         for question in existing_questions:
             if question['question'] == question_data['question']:
                 print("Duplicate question. Skipping...")
                 return
 
-    # Handle 'nan' values
+
     if pd.isna(question_data['category']):
         question_data['category'] = ''
     if pd.isna(question_data['status']):
@@ -280,18 +278,19 @@ def generate_questions(category, num_questions):
                 model='gpt-3.5-turbo',
                 messages=chat_log
             )
+            time.sleep(5) 
             print("Received response from OpenAI: ", response.choices[0]['message']['content'])
         except openai.error.APIError as e:
                     print("OpenAI API Error:", e)
                     print("Waiting for 5 minutes before retrying...")
-                    time.sleep(300)  # 300 seconds = 5 minutes
+                    time.sleep(300)  
                     continue
         print("Received response from OpenAI: ", response.choices[0]['message']['content'])
 
 
         answer = response.choices[0]['message']['content']
         chat_log.append({'role': 'assistant', 'content': answer})
-        # Extract JSON from answer using regex
+
         json_match = re.search(r'\{(.|\n)*\}', answer)
         if json_match:
             json_str = json_match.group()
@@ -299,8 +298,8 @@ def generate_questions(category, num_questions):
             print("Invalid response from assistant. Could not extract JSON.")
             return []
 
-        question_data.update(json.loads(json_str))  # update with the extracted JSON
-        question_data["question"] = question_data["question"].replace("\n", "")  # Remove newline characters from the question
+        question_data.update(json.loads(json_str)) 
+        question_data["question"] = question_data["question"].replace("\n", "")  
         questions.append(question_data)
 
     return questions
@@ -364,7 +363,7 @@ def main():
             category_choice = input("Choose a category: ")
             num_questions = input("Enter the number of questions to generate (default is 2): ")
             if not num_questions:
-                num_questions = 2  # Default to 2 if no input
+                num_questions = 2  
             else:
                 try:
                     num_questions = int(num_questions)
@@ -375,9 +374,9 @@ def main():
                     num_questions = 2
 
             if category_choice in categories:
-                if category_choice == "21":  # "All" category
+                if category_choice == "21":  
                     for category_key in categories:
-                        if category_key != "21":  # avoid creating questions for "All" category
+                        if category_key != "21":  
                             questions = generate_questions(categories[category_key], num_questions)
                             for question in questions:
                                 create_question(question)
@@ -390,10 +389,10 @@ def main():
             else:
                 print("Invalid category choice.")
 
-        elif choice == "6":  # Add new menu option for checking question accuracy
+        elif choice == "6":  
             check_question_accuracy()
             print("Question accuracy check completed. See 'question-checks.csv' for results.")
-        elif choice == "7":  # Set status for all questions
+        elif choice == "7": 
             set_status_for_all_questions()
         elif choice == "8":  
             delete_bad_questions()
