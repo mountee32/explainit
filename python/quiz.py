@@ -39,7 +39,7 @@ def check_question_accuracy():
                 },
                 {
                     'role': 'user',
-                    'content': f'Please review the following multiple-choice quiz question for accuracy and clarity: {question}. For each question, provide feedback on the wording of the question, the relevance and correctness of the choices, and the accuracy of the explanations. Please also confirm that the correct answer is identified correctly and none of the wrong answers are partially correct and therefore confusing. Please respond in the following format: "{question["id"]}, Yes/No (for issue presence), Brief issue description (if any)"'
+                    'content': f'Please review the following multiple-choice quiz question for accuracy and clarity: {question}. For each question, provide feedback on the wording of the question, the relevance and correctness of the choices, and the accuracy of the explanations. Please also confirm that the correct answer is identified correctly and none of the wrong answers are partially correct and therefore confusing. Please respond in the following format: "{question["id"]}, Yes/No (if any issue found with the question, answers, or explanations), and only if an issue is found then also include a Brief issue description up to 10 words"'
                 }
             ]
 
@@ -68,7 +68,12 @@ def check_question_accuracy():
                 writer.writerow({'Date': date, 'Time': current_time, 'ID': id, 'Issue Yes/No': issue_yn, 'Issue Description': issue_description})
 
                 # Update the status of the question to "checked"
-                new_status = f"checked {date} {current_time}"
+                 # Update the status of the question based on the issue_yn value
+                if issue_yn.strip().lower() == "yes":
+                    new_status = f"bad"
+                else:
+                    new_status = f"checked {date} {current_time}"
+                    
                 update_question(id, new_status)
 
 
@@ -133,6 +138,29 @@ def get_all_questions(status='all'):
         print(f"Error: {e}")
         return None
 
+
+def delete_bad_questions():
+    # Get all bad questions
+    bad_questions = get_all_questions('bad')
+    
+    # Check if there are no bad questions
+    if len(bad_questions) == 0:
+        print("No bad questions found.")
+        return
+
+    print("Found the following bad questions:")
+    for question in bad_questions:
+        print(f"ID: {question['id']}, Question: {question['question']}")
+    
+    confirm = input("Do you want to delete all these bad questions? Yes/No: ").strip().lower()
+    
+    if confirm == "yes":
+        # Delete each question in the list
+        for question in bad_questions:
+            delete_question(question["id"])
+        print("All bad questions deleted.")
+    else:
+        print("Deletion cancelled.")
 
 
 def delete_question(id):
@@ -209,7 +237,8 @@ def menu():
     print("5. Create new quiz questions with OpenAI")
     print("6. Check question accuracy with OpenAI - writes to log question-checker.csv only for draft status questions")
     print("7. Set status for all questions")
-    print("8. Exit")
+    print("8. Delete bad questions")
+    print("9. Exit")
     print("Tips: Checking Accuracy only runs for questions in draft status, after checking each question status is changed to checked date time, so reset back to draft if another check required")
 
 def generate_questions(category, num_questions):
@@ -367,6 +396,8 @@ def main():
         elif choice == "7":  # Set status for all questions
             set_status_for_all_questions()
         elif choice == "8":  
+            delete_bad_questions()
+        elif choice == "9":
             break
         else:
             print("Invalid choice. Please enter a number from 1 to 8.")
