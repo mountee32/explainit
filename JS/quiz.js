@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function displayQuestionsPopup(questions) {
     const popupWindow = window.open('', 'Quiz Questions', 'height=500,width=500');
   
-    const questionsList = questions.map((question, index) => `${index + 1}. ${question.question}\n`).join('');
+    const questionsList = questions.map((question, index) => `${index}. ${question.question}\n`).join('');
   
     popupWindow.document.write(`<html><head><title>Quiz Questions</title></head><body><pre>${questionsList}</pre></body></html>`);
     popupWindow.document.close();
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function displayQuestion(question) {
     quizContainer.innerHTML = `
-    <h2 class="question-number">Question ${currentQuestionIndex + 1} of ${filteredQuestions.length}</h2>
+    <h2 class="question-number">Question ${currentQuestionIndex } of ${filteredQuestions.length}</h2>
   
       <quiz-question>${question.question}</quiz-question>
       <div class="choices">
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Show an alert with the button number.
 
-         alert(`Button ${answerIndex + 1} was clicked. The correct answer is ${correctIndex + 1}.`);
+         alert(`Button ${answerIndex } was clicked. The correct answer is ${correctIndex}.`);
 
 
 
@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
       answerText = "Wrong, ";
     }
     
-    explanation.innerHTML = `${icon} ${answerText} ${question[`explanation${answerIndex + 1}`]}`;
+    explanation.innerHTML = `${icon} ${answerText} ${question[`explanation${answerIndex}`]}`;
     
     explanation.style.display = "block";
     
