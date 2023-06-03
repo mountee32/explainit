@@ -48,7 +48,7 @@ def check_question_accuracy():
                     model='gpt-3.5-turbo',
                     messages=chat_log
                 )
-                time.sleep(5) 
+                time.sleep(10) 
                 feedback = response.choices[0]['message']['content']
 
 
@@ -278,7 +278,7 @@ def generate_questions(category, num_questions):
                 model='gpt-3.5-turbo',
                 messages=chat_log
             )
-            time.sleep(5) 
+            time.sleep(10) 
             print("Received response from OpenAI: ", response.choices[0]['message']['content'])
         except openai.error.APIError as e:
                     print("OpenAI API Error:", e)
