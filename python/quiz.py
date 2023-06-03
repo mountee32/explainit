@@ -8,6 +8,7 @@ import re
 import time
 import csv
 from datetime import datetime
+import time  # Import the time module
 
 load_dotenv()
 openai.api_key = os.environ.get('OPENAI_API_KEY')
@@ -62,13 +63,13 @@ def check_question_accuracy():
                 # Get the current date and time
                 now = datetime.now()
                 date = now.strftime('%Y-%m-%d')
-                time = now.strftime('%H:%M:%S')
+                current_time = now.strftime('%H:%M:%S')
 
                 # Write the OpenAI response with date and time into the CSV file
-                writer.writerow({'Date': date, 'Time': time, 'ID': id, 'Issue Yes/No': issue_yn, 'Issue Description': issue_description})
+                writer.writerow({'Date': date, 'Time': current_time, 'ID': id, 'Issue Yes/No': issue_yn, 'Issue Description': issue_description})
 
                 # Update the status of the question to "checked"
-                new_status = f"checked {date} {time}"
+                new_status = f"checked {date} {current_time}"
                 update_question(id, new_status)
 
 
