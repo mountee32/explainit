@@ -7,6 +7,7 @@ import json
 import re
 import time
 import csv
+from datetime import datetime
 
 load_dotenv()
 openai.api_key = os.environ.get('OPENAI_API_KEY')
@@ -18,11 +19,15 @@ def check_question_accuracy():
     # Retrieve all questions from the API
     questions = get_all_questions('draft')
 
-    # Open the CSV file in write mode, resetting it
-    with open('question-checks.csv', 'w', newline='') as csvfile:
-        fieldnames = ['ID', 'Issue Yes/No', 'Issue Description']
+    # Open the CSV file in append mode
+    with open('question-checks.csv', 'a', newline='') as csvfile:
+        fieldnames = ['Date', 'Time', 'ID', 'Issue Yes/No', 'Issue Description']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()  # write the header
+
+        # Check if the file is empty
+        is_empty = csvfile.tell() == 0
+        if is_empty:
+            writer.writeheader()  # write the header only if the file is empty
 
         # Iterate through each question
         for question in questions:
@@ -46,22 +51,68 @@ def check_question_accuracy():
 
                 feedback = response.choices[0]['message']['content']
 
-                # Parse the feedback to extract 'ID', 'Issue Yes/No' and 'Issue Description'
+                # Parse the feedback to extract 'ID', 'Issue Yes/No', and 'Issue Description'
                 # This assumes the feedback is in the format: '{ID,Issue Yes/No, Issue Description}'
-                print(feedback,'\n')
+                print(feedback, '\n')
                 split_feedback = feedback.split(',')
                 id = split_feedback[0]
                 issue_yn = split_feedback[1]
                 issue_description = ','.join(split_feedback[2:])  # Concatenates the remaining split parts, effectively reversing the split operation
-                
-                # Write the OpenAI response into the CSV file
-                writer.writerow({'ID': id, 'Issue Yes/No': issue_yn, 'Issue Description': issue_description})
+
+                # Get the current date and time
+                now = datetime.now()
+                date = now.strftime('%Y-%m-%d')
+                time = now.strftime('%H:%M:%S')
+
+                # Write the OpenAI response with date and time into the CSV file
+                writer.writerow({'Date': date, 'Time': time, 'ID': id, 'Issue Yes/No': issue_yn, 'Issue Description': issue_description})
+
+                # Update the status of the question to "checked"
+                new_status = f"checked {date} {time}"
+                update_question(id, new_status)
+
+
             except openai.error.RateLimitError as e:
                 print("OpenAI API Error:", e)
                 print("Waiting for 5 minutes before retrying...")
                 time.sleep(300)  # 300 seconds = 5 minutes
                 continue
 
+def update_question(question_id, new_status):
+    question_data = {
+        "action": "update",
+        "id": question_id,
+        "status": new_status
+    }
+    
+    try:
+        response = requests.post(API_URL, json=question_data, headers={"Content-Type": "application/json"})
+        response.raise_for_status()
+        print(f"Question with ID {question_id} updated with new status: {new_status}")
+        print("API Response:", response.json())
+    except requests.exceptions.HTTPError as errh:
+        print(f"HTTP Error: {errh}")
+        print(f"Response: {response.text}")
+    except requests.exceptions.ConnectionError as errc:
+        print(f"Error Connecting: {errc}")
+    except requests.exceptions.Timeout as errt:
+        print(f"Timeout Error: {errt}")
+    except requests.exceptions.RequestException as err:
+        print(f"Unexpected Error: {err}")
+
+
+
+def set_status_for_all_questions():
+    new_status = input("Enter the new status for all questions: ")
+
+    # Retrieve all questions from the API
+    questions = get_all_questions()
+
+    # Update the status for each question
+    for question in questions:
+        update_question(question["id"], new_status)
+
+    print("Status updated for all questions.")
 
 def get_all_questions(status='all'):
     try:
@@ -156,9 +207,10 @@ def menu():
     print("3. Delete all questions")
     print("4. Import all questions from CSV")
     print("5. Create new quiz questions with OpenAI")
-    print("6. Check question accuracy with OpenAI")
-    print("7. Exit")
-    print("Tips: Checking Accuracy only runs for questions in draft status, so once run, export to CSV all questions, replace draft for checked, delete all questions and import from CSV to avoid duplicate checking")
+    print("6. Check question accuracy with OpenAI - writes to log question-checker.csv only for draft status questions")
+    print("7. Set status for all questions")
+    print("8. Exit")
+    print("Tips: Checking Accuracy only runs for questions in draft status, after checking each question status is changed to checked date time, so reset back to draft if another check required")
 
 def generate_questions(category, num_questions):
     questions = []
@@ -312,7 +364,9 @@ def main():
         elif choice == "6":  # Add new menu option for checking question accuracy
             check_question_accuracy()
             print("Question accuracy check completed. See 'question-checks.csv' for results.")
-        elif choice == "7":  # Adjust the 'Exit' option number
+        elif choice == "7":  # Set status for all questions
+            set_status_for_all_questions()
+        elif choice == "8":  
             break
         else:
             print("Invalid choice. Please enter a number from 1 to 8.")
