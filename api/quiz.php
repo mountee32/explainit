@@ -65,34 +65,51 @@ if ($action === 'create') {
     }
 } 
 
+
 elseif ($action === 'update') {
-    if (!empty($data['id']) && !empty($data['question']) && !empty($data['skill']) && !empty($data['choice1']) && !empty($data['choice2']) && !empty($data['choice3']) && !empty($data['choice4']) && isset($data['correct_choice']) && !empty($data['explanation1']) && !empty($data['explanation2']) && !empty($data['explanation3']) && !empty($data['explanation4']) && !empty($data['category']) && !empty($data['status'])) {
-        $stmt = $conn->prepare("UPDATE quiz SET question = :question, skill = :skill, choice1 = :choice1, choice2 = :choice2, choice3 = :choice3, choice4 = :choice4, correct_choice = :correct_choice, explanation1 = :explanation1, explanation2 = :explanation2, explanation3 = :explanation3, explanation4 = :explanation4, category = :category, status = :status WHERE id = :id");
-        $stmt->bindParam(':id', $data['id']);
-        $stmt->bindParam(':question', $data['question']);
-        $stmt->bindParam(':skill', $data['skill']);
-        $stmt->bindParam(':choice1', $data['choice1']);
-        $stmt->bindParam(':choice2', $data['choice2']);
-        $stmt->bindParam(':choice3', $data['choice3']);
-        $stmt->bindParam(':choice4', $data['choice4']);
-        $stmt->bindParam(':correct_choice', $data['correct_choice']);
-        $stmt->bindParam(':explanation1', $data['explanation1']);
-        $stmt->bindParam(':explanation2', $data['explanation2']);
-        $stmt->bindParam(':explanation3', $data['explanation3']);
-        $stmt->bindParam(':explanation4', $data['explanation4']);
-        $stmt->bindParam(':category', $data['category']);
-        $stmt->bindParam(':status', $data['status']);
-        if ($stmt->execute()) {
-            http_response_code(200);
-            echo json_encode(array("message" => "Question updated successfully."));
+    if (!empty($data['id'])) {
+        $updateFields = array();
+
+        // Check if any of the required fields are present and not empty
+        $requiredFields = array('question', 'skill', 'choice1', 'choice2', 'choice3', 'choice4', 'correct_choice', 'explanation1', 'explanation2', 'explanation3', 'explanation4', 'category', 'status');
+        foreach ($requiredFields as $field) {
+            if (isset($data[$field]) && !empty($data[$field])) {
+                $updateFields[$field] = $data[$field];
+            }
+        }
+
+        if (!empty($updateFields)) {
+            $fieldCount = count($updateFields);
+            $fieldPlaceholders = implode(' = :', array_keys($updateFields));
+            $fieldPlaceholders = ':' . $fieldPlaceholders;
+
+            $stmt = $conn->prepare("UPDATE quiz SET $fieldPlaceholders WHERE id = :id");
+            $stmt->bindParam(':id', $data['id']);
+            foreach ($updateFields as $field => $value) {
+                $stmt->bindParam(':' . $field, $value);
+            }
+
+            if ($stmt->execute()) {
+                http_response_code(200);
+                echo json_encode(array("message" => "Question updated successfully. $fieldCount fields updated."));
+            } else {
+                http_response_code(503);
+                echo json_encode(array("message" => "Unable to update question."));
+            }
         } else {
-            http_response_code(503);
-            echo json_encode(array("message" => "Unable to update question."));
+            http_response_code(400);
+            echo json_encode(array("message" => "Unable to update question. No fields to update."));
         }
     } else {
         http_response_code(400);
-        echo json_encode(array("message" => "Unable to update question. Data is incomplete."));
+        echo json_encode(array("message" => "Unable to update question. ID is missing."));
     }
+}
+
+// ...
+
+
+
 } elseif ($action === 'read') {
     if (isset($_GET['id'])) {
         $stmt = $conn->prepare("SELECT * FROM quiz WHERE id = :id");
