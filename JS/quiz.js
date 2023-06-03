@@ -152,9 +152,9 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Highlight the correct and wrong answers
     choiceButtons.forEach((button, index) => {
-      const isCorrect = index === correctIndex;
-      const isChosen = index === answerIndex;
-    
+      const isCorrect = index + 1 === correctIndex;
+      const isChosen = index + 1 === answerIndex;
+   
       if (isCorrect) {
         button.classList.add("btn-success");
         button.classList.remove("btn-outline-primary");
