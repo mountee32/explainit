@@ -12,7 +12,7 @@ from datetime import datetime
 load_dotenv()
 openai.api_key = os.environ.get('OPENAI_API_KEY')
 completion = openai.ChatCompletion()
-api_delay = 20
+api_delay = 25
 API_URL = "https://ai4christians.com/api/quiz.php"
 
 def check_question_accuracy():
@@ -75,7 +75,7 @@ def check_question_accuracy():
                 update_question(id, new_status)
 
 
-            except openai.error.RateLimitError as e:
+            except Exception  as e:
                 print("OpenAI API Error:", e)
                 print("Waiting for 5 minutes before retrying...")
                 time.sleep(300) 
@@ -283,11 +283,11 @@ def generate_questions(category, num_questions):
             )
             time.sleep(api_delay) 
             print("Received response from OpenAI: ", response.choices[0]['message']['content'],"\n")
-        except openai.error.APIError as e:
-                    print("OpenAI API Error:", e)
-                    print("Waiting for 5 minutes before retrying...")
-                    time.sleep(300)  
-                    continue
+        except Exception as e:
+            print("OpenAI API Error:", e)
+            print("Waiting for 5 minutes before retrying...")
+            time.sleep(300)  
+            continue
 
         answer = response.choices[0]['message']['content']
         chat_log.append({'role': 'assistant', 'content': answer})
@@ -374,13 +374,18 @@ def main():
                     print("Invalid number of questions. Defaulting to 2.")
                     num_questions = 2
 
+            total_questions_generated = 0
             if category_choice in categories:
                 if category_choice == "21":  
-                    for category_key in categories:
-                        if category_key != "21":  
-                            questions = generate_questions(categories[category_key], num_questions)
-                            for question in questions:
-                                create_question(question)
+                    while total_questions_generated < num_questions:
+                        for category_key in categories:
+                            if category_key != "21":  # Exclude 'All' category
+                                if total_questions_generated >= num_questions:
+                                    break
+                                question = generate_questions(categories[category_key], 1)  # Generate 1 question per category
+                                if question:
+                                    create_question(question[0])  # We know there's only 1 question, so just take the first
+                                    total_questions_generated += 1
                     print("Quiz questions for all categories created and uploaded.")
                 else:
                     questions = generate_questions(categories[category_choice], num_questions)
@@ -389,7 +394,6 @@ def main():
                     print("Quiz questions for the chosen category created and uploaded.")
             else:
                 print("Invalid category choice.")
-
         elif choice == "6":  
             check_question_accuracy()
             print("Question accuracy check completed. See 'question-checks.csv' for results.")
