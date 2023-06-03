@@ -259,6 +259,11 @@ def toggle_questions_to_save(generated_questions):
             questions_to_save.append(question)
     return questions_to_save
 
+def does_article_exist(title):
+    response = requests.get(f"{website}/wp-json/wp/v2/posts?per_page=100", headers=headers)
+    posts = response.json()
+    existing_titles = [unescape(post['title']['rendered']) for post in posts]
+    return title in existing_titles
 
 def main():
     existing_tags = get_existing_tags()
@@ -283,6 +288,9 @@ def main():
 
         elif option == '2':
             title = input("\nEnter the title of the article: ")
+            if does_article_exist(title):
+                print("\nAn article with this title already exists. Please use a different title.")
+                continue
             content = gpt_generate_article_content(title) 
             if confirm_custom_article(title, content):
                 tag_name, tag_id = select_tag(existing_tags)
@@ -297,6 +305,7 @@ def main():
                 else:
                     print(f"\nError creating article '{title}' with tag '{tag_name}' and featured image.")
             input("\nPress Enter to return to the main menu...")
+
         elif option == '3':
             print("\nAvailable tags:")
             for i, (tag_name, _) in enumerate(existing_tags.items()):
@@ -310,6 +319,9 @@ def main():
                 selected_questions = toggle_questions_to_save(generated_questions)
 
                 for question in selected_questions:
+                    if does_article_exist(question):
+                        print(f"\nAn article titled '{question}' already exists. Skipping this one.")
+                        continue
                     content = gpt_generate_article_content(question)
                     image_url = search_image(tag_name, question)
                     if image_url:

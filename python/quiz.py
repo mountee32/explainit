@@ -8,7 +8,6 @@ import re
 import time
 import csv
 from datetime import datetime
-import time  # Import the time module
 
 load_dotenv()
 openai.api_key = os.environ.get('OPENAI_API_KEY')
