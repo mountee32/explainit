@@ -6,12 +6,63 @@ import openai
 import json
 import re
 import time
+import csv
 
 load_dotenv()
 openai.api_key = os.environ.get('OPENAI_API_KEY')
 completion = openai.ChatCompletion()
 
 API_URL = "https://ai4christians.com/api/quiz.php"
+
+def check_question_accuracy():
+    # Retrieve all questions from the API
+    questions = get_all_questions()
+
+    # Open the CSV file in write mode, resetting it
+    with open('question-checks.csv', 'w', newline='') as csvfile:
+        fieldnames = ['ID', 'Issue Yes/No', 'Issue Description']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()  # write the header
+
+        # Iterate through each question
+        for question in questions:
+            # Send each question to OpenAI for checking
+            chat_log = [
+                {
+                    'role': 'system',
+                    'content': 'You are an AI model trained by OpenAI. Your purpose is to review and check quiz questions for accuracy and clarity.'
+                },
+                {
+                    'role': 'user',
+                    'content': f'Please review the following multiple-choice quiz question for accuracy and clarity: {question}. For each question, provide feedback on the wording of the question, the relevance and correctness of the choices, and the accuracy of the explanations. Please also confirm that the correct answer is identified correctly and none of the wrong answers are partially correct and therefore confusing. Please respond in the following format: "{question["id"]}, Yes/No (for issue presence), Brief issue description (if any)"'
+                }
+            ]
+
+
+            try:
+                response = completion.create(
+                    model='gpt-3.5-turbo',
+                    messages=chat_log
+                )
+
+                feedback = response.choices[0]['message']['content']
+
+                # Parse the feedback to extract 'ID', 'Issue Yes/No' and 'Issue Description'
+                # This assumes the feedback is in the format: '{ID,Issue Yes/No, Issue Description}'
+                print(feedback,'\n')
+                split_feedback = feedback.split(',')
+                id = split_feedback[0]
+                issue_yn = split_feedback[1]
+                issue_description = ','.join(split_feedback[2:])  # Concatenates the remaining split parts, effectively reversing the split operation
+                
+                # Write the OpenAI response into the CSV file
+                writer.writerow({'ID': id, 'Issue Yes/No': issue_yn, 'Issue Description': issue_description})
+            except openai.error.APIError as e:
+                print("OpenAI API Error:", e)
+                print("Waiting for 5 minutes before retrying...")
+                time.sleep(300)  # 300 seconds = 5 minutes
+                continue
+
 
 def get_all_questions():
     try:
@@ -100,7 +151,8 @@ def menu():
     print("3. Delete all questions")
     print("4. Import all questions from CSV")
     print("5. Create new quiz questions with OpenAI")
-    print("6. Exit")
+    print("6. Check question accuracy with OpenAI")
+    print("7. Exit")
 
 def generate_questions(category, num_questions):
     questions = []
@@ -251,10 +303,13 @@ def main():
             else:
                 print("Invalid category choice.")
 
-        elif choice == "6":
+        elif choice == "6":  # Add new menu option for checking question accuracy
+            check_question_accuracy()
+            print("Question accuracy check completed. See 'question-checks.csv' for results.")
+        elif choice == "7":  # Adjust the 'Exit' option number
             break
         else:
-            print("Invalid choice. Please enter a number from 1 to 6.")
+            print("Invalid choice. Please enter a number from 1 to 8.")
 
 if __name__ == "__main__":
     main()
