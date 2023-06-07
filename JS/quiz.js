@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
       answerText = "Wrong, ";
     }
     
-    explanation.innerHTML = `${icon} ${answerText} ${question[`explanation${answerIndex}`]}`;
+    explanation.innerHTML = `${icon} ${answerText} ${question[`explanation${correctIndex }`]}`;
     
     explanation.style.display = "block";
     
