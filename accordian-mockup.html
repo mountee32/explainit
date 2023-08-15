@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 Layer-1 Nested Accordion</title>
+    <style>
+        .accordion {
+            background: #f9f9f9;
+            padding: 10px;
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            border-radius: 4px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.05);
+        }
+
+        .accordion-title {
+            cursor: pointer;
+            padding: 10px 15px;
+            min-height: 50px;
+            line-height: 1.5;
+            font-weight: bold;
+            color: #434343;
+        }
+
+        .accordion-content {
+            height: 0;
+            overflow: hidden;
+            transition: height 0.3s ease-in-out;
+            line-height: 1.5;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .accordion-item {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+            padding: 10px;
+        }
+
+        .accordion-item:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="accordion">
+        <!-- Repeat this block for each Layer-1 item -->
+        <!-- Layer-1 item -->
+        <div class="accordion-item">
+            <h1 class="accordion-title">Layer-1 Item</h1>
+            <div class="accordion-content">
+                <!-- Repeat this block for each Layer-2 item -->
+                <!-- Layer-2 item -->
+                <div class="accordion-item">
+                    <h2 class="accordion-title">Layer-2 Item</h2>
+                    <p class="accordion-content">Sample content</p>
+                </div>
+                <!-- Layer-2 item -->
+                <div class="accordion-item">
+                    <h2 class="accordion-title">Layer-2 Item</h2>
+                    <p class="accordion-content">Sample content</p>
+                </div>
+                <!-- ... -->
+            </div>
+        </div>
+        <!-- ... -->
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.accordion-title').on('click', function() {
+                // Get current accordion item
+                var accordionItem = $(this).parent();
+
+                // Toggle accordion
+                if (accordionItem.hasClass('open')) {
+                    accordionItem.removeClass('open');
+                    accordionItem.find('.accordion-content').css('height', '0');
+                } else {
+                    // Close other items
+                    $('.accordion-item').removeClass('open');
+                    $('.accordion-content').css('height', '0');
+
+                    // Open this item
+                    accordionItem.addClass('open');
+                    var newHeight = accordionItem.find('.accordion-content > div').outerHeight(true) * accordionItem.find('.accordion-content > div').length;
+                    accordionItem.find('.accordion-content').css('height', newHeight+'px');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
